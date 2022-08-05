@@ -5,9 +5,12 @@
 #include "pros/misc.h"
 #include "pros/motors.h"
 #include "pros/motors.hpp"
+<<<<<<< HEAD
 >>>>>>> 2eaf287 (added gearsets)
 using namespace pros;
 
+=======
+>>>>>>> 542002a (added multi-file system)
 /**
  * A callback function for LLEMU's center button.
  *
@@ -87,6 +90,7 @@ void autonomous() {}
  * task, not resume it from where it left off.
  */
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 void opcontrol() {
 	pros::Controller controller(pros::E_CONTROLLER_MASTER);
@@ -96,3 +100,5 @@ void opcontrol() {
 	pros::Motor right2(4,E_MOTOR_GEARSET_36);
 >>>>>>> 2eaf287 (added gearsets)
 
+=======
+>>>>>>> 542002a (added multi-file system)
