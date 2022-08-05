@@ -2,8 +2,6 @@
 #include "pros/misc.h"
 #include "pros/motors.h"
 #include "pros/motors.hpp"
-using namespace pros;
-
 /**
  * A callback function for LLEMU's center button.
  *
