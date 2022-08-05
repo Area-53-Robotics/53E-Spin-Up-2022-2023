@@ -1,5 +1,11 @@
 #include "main.h"
+<<<<<<< HEAD
 #include "functions.h"
+=======
+#include "pros/misc.h"
+#include "pros/motors.h"
+#include "pros/motors.hpp"
+>>>>>>> 2eaf287 (added gearsets)
 using namespace pros;
 
 /**
@@ -80,4 +86,13 @@ void autonomous() {}
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
+<<<<<<< HEAD
+=======
+void opcontrol() {
+	pros::Controller controller(pros::E_CONTROLLER_MASTER);
+	pros::Motor left1(1,E_MOTOR_GEARSET_36);
+	pros::Motor right1(2,E_MOTOR_GEARSET_36);
+	pros::Motor left2(3,E_MOTOR_GEARSET_36);
+	pros::Motor right2(4,E_MOTOR_GEARSET_36);
+>>>>>>> 2eaf287 (added gearsets)
 
