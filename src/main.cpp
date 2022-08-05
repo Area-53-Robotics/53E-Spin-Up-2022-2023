@@ -1,13 +1,6 @@
 #include "main.h"
 #include "functions.h"
-#include "display/lv_misc/lv_symbol_def.h"
-#include "pros/colors.h"
-#include "pros/llemu.hpp"
-#include "pros/misc.h"
-#include "pros/misc.hpp"
-#include "pros/motors.h"
-#include "pros/motors.hpp"
-#include <iterator>
+using namespace pros;
 
 /**
  * A callback function for LLEMU's center button.
@@ -87,3 +80,4 @@ void autonomous() {}
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
+
