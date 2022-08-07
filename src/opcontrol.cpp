@@ -2,10 +2,10 @@
 
 void opcontrol() {
 	pros::Controller controller(pros::E_CONTROLLER_MASTER);
-	pros::Motor left1(1,E_MOTOR_GEARSET_36);
-	pros::Motor right1(2,E_MOTOR_GEARSET_36);
-	pros::Motor left2(3,E_MOTOR_GEARSET_36);
-	pros::Motor right2(4,E_MOTOR_GEARSET_36);
+	pros::Motor left1(10,E_MOTOR_GEARSET_36,true);
+	pros::Motor right1(5,E_MOTOR_GEARSET_36);
+	pros::Motor left2(8,E_MOTOR_GEARSET_36,true);
+	pros::Motor right2(11,E_MOTOR_GEARSET_36);
 
 
 	
