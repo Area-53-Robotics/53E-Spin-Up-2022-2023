@@ -1,16 +1,27 @@
 #include "main.h"
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include "functions.h"
 =======
+=======
+#include "display/lv_misc/lv_symbol_def.h"
+#include "pros/colors.h"
+#include "pros/llemu.hpp"
+>>>>>>> 71897f8 (Working drive code)
 #include "pros/misc.h"
+#include "pros/misc.hpp"
 #include "pros/motors.h"
 #include "pros/motors.hpp"
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 2eaf287 (added gearsets)
 using namespace pros;
 
 =======
 >>>>>>> 542002a (added multi-file system)
+=======
+#include <iterator>
+>>>>>>> 71897f8 (Working drive code)
 /**
  * A callback function for LLEMU's center button.
  *
