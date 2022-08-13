@@ -1,4 +1,5 @@
 #include "main.h"
+#include "encoder.cpp"
 #include "display/lv_misc/lv_symbol_def.h"
 #include "pros/colors.h"
 #include "pros/llemu.hpp"
@@ -7,6 +8,7 @@
 #include "pros/motors.h"
 #include "pros/motors.hpp"
 #include <iterator>
+
 /**
  * A callback function for LLEMU's center button.
  *
@@ -34,6 +36,7 @@ void initialize() {
 	pros::lcd::set_text(1, ":D");
 	//pros::lcd::set_background_color(COLOR_SLATE_GRAY);
 	pros::lcd::register_btn1_cb(on_center_button);
+	Task printDataTask(printData);
 }
 
 /**
@@ -52,7 +55,9 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() {
+
+}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
