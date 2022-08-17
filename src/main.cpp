@@ -1,5 +1,5 @@
 #include "main.h"
-#include "encoder.cpp"
+#include "functions.h"
 #include "display/lv_misc/lv_symbol_def.h"
 #include "pros/colors.h"
 #include "pros/llemu.hpp"
