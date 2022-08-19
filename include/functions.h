@@ -1,11 +1,13 @@
 #include "main.h"
+#include <iterator>
+#include <ostream>
 
 void printData () {
     while (true) {
-    std::cout << "Encoder Value: " << encoder.get_value();
+    //int printf(encoder.get_value());
+    std::cout << "Encoder Value: " << encoder.get_value() << std::endl;
     pros::delay(10);
 }
-
 
 
 }
