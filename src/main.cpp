@@ -1,27 +1,7 @@
 #include "main.h"
-<<<<<<< HEAD
-<<<<<<< HEAD
 #include "functions.h"
-=======
-=======
-#include "display/lv_misc/lv_symbol_def.h"
-#include "pros/colors.h"
-#include "pros/llemu.hpp"
->>>>>>> 71897f8 (Working drive code)
-#include "pros/misc.h"
-#include "pros/misc.hpp"
-#include "pros/motors.h"
-#include "pros/motors.hpp"
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 2eaf287 (added gearsets)
 using namespace pros;
 
-=======
->>>>>>> 542002a (added multi-file system)
-=======
-#include <iterator>
->>>>>>> 71897f8 (Working drive code)
 /**
  * A callback function for LLEMU's center button.
  *
@@ -74,42 +54,4 @@ void competition_initialize() {
 
 }
 
-/**
- * Runs the user autonomous code. This function will be started in its own task
- * with the default priority and stack size whenever the robot is enabled via
- * the Field Management System or the VEX Competition Switch in the autonomous
- * mode. Alternatively, this function may be called in initialize or opcontrol
- * for non-competition testing purposes.
- *
- * If the robot is disabled or communications is lost, the autonomous task
- * will be stopped. Re-enabling the robot will restart the task, not re-start it
- * from where it left off.
- */
-void autonomous() {}
 
-/**
- * Runs the operator control code. This function will be started in its own task
- * with the default priority and stack size whenever the robot is enabled via
- * the Field Management System or the VEX Competition Switch in the operator
- * control mode.
- *
- * If no competition control is connected, this function will run immediately
- * following initialize().
- *
- * If the robot is disabled or communications is lost, the
- * operator control task will be stopped. Re-enabling the robot will restart the
- * task, not resume it from where it left off.
- */
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-void opcontrol() {
-	pros::Controller controller(pros::E_CONTROLLER_MASTER);
-	pros::Motor left1(1,E_MOTOR_GEARSET_36);
-	pros::Motor right1(2,E_MOTOR_GEARSET_36);
-	pros::Motor left2(3,E_MOTOR_GEARSET_36);
-	pros::Motor right2(4,E_MOTOR_GEARSET_36);
->>>>>>> 2eaf287 (added gearsets)
-
-=======
->>>>>>> 542002a (added multi-file system)
