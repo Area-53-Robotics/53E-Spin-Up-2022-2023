@@ -1,8 +1,10 @@
+
+
 // General funtions:
 void printData();
 
 // Opcontrol:
-
+void movePid(float target);
 
 // Auton:
 

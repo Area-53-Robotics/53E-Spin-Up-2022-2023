@@ -1,4 +1,8 @@
 #include "main.h"
+#include "pros/misc.h"
+#include <iostream>
+#include <ostream>
+
 /**
  * Runs the operator control code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -17,13 +21,25 @@
 
 void opcontrol() {
 	while (true) {
-		left1.move(controller.get_analog(ANALOG_LEFT_Y));
-		left2.move(controller.get_analog(ANALOG_LEFT_Y));
-		right1.move(controller.get_analog(ANALOG_RIGHT_Y));
-		right2.move(controller.get_analog(ANALOG_RIGHT_Y));
-		left3.move(controller.get_analog(ANALOG_LEFT_Y));
-		right3.move(controller.get_analog(ANALOG_RIGHT_Y));
+		leftMotors.move(controller.get_analog(ANALOG_LEFT_Y));
+		rightMotors.move(controller.get_analog(ANALOG_RIGHT_Y));
+
+		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+		rollerMotor.move(128);
+		}
+
+		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
+		movePid(30);
+		}
+		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+		movePid(-30);
+		}
+
+		std::cout << "encoder value" << encoder.get_value() << std::endl;
+
 		pros::delay(20); 
+
+		
 		
 	}
 }
