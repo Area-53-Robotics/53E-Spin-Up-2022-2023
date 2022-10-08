@@ -88,22 +88,6 @@
           # no tests in archive
           docheck = false;
         };
-        semantic-version = pkgs.python310Packages.buildPythonApplication rec {
-          pname = "semantic-version";
-          version = "2.10.0";
-          src = pkgs.fetchFromGitHub {
-            owner = "rbarrois";
-            repo = "python-semanticversion";
-            rev = "2.10.0";
-            hash = "sha256-7OnYtrYgZsXPVtI50cvJfjs66BW7Ez4/kjKpRT1TJPg=";
-          };
-          buildInputs = with pkgs.python310Packages; [
-            django
-          ];
-          # no tests in archive
-          docheck = false;
-        };
-
       in
       {
 
