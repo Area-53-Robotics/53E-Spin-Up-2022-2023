@@ -16,6 +16,8 @@ inline Motor right3(18,E_MOTOR_GEARSET_36);
 
 inline Motor rollerMotor(7,E_MOTOR_GEARSET_36);
 
+inline Motor launcherMotor(11,E_MOTOR_GEARSET_36, true);
+
 
 inline pros::Motor_Group leftMotors ({left1, left2, left3});
 inline pros::Motor_Group rightMotors ({right1, right2, right3});

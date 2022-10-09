@@ -5,6 +5,7 @@ void printData();
 
 // Opcontrol:
 void movePid(float target);
+void spinUp();
 
 // Auton:
 

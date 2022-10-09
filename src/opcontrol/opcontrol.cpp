@@ -1,5 +1,8 @@
 
 #include "main.h"
+#include "pros/rtos.hpp"
+
+
 void movePid (float target) {
    left1.set_zero_position(0);
    float kP = 7;
@@ -30,7 +33,15 @@ void movePid (float target) {
 
     pros::delay(10);
 
-    }    
+    }   
+
+	}
+	
+	void launcherSpeed(float targetSpeed) {
+		launcherMotor.move(targetSpeed);
+		pros::delay(10000);
+		launcherMotor.move(10);
+		
 
 
       //left1.move(0);
@@ -68,22 +79,38 @@ void movePid (float target) {
 
 
 
+void spinUp() {
+	int voltage = 0;
+
+	while (voltage < 128) {
+	launcherMotor.move(voltage);
+	voltage += 1;
+	pros::delay(200);
+	}
+}
+
 void opcontrol() {
+	
 	while (true) {
+
+		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
+			Task spinUpTask(spinUp);
+			 }
+
+		
+		
+		
+
+
 		leftMotors.move(controller.get_analog(ANALOG_LEFT_Y));
 		rightMotors.move(controller.get_analog(ANALOG_RIGHT_Y));
 
-		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
-		rollerMotor.move(128);
-		}
+		if (controller.get_digital(E_CONTROLLER_DIGITAL_R2)) {
+				rollerMotor.move(-128);
+		} else {
+		rollerMotor.move(0);
 
-		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
-		movePid(30);
 		}
-		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-		movePid(-30);
-		}
-
 		std::cout << "encoder value" << encoder.get_value() << std::endl;
 
 		pros::delay(20); 
@@ -91,4 +118,4 @@ void opcontrol() {
 		
 		
 	}
-}
+	}
