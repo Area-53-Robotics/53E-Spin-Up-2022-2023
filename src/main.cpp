@@ -26,11 +26,10 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	pros::lcd::initialize();
-	pros::lcd::set_text(1, ":D");
-	//pros::lcd::set_background_color(COLOR_SLATE_GRAY);
-	pros::lcd::register_btn1_cb(on_center_button);
-  
+  pros::lcd::initialize();
+  pros::lcd::set_text(1, ":D");
+  // pros::lcd::set_background_color(COLOR_SLATE_GRAY);
+  pros::lcd::register_btn1_cb(on_center_button);
 }
 
 /**
@@ -38,9 +37,7 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {
-  printf("Disabled lmao\n");
-}
+void disabled() { printf("Disabled lmao\n"); }
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -51,8 +48,4 @@ void disabled() {
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {
-
-}
-
-
+void competition_initialize() {}
