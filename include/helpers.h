@@ -4,9 +4,9 @@
 void printData();
 
 // Opcontrol:
-void movePid(float target);
 void spinUp();
 
 // Auton:
+void movePid(float target);
 
 // movepid and such would be defined here

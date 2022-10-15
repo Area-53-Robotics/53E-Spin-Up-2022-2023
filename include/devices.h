@@ -21,4 +21,5 @@ inline Motor launcherMotor(11, E_MOTOR_GEARSET_36, true);
 inline pros::Motor_Group leftMotors({left1, left2, left3});
 inline pros::Motor_Group rightMotors({right1, right2, right3});
 
-inline ADIEncoder encoder(2, 1);
+inline ADIEncoder encoder(7, 8);
+inline ADIEncoder launcherEncoder(1, 2);
