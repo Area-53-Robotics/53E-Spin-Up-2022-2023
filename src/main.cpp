@@ -30,7 +30,7 @@ void initialize() {
   pros::lcd::set_text(1, ":D");
   controller.clear();
   // Start background tasks
-  Task printDataTask(printData);
+  //Task printDataTask(printData);
   Task spinUpTask(spinUp);
 }
 

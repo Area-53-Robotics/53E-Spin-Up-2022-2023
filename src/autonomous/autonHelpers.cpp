@@ -20,7 +20,7 @@ void movePid(float target) {
     rightMotors.move(power);
 
     controller.clear();
-    std::cout << "Error: " << error << "-" << power << std::endl;
+    //std::cout << "Error: " << error << "-" << power << std::endl;
     // std::cout << "Power: " << power << std::endl;
 
     pros::delay(10);

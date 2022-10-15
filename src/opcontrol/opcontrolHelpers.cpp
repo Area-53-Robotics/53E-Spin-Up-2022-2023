@@ -7,32 +7,34 @@ void spinUp() {
   //- gradually decrease speed to target
   //- emergency stop
   // halt ---- midpoint ---- target
-  // in units of velocity
-  int dT = 10;
-  int target = 70;
-  float kP = 7;
-  float distMoved;
+  int target = 70; // degrees per milisecond
+  float currentVelocity;
+  float kP = 2000;
+  float kI;
+  float kD;
+  int dT = 200;
   float error = target;
-  float power = 0;
+  float power = 0; // sets starting power
 
-  while (true) {
-    launcherEncoder.reset();
-    //target in degrees per milisecond
-    target = launcherEncoder.get_value() / dT;
+  while (power <= 63) {
     launcherMotor.move(power);
-
-
+    currentVelocity = launcherEncoder.get_value() / dT;
+    power += 1;
+    printf("Power: %f, Velocity: %f\n", power, currentVelocity);
     pros::delay(dT);
   }
-}
-/*
-void spinUp() {
-  int voltage = 0;
+  /*
+  while (true) {
+    launcherEncoder.reset();
+    // target in degrees per milisecond
+    currentVelocity = launcherEncoder.get_value() / dT;
+    if (power <= 12000) {
+      error = target - currentVelocity;
+      power = error * kP;
+    }
 
-  while (voltage < 128) {
-    launcherMotor.move(voltage);
-    voltage += 1;
-    pros::delay(200);
+    launcherMotor.move_voltage(power);
+    pros::delay(dT);
   }
+  */
 }
-*/

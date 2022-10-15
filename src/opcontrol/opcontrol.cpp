@@ -17,10 +17,6 @@
 void opcontrol() {
 
   while (true) {
-
-    //if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
-      //Task spinUpTask(spinUp);
-    //}
     //Tank drive moment
     leftMotors.move(controller.get_analog(ANALOG_LEFT_Y));
     rightMotors.move(controller.get_analog(ANALOG_RIGHT_Y));
@@ -30,7 +26,6 @@ void opcontrol() {
     } else {
       rollerMotor.move(0);
     }
-    std::cout << "encoder value" << encoder.get_value() << std::endl;
 
     pros::delay(20);
   }
