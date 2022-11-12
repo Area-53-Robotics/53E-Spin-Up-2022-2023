@@ -1,3 +1,4 @@
+
 /**
  * Runs the user autonomous code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -9,4 +10,17 @@
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+
+ #include "main.h"
+ 
+ 
+void autonomous() {
+    movePid(15);
+    turnPid(1,12); //find out how to add char values
+    
+
+    
+ 
+    
+
+}
