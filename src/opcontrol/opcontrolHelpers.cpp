@@ -16,7 +16,7 @@ void spinUp() {
   float error = target;
   float power = 0; // sets starting power
 
-  while (power <= 63) {
+ /* while (power <= 63) {
     launcherMotor.move(power);
     currentVelocity = launcherEncoder.get_value() / dT;
     power += 1;

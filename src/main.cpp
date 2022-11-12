@@ -1,6 +1,7 @@
 #include "main.h"
 #include "pros/motors.h"
 #include "pros/rtos.hpp"
+
 using namespace pros;
 
 /**
@@ -27,11 +28,11 @@ void on_center_button() {
  */
 void initialize() {
   pros::lcd::initialize();
-  pros::lcd::set_text(1, ":D");
+  pros::lcd::set_text(1, ":)");
   controller.clear();
   // Start background tasks
   //Task printDataTask(printData);
-  Task spinUpTask(spinUp);
+  //Task launcherMoveTask(launcherMoveTask);
 }
 
 /**
