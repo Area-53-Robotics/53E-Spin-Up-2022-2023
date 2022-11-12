@@ -16,11 +16,10 @@
  * task, not resume it from where it left off.
  */
 
-Task launcherMoveTask(launcherMotor);
 
     void launcherMove () {
       int pAngle = potentiometer.get_angle();
-      while (pAngle < 110) {
+      while (pAngle < 110) {                      //////////////////////////////////////////////// tune at comp
       launcherMotor.move(127);
 
       if (controller.get_digital(E_CONTROLLER_DIGITAL_L2)) { //cata + potentiometer
@@ -31,8 +30,13 @@ Task launcherMoveTask(launcherMotor);
     }
   
 void opcontrol() {
+    Task launcherMoveTask(launcherMove);
+
+
 
   while (true) {
+
+    
 
     int rollerMotorVoltage = rollerMotor.get_voltage();
 
