@@ -15,8 +15,61 @@
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
+////////////////////////////////////////////////////////////////////////////
+void movePid (float target) {
+   float kP = 7;
+   float distMoved;
+   float error = target;  
+   float power;
+
+   
+   while (std::abs(error) > 0)
+ {
+   distMoved = encoder.get_value() * 8.64; //cir. wheel
+   error = target - distMoved;
+   power = error * kP;
 
 
+    if (error > 50 || power > 127) {
+		power = 127;
+      
+    }
+
+      leftMotors.move(power);
+      rightMotors.move(power);
+
+	  controller.clear();
+	  std::cout << "Error: " << error << "-" << power << std::endl;
+	  //std::cout << "Power: " << power << std::endl;
+
+
+    delay(10);
+    }}
+ ///////////////////////////////////////////////////////////////////////////////////
+
+ void turnPid (char direction, float turnValue) {
+
+      char leftTurn;
+      char rightTurn;
+
+      if ((direction = leftTurn)) {
+        leftMotors.move_absolute(turnValue * -1, 127);
+        rightMotors.move_absolute(turnValue, 127);
+      }
+      else if ((direction = rightTurn)) {
+      leftMotors.move_absolute(turnValue, 127);
+      rightMotors.move_absolute(turnValue * -1, 127);
+      }
+
+
+      
+
+  
+
+    }
+
+
+    
     void launcherMove () {
       int pAngle = potentiometer.get_angle();
       while (pAngle < 110) {                      //////////////////////////////////////////////// tune at comp

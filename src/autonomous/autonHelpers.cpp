@@ -1,6 +1,6 @@
 #include "main.h"
 
-void movePid(float target) {
+/* void movePid(float target) {
   left1.set_zero_position(0);
   float kP = 7;
   float distMoved;
@@ -26,3 +26,4 @@ void movePid(float target) {
     pros::delay(10);
   }
 }
+*/
