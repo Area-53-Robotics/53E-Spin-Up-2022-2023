@@ -33,6 +33,7 @@ void initialize() {
   // Start background tasks
   //Task printDataTask(printData);
   //Task launcherMoveTask(launcherMoveTask);
+  launcherMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
 }
 

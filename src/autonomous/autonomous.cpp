@@ -15,10 +15,40 @@
  
  
 void autonomous() {
-    movePid(15);
-    turnPid(1,12); //find out how to add char values
+
+    int x = 1;
+
+    if (x == 1) { 
+    //red (one forward)
+    leftMotors.move(-20);
+    rightMotors.move(-20);
+    delay(1000);
+    leftMotors.move(0);
+    rightMotors.move(0);
+    rollerMotor.move(40);
+    delay(1000);
+    rollerMotor.move(0);}
+
+    if (x == 2) { //blue (one behind)
+        leftMotors.move(-20);
+    rightMotors.move(-20);
+    delay(1000);
+    leftMotors.move(0);
+    rightMotors.move(0);
+    rollerMotor.move(-30);
+    delay(1000);
+    rollerMotor.move(0);
+    }
+
     
 
+    /*delay(1000);
+    leftMotors.move_absolute(10, 50);
+    rightMotors.move_absolute(10,50);
+    delay(1000);
+    rightMotors.move_absolute(20,100);
+    
+*/
     
  
     

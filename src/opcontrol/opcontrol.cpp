@@ -38,8 +38,8 @@ void movePid (float target) {
       leftMotors.move(power);
       rightMotors.move(power);
 
-	  controller.clear();
-	  std::cout << "Error: " << error << "-" << power << std::endl;
+//controller.clear();
+	 // std::cout << "Error: " << error << "-" << power << std::endl;
 	  //std::cout << "Power: " << power << std::endl;
 
 
@@ -47,33 +47,28 @@ void movePid (float target) {
     }}
  ///////////////////////////////////////////////////////////////////////////////////
 
- void turnPid (char direction, float turnValue) {
+ void turnPid (int direction, float turnValue) {
 
-      char leftTurn;
-      char rightTurn;
-
-      if ((direction = leftTurn)) {
+      if (direction == 1) {
         leftMotors.move_absolute(turnValue * -1, 127);
         rightMotors.move_absolute(turnValue, 127);
       }
-      else if ((direction = rightTurn)) {
+      else if (direction == 2) {
       leftMotors.move_absolute(turnValue, 127);
       rightMotors.move_absolute(turnValue * -1, 127);
       }
-
-
-      
-
   
-
     }
 
 
     
     void launcherMove () {
       int pAngle = potentiometer.get_angle();
-      while (pAngle < 110) {                      //////////////////////////////////////////////// tune at comp
+      while (pAngle < 140) {                      //////////////////////////////////////////////// tune at comp
       launcherMotor.move(127);
+
+              controller.print(1, 1, "angle = %i", pAngle);
+
 
       if (controller.get_digital(E_CONTROLLER_DIGITAL_L2)) { //cata + potentiometer
         launcherMotor.move(-127);
@@ -83,12 +78,44 @@ void movePid (float target) {
     }
   
 void opcontrol() {
-    Task launcherMoveTask(launcherMove);
+  
+    bool isDriveReversed = false;
 
+    
 
+    
 
   while (true) {
 
+    if (controller.get_digital(E_CONTROLLER_DIGITAL_R2)) { //roller
+      rollerMotor.move(100);}else {
+        rollerMotor.move(0);}
+
+    if (controller.get_digital(E_CONTROLLER_DIGITAL_LEFT)) { //launcher
+      launcherMotor.move(127);}else {
+        launcherMotor.move(0);
+      
+      }
+    //Task launcherMoveTask(launcherMove);
+
+    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_B)) { //drive switch
+    isDriveReversed = !isDriveReversed;
+    } 
+
+    if (isDriveReversed == 1) {
+        leftMotors.move(controller.get_analog(E_CONTROLLER_ANALOG_LEFT_Y) * -1);
+        rightMotors.move(controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y) * -1);
+    } else {
+      leftMotors.move(controller.get_analog(E_CONTROLLER_ANALOG_LEFT_Y));
+      rightMotors.move(controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y));
+    }
+
+
+
+    //leftMotors.move(controller.get_analog(ANALOG_LEFT_Y));
+    //rightMotors.move(controller.get_analog(ANALOG_RIGHT_Y));
+
+  /* while (true) {
     
 
     int rollerMotorVoltage = rollerMotor.get_voltage();
@@ -99,42 +126,43 @@ void opcontrol() {
     //leftMotors.move(controller.get_analog(ANALOG_LEFT_Y));
     //rightMotors.move(controller.get_analog(ANALOG_RIGHT_Y));
 
-    if (controller.get_digital(E_CONTROLLER_DIGITAL_R2)) { //roller
+     //////////////////////////////////////// maybe change value
+    } */
+
+   
+
+    bool intakeOn = false;
+
+    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_R1)) { //intake + toggle
+
+    if (intakeOn == false) {
       rollerMotor.move(-127);
-    } else {
+      intakeOn = true;  //////////////////////////////////////////////////////// tune
+    } else if (intakeOn == true) {
       rollerMotor.move(0);
+      intakeOn = false;
     }
 
-    if (controller.get_digital(E_CONTROLLER_DIGITAL_R1)) { //intake
-      rollerMotor.move(127);
-    } else {
-      rollerMotor.move(0);
     }
-
-    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_DOWN)) { //drive switch
     
-      leftMotors.move(controller.get_analog(ANALOG_LEFT_Y) * -1);
-      rightMotors.move(controller.get_analog(ANALOG_RIGHT_Y) * -1);
- 
-    }    
-
-    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_B)) { //drive switch
     
-      leftMotors.move(controller.get_analog(ANALOG_LEFT_Y));
-      rightMotors.move(controller.get_analog(ANALOG_RIGHT_Y));
- 
-    } 
 
+    
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_DOWN)) {controller.rumble(".");}
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_B)) {controller.rumble(".");}
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) {controller.rumble(".");}
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)) {controller.rumble(".");}
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_R2)) {controller.rumble(".");}
+
+    pros::delay(20);
  
     }    
   
 //felix wuz here
 
+  
+    } 
 
-  }
+    
 
+    

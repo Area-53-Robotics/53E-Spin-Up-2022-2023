@@ -9,8 +9,8 @@ using namespace pros;
 inline Controller controller(E_CONTROLLER_MASTER);
 
 inline Motor left1(16,E_MOTOR_GEAR_BLUE,true);
-inline Motor left2(17,E_MOTOR_GEAR_BLUE,true);
-inline Motor left3(18,E_MOTOR_GEAR_BLUE,true);
+inline Motor left2(9,E_MOTOR_GEAR_BLUE,true);
+inline Motor left3(19,E_MOTOR_GEAR_BLUE,true);
 
 inline Motor right1(11,E_MOTOR_GEAR_BLUE);
 inline Motor right2(12,E_MOTOR_GEAR_BLUE);
@@ -29,3 +29,4 @@ inline ADIPotentiometer potentiometer(8);
 
 
 
+//18 bo
