@@ -8,7 +8,7 @@
     "args": {
       "USER_UID": "${localEnv:USER_UID}",
       "USER_GID": "${localEnv:USER_GID}"
-    },
+    }
   },
 
   // run arguments passed to docker
@@ -27,12 +27,12 @@
   "updateRemoteUserUID": false,
 
   // build development environment on creation, make sure you already have shell.nix
-  "onCreateCommand": "nix-shell --command 'echo done building nix dev environment'",
+  //"onCreateCommand": "nix-shell --command 'echo done building nix dev environment'",
 
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
     // select nix environment
-    "arrterian.nix-env-selector",
+    "arrterian.nix-env-selector"
 
     // extra extensions
     //"fsevenm.run-it-on",
@@ -41,7 +41,7 @@
   ],
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [],
+  "forwardPorts": []
 
   // Use 'postCreateCommand' to run commands after the container is created.
   // "postCreateCommand": "go version",
