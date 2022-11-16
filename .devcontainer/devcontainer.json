@@ -1,5 +1,5 @@
 {
-   "image": "https://hub.docker.com/r/nixos/nix/",
+  "dockerFile": "Dockerfile",
   "features": {
   }
 }
