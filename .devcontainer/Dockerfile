@@ -1,5 +1,1 @@
-FROM nixos/nix
-
-RUN nix-channel --update
-
-RUN nix-build -A pythonFull '<nixpkgs>'
+FROM ghcr.io/xtruder/nix-devcontainer:v1
