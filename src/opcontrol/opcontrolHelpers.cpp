@@ -38,3 +38,18 @@ void spinUp() {
   }
   */
 }
+
+  void launcherMove () {
+      int pAngle = potentiometer.get_angle();
+      while (pAngle < 140) {                      //////////////////////////////////////////////// tune at comp
+      launcherMotor.move(127);
+
+              controller.print(1, 1, "angle = %i", pAngle);
+
+
+      if (controller.get_digital(E_CONTROLLER_DIGITAL_L2)) { //cata + potentiometer
+        launcherMotor.move(-127);
+      }
+
+   }
+    }

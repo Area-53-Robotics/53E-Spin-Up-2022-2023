@@ -16,82 +16,25 @@
  * task, not resume it from where it left off.
  */
 ////////////////////////////////////////////////////////////////////////////
-void movePid (float target) {
-   float kP = 7;
-   float distMoved;
-   float error = target;  
-   float power;
-
-   
-   while (std::abs(error) > 0)
- {
-   distMoved = encoder.get_value() * 8.64; //cir. wheel
-   error = target - distMoved;
-   power = error * kP;
-
-
-    if (error > 50 || power > 127) {
-		power = 127;
-      
-    }
-
-      leftMotors.move(power);
-      rightMotors.move(power);
-
-//controller.clear();
-	 // std::cout << "Error: " << error << "-" << power << std::endl;
-	  //std::cout << "Power: " << power << std::endl;
-
-
-    delay(10);
-    }}
- ///////////////////////////////////////////////////////////////////////////////////
-
- void turnPid (int direction, float turnValue) {
-
-      if (direction == 1) {
-        leftMotors.move_absolute(turnValue * -1, 127);
-        rightMotors.move_absolute(turnValue, 127);
-      }
-      else if (direction == 2) {
-      leftMotors.move_absolute(turnValue, 127);
-      rightMotors.move_absolute(turnValue * -1, 127);
-      }
-  
-    }
-
-
-    
-    void launcherMove () {
-      int pAngle = potentiometer.get_angle();
-      while (pAngle < 140) {                      //////////////////////////////////////////////// tune at comp
-      launcherMotor.move(127);
-
-              controller.print(1, 1, "angle = %i", pAngle);
-
-
-      if (controller.get_digital(E_CONTROLLER_DIGITAL_L2)) { //cata + potentiometer
-        launcherMotor.move(-127);
-      }
-
-   }
-    }
   
 void opcontrol() {
   
     bool isDriveReversed = false;
 
-    
-
-    
-
   while (true) {
-
+    if (controller.get_digital(E_CONTROLLER_DIGITAL_A)) {
+      piston.set_value(true);
+      delay(5000);
+      piston.set_value(false);
+    }
+    
     if (controller.get_digital(E_CONTROLLER_DIGITAL_R2)) { //roller
+    controller.rumble(".");
       rollerMotor.move(100);}else {
         rollerMotor.move(0);}
 
     if (controller.get_digital(E_CONTROLLER_DIGITAL_LEFT)) { //launcher
+    controller.rumble(".");
       launcherMotor.move(127);}else {
         launcherMotor.move(0);
       
@@ -99,41 +42,24 @@ void opcontrol() {
     //Task launcherMoveTask(launcherMove);
 
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_B)) { //drive switch
+    controller.rumble(".");
     isDriveReversed = !isDriveReversed;
     } 
 
     if (isDriveReversed == 1) {
-        leftMotors.move(controller.get_analog(E_CONTROLLER_ANALOG_LEFT_Y) * -1);
-        rightMotors.move(controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y) * -1);
+        leftMotors.move(controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y) * -1);
+        rightMotors.move(controller.get_analog(E_CONTROLLER_ANALOG_LEFT_Y) * -1);
     } else {
       leftMotors.move(controller.get_analog(E_CONTROLLER_ANALOG_LEFT_Y));
       rightMotors.move(controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y));
     }
 
-
-
-    //leftMotors.move(controller.get_analog(ANALOG_LEFT_Y));
-    //rightMotors.move(controller.get_analog(ANALOG_RIGHT_Y));
-
-  /* while (true) {
-    
-
-    int rollerMotorVoltage = rollerMotor.get_voltage();
-
-    controller.print(1, 1, "voltage = ", rollerMotorVoltage);
-     
-    //Tank drive moment
-    //leftMotors.move(controller.get_analog(ANALOG_LEFT_Y));
-    //rightMotors.move(controller.get_analog(ANALOG_RIGHT_Y));
-
-     //////////////////////////////////////// maybe change value
-    } */
-
-   
+    //controller.print(1, 1, "voltage = ", rollerMotorVoltage);
 
     bool intakeOn = false;
 
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_R1)) { //intake + toggle
+    controller.rumble(".");
 
     if (intakeOn == false) {
       rollerMotor.move(-127);
@@ -142,18 +68,7 @@ void opcontrol() {
       rollerMotor.move(0);
       intakeOn = false;
     }
-
     }
-    
-    
-
-    
-    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_DOWN)) {controller.rumble(".");}
-    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_B)) {controller.rumble(".");}
-    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) {controller.rumble(".");}
-    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)) {controller.rumble(".");}
-    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_R2)) {controller.rumble(".");}
-
     pros::delay(20);
  
     }    

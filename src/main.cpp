@@ -34,6 +34,7 @@ void initialize() {
   //Task printDataTask(printData);
   //Task launcherMoveTask(launcherMoveTask);
   launcherMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  right1.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 
 }
 

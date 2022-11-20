@@ -8,6 +8,9 @@ void spinUp();
 
 // Auton:
 void movePid(float target);
-void turnPid(char direction, float turnValue);
+void moveBangBang(float target);
+enum cooler_direction{Left, Right};
+
+void turnPid(cooler_direction direction, float turnValue);
 
 // movepid and such would be defined here

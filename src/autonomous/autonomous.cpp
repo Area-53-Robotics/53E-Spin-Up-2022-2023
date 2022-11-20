@@ -16,7 +16,15 @@
  
 void autonomous() {
 
+
+    moveBangBang(10);
+
+
+
+
+/*
     int x = 1;
+
 
     if (x == 1) { 
     //red (one forward)
