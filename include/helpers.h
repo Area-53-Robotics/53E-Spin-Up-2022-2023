@@ -1,5 +1,4 @@
 
-
 // General funtions:
 void printData();
 
@@ -7,10 +6,11 @@ void printData();
 void spinUp();
 
 // Auton:
-void movePid(float target);
-void moveBangBang(float target);
-enum cooler_direction{Left, Right};
+enum Direction { Left, Right, Forward, Backward };
+void moveBangBang(double target, bool isReverse);
+void turnBangBang(double target);
 
-void turnPid(cooler_direction direction, float turnValue);
+void movePid(float target);
+void turnPid(Direction direction, float turnValue);
 
 // movepid and such would be defined here
