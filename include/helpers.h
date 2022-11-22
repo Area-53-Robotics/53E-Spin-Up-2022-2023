@@ -1,7 +1,8 @@
 
 // General funtions:
 void printData();
-
+float arcMeasure(float arcLength, float radius);
+float arcLength(float degrees, float radius);
 // Opcontrol:
 void spinUp();
 

@@ -1,5 +1,12 @@
 #include "main.h"
 
+float arcMeasure(float arcLength, float radius) {
+  return (arcLength / (2 * radius * M_PI)) * 360;
+}
+
+float arcLength(float degrees, float radius) {
+  return (degrees / 360) * (2 * radius * M_PI);
+}
 // Misc helper functions
 void printData() {
   while (true) {
@@ -14,7 +21,7 @@ void printData() {
     // pros::delay(10); // We need a delay after each screen print
 
     // double distMovedRight =
-    //int distMoved = leftEncoder.get_value() - rightEncoder.get_value();
+    // int distMoved = leftEncoder.get_value() - rightEncoder.get_value();
     // right1.get_position() * 3 / 5 * 3.75 * M_PI * 2 / 360;
     pros::delay(50);
   }
