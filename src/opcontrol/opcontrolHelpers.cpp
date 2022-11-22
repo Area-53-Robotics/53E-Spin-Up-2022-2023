@@ -23,7 +23,6 @@ void spinUp() {
     printf("Power: %f, Velocity: %f\n", power, currentVelocity);
     pros::delay(dT);
   }
-  /*
   while (true) {
     launcherEncoder.reset();
     // target in degrees per milisecond

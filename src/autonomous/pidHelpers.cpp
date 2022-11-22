@@ -1,31 +1,48 @@
 #include "main.h"
+#include "pros/rtos.hpp"
+#include <cmath>
+void moveBangBang(double target, bool isReverse) {
+  // double distMovedLeft;
+  double distMovedRight = 0;
+  const float radius = 2.75;
+  // leftEncoder.reset();
+  rightEncoder.reset();
 
-void moveBangBang(float target) {
-  float distMoved;
-
-  while (true) {
-
-    distMoved = right1.get_position() * 0.6 * 8.64;
-
-    controller.print(1, 1, "distMoved = ", distMoved);
-
+  while (distMovedRight <= target) {
+    // distMovedRight = right1.get_position() * 3 / 5 * radius * M_PI * 2 / 360;
+    distMovedRight = fabs(rightEncoder.get_value() * radius * M_PI /
+                          360); // Absolute value of floating point number
+    if (!isReverse) {
+      leftMotors.move(50);
+      rightMotors.move(50);
+    } else {
+      rightMotors.move(-50);
+      leftMotors.move(-50);
+    }
+    printf("Dist: %f Target: %f\n", distMovedRight, target);
     delay(20);
-
   }
+  leftMotors.move(0);
+  rightMotors.move(0);
 }
 
+void turnBangBang(double target) {
+  encoderMutex.take();
+  leftEncoder.reset();
+  rightEncoder.reset();
+  double distMoved = 0;
 
-
-
-
-
-
-
-
-
-
-
-
+  while (distMoved <= target) {
+    distMoved = leftEncoder.get_value() - rightEncoder.get_value();
+    leftMotors.move(-50);
+    rightMotors.move(50);
+    printf("distMoved: %f\n", distMoved);
+    delay(50);
+  }
+  leftMotors.move(0);
+  rightMotors.move(0);
+  encoderMutex.give();
+}
 
 void movePid(float target) {
   float kP = 7;
@@ -33,7 +50,7 @@ void movePid(float target) {
   float error = target;
   float power;
 
-  while (abs(error) > 0.2)
+  while (fabs(error) > 0.2)
 
   // small = 36
   // big = 60
@@ -59,7 +76,7 @@ void movePid(float target) {
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-void turnPid(cooler_direction direction, float turnValue) {
+void turnPid(Direction direction, float turnValue) {
   if (direction == Left) {
     leftMotors.move_absolute(turnValue * -1, 127);
     rightMotors.move_absolute(turnValue, 127);
