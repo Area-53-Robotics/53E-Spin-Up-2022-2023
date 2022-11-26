@@ -1,6 +1,7 @@
 #include "main.h"
 #include "pros/motors.h"
 #include "pros/rtos.hpp"
+#include "sylib/system.hpp"
 
 using namespace pros;
 
@@ -28,15 +29,15 @@ void on_center_button() {
  */
 void initialize() {
   pros::lcd::initialize();
+  sylib::initialize();
   pros::lcd::set_text(1, ":)");
   controller.clear();
   // Start background tasks
   Task printDataTask(printData);
-  //Task launcherMoveTask(launcherMoveTask);
+  // Task launcherMoveTask(launcherMoveTask);
   launcherMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-  //right1.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
-  //left1.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
-
+  // right1.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
+  // left1.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 }
 
 /**

@@ -1,4 +1,5 @@
 #include "main.h"
+#include "pros/rtos.hpp"
 
 /*
  * Runs the operator control code. This function will be started in its own task
@@ -16,26 +17,32 @@
 ////////////////////////////////////////////////////////////////////////////
 
 void opcontrol() {
-
   bool isDriveReversed = false;
+  bool intakeOn = false;
+  // Set the LED strip to a gradient in HSV color space
+  // that displays a full range of hues
+  ledStrip.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
+
+  // Cycle the colors at speed 10
+  ledStrip.cycle(*ledStrip, 10);
 
   while (true) {
+
     // if (controller.get_digital(E_CONTROLLER_DIGITAL_A)) {
     // piston.set_value(true);
     // delay(5000);
     // piston.set_value(false);
     //}
-
     if (controller.get_digital(E_CONTROLLER_DIGITAL_R2)) { // roller
-      controller.rumble(".");
+      // controller.rumble(".");
       rollerMotor.move(100);
     } else {
       rollerMotor.move(0);
     }
 
-    if (controller.get_digital(E_CONTROLLER_DIGITAL_LEFT)) { // launcher
-      controller.rumble(".");
-      launcherMotor.move(127);
+    if (controller.get_digital(E_CONTROLLER_DIGITAL_L1)) { // launcher
+      // controller.rumble(".");
+      launcherMotor.move(-127);
     } else {
       launcherMotor.move(0);
     }
@@ -55,8 +62,6 @@ void opcontrol() {
       rightMotors.move(controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y));
     }
 
-    bool intakeOn = false;
-
     if (controller.get_digital_new_press(
             E_CONTROLLER_DIGITAL_R1)) { // intake + toggle
       controller.rumble(".");
@@ -70,12 +75,9 @@ void opcontrol() {
         intakeOn = false;
       }
     }
-    //encoderMutex.take();
-    //printf("dist traveled: %i\n",
-           //leftEncoder.get_value() - rightEncoder.get_value());
-    //encoderMutex.give();
-    pros::delay(20);
-  }
 
-  // felix wuz here
+    std::uint32_t clock = sylib::millis();
+    sylib::delay_until(&clock, 20);
+    // delay(20);
+  }
 }

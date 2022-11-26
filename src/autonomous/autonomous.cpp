@@ -14,10 +14,17 @@
 #include "main.h"
 
 void autonomous() {
-  //printf("starting auton\n");
-  //moveBangBang(10.0, false);
+  // Set the LED strip to a gradient in HSV color space
+  // that displays a full range of hues
+  ledStrip.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
+
+  // Cycle the colors at speed 10
+  ledStrip.cycle(*ledStrip, 10);
+
+  // printf("starting auton\n");
+  // moveBangBang(10.0, false);
   printf("moved forward\n");
-  //moveBangBang(10.0, true);
+  // moveBangBang(10.0, true);
   printf("moved back\n");
   turnBangBang(90.0);
 
