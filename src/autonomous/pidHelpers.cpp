@@ -1,6 +1,7 @@
 #include "main.h"
 #include "pros/rtos.hpp"
 #include <cmath>
+
 void moveBangBang(double target, bool isReverse) {
   // double distMovedLeft;
   double distMovedRight = 0;
@@ -9,13 +10,18 @@ void moveBangBang(double target, bool isReverse) {
   // rightEncoder.reset();
 
   while (distMovedRight <= target) {
+
     // distMovedRight = right1.get_position() * 3 / 5 * radius * M_PI * 2 / 360;
+
     distMovedRight = fabs(rightEncoder.get_value() * radius * M_PI /
                           360); // Absolute value of floating point number
     if (!isReverse) {
+
       leftMotors.move(50);
       rightMotors.move(50);
+
     } else {
+
       rightMotors.move(-50);
       leftMotors.move(-50);
     }
