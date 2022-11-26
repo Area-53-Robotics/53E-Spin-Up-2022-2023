@@ -6,7 +6,7 @@ void moveBangBang(double target, bool isReverse) {
   double distMovedRight = 0;
   const float radius = 2.75;
   // leftEncoder.reset();
-  rightEncoder.reset();
+  // rightEncoder.reset();
 
   while (distMovedRight <= target) {
     // distMovedRight = right1.get_position() * 3 / 5 * radius * M_PI * 2 / 360;
@@ -33,9 +33,10 @@ void turnBangBang(double target) {
   double distMoved = 0;
 
   while (distMoved <= target) {
-    distMoved = leftEncoder.get_value() - rightEncoder.get_value();
-    leftMotors.move(-50);
-    rightMotors.move(50);
+    distMoved = (leftEncoder.get_value() - rightEncoder.get_value()) / 3.3 +
+                3.3 * M_PI / 180;
+    leftMotors.move(-30);
+    rightMotors.move(30);
     printf("distMoved: %f\n", distMoved);
     delay(50);
   }
