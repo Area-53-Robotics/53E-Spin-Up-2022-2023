@@ -32,6 +32,7 @@ void initialize() {
   sylib::initialize();
   pros::lcd::set_text(1, ":)");
   controller.clear();
+
   // Start background tasks
   Task printDataTask(printData);
   // Task launcherMoveTask(launcherMoveTask);

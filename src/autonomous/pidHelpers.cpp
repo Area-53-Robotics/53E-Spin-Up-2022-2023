@@ -7,14 +7,12 @@ void moveBangBang(double target, bool isReverse) {
   double distMovedRight = 0;
   const float radius = 2.75;
   // leftEncoder.reset();
-  // rightEncoder.reset();
+  //rightEncoder.reset();
 
-  while (distMovedRight <= target) {
+  while (distMovedRight < target) {
 
-    // distMovedRight = right1.get_position() * 3 / 5 * radius * M_PI * 2 / 360;
-
-    distMovedRight = fabs(rightEncoder.get_value() * radius * M_PI /
-                          360); // Absolute value of floating point number
+    distMovedRight = fabs(rightEncoder.get_value());// * radius * M_PI /
+                         // 360); // Absolute value of floating point number
     if (!isReverse) {
 
       leftMotors.move(50);
@@ -25,12 +23,24 @@ void moveBangBang(double target, bool isReverse) {
       rightMotors.move(-50);
       leftMotors.move(-50);
     }
+      controller.print(0, 0, "distMoved =  %d", distMovedRight);
+      //controller.print(2, 0, "Error =  %d", );
+
+      
     printf("Dist: %f Target: %f\n", distMovedRight, target);
     delay(20);
   }
   leftMotors.move(0);
   rightMotors.move(0);
 }
+
+
+
+
+
+
+
+
 
 void turnBangBang(double target) {
   encoderMutex.take();

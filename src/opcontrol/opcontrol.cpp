@@ -28,11 +28,12 @@ void opcontrol() {
 
   while (true) {
 
-    // if (controller.get_digital(E_CONTROLLER_DIGITAL_A)) {
-    // piston.set_value(true);
-    // delay(5000);
-    // piston.set_value(false);
-    //}
+    if (controller.get_digital(E_CONTROLLER_DIGITAL_A)) {
+     piston.set_value(true);
+     delay(5000);
+     piston.set_value(false);
+    }
+    
     if (controller.get_digital(E_CONTROLLER_DIGITAL_R2)) { // roller
       // controller.rumble(".");
       rollerMotor.move(100);

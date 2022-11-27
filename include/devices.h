@@ -27,11 +27,12 @@ inline pros::Motor_Group rightMotors({right1, right2, right3});
 
 // note to future generations: conlifting triports defs will make you want to
 // kys
-inline ADIEncoder leftEncoder(3, 4, true);
-inline ADIEncoder rightEncoder(1, 2, true);
+inline ADIEncoder leftEncoder(3, 4);
+inline ADIEncoder rightEncoder(1, 2);
 inline auto ledStrip = sylib::Addrled(22, 8, 40);
 inline Mutex encoderMutex;
-// inline ADIDigitalOut piston(7, false); //see above
+
+inline ADIDigitalOut piston(7, false); //see above
 
  inline ADIPotentiometer potentiometer(2); // see above
 

@@ -26,7 +26,13 @@ void autonomous() {
   printf("moved forward\n");
   // moveBangBang(10.0, true);
   printf("moved back\n");
-  turnBangBang(90.0);
+
+  //////////////////////////////////////////
+
+  //rightEncoder.reset();
+
+  moveBangBang(5,false);
+  
 
   /*
       int x = 1;
