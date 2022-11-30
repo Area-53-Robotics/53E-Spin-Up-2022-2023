@@ -9,6 +9,8 @@ void spinUp();
 // Auton:
 enum Direction { Left, Right, Forward, Backward };
 void moveBangBang(double target, bool isReverse);
+//void moveBangBangLeft(double target, bool isReverse);
+//void moveBangBangRight(double target, bool isReverse);
 void turnBangBang(double target);
 
 void movePid(float target);

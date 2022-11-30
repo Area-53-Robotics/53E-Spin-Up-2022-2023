@@ -29,9 +29,14 @@ void autonomous() {
 
   //////////////////////////////////////////
 
-  //rightEncoder.reset();
 
-  moveBangBang(5,false);
+
+  //moveBangBangLeft(100, true);
+  //moveBangBangRight(100, true);
+  moveBangBang(100,true);
+
+
+
   
 
   /*

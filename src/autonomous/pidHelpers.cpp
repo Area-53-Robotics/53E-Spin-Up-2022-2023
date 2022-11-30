@@ -3,37 +3,77 @@
 #include <cmath>
 
 void moveBangBang(double target, bool isReverse) {
+    //rightEncoder.reset();
   // double distMovedLeft;
+  leftEncoder.reset();
+  rightEncoder.reset();
+  double distMovedLeft = 0;
   double distMovedRight = 0;
-  const float radius = 2.75;
-  // leftEncoder.reset();
-  //rightEncoder.reset();
+  float error = target;
+  //const float radius = 2.75;
+  const float circ = 17.28;
+  float kP = 1.7;
+  
+  delay(10);
 
-  while (distMovedRight < target) {
-
-    distMovedRight = fabs(rightEncoder.get_value());// * radius * M_PI /
-                         // 360); // Absolute value of floating point number
+  while (error > 1) {
+    distMovedLeft = fabs(leftEncoder.get_value() * circ / 360);
+    int error = target - distMovedLeft;
+    controller.print(0, 0, "error =  %d", error);
+ 
+    // Absolute value of floating point number
+      //controller.print(2, 0, "Error =  %d", );
+    
     if (!isReverse) {
 
-      leftMotors.move(50);
-      rightMotors.move(50);
+      leftMotors.move(error * kP);
+      rightMotors.move(error * kP);
+
 
     } else {
 
-      rightMotors.move(-50);
-      leftMotors.move(-50);
-    }
-      controller.print(0, 0, "distMoved =  %d", distMovedRight);
-      //controller.print(2, 0, "Error =  %d", );
+      leftMotors.move(-error * kP);
+      rightMotors.move(-error * kP);
 
-      
-    printf("Dist: %f Target: %f\n", distMovedRight, target);
+    }
+
     delay(20);
   }
+  
   leftMotors.move(0);
   rightMotors.move(0);
 }
+/*
+void moveBangBangRight (double target, bool isReverse) {
+  leftEncoder.reset();
+  rightEncoder.reset();
+  double distMovedLeft = 0;
+  double distMovedRight = 0;
+  //const float radius = 2.75;
+  const float circ = 17.28;
+  while (distMovedRight < target) {
+    distMovedRight = fabs(rightEncoder.get_value() * circ / 360);
+    controller.print(2, 0, "distMoved =  %d", distMovedRight);
+ 
+    // Absolute value of floating point number
+      //controller.print(2, 0, "Error =  %d", );
+    
+    if (!isReverse) {
 
+      rightMotors.move(50);
+
+    } else {
+      
+      rightMotors.move(-50);
+    }
+
+    delay(20);
+  }
+
+  leftMotors.move(0);
+  rightMotors.move(0);
+  }
+  */
 
 
 

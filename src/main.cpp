@@ -28,6 +28,7 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
+    leftEncoder.reset();
   pros::lcd::initialize();
   sylib::initialize();
   pros::lcd::set_text(1, ":)");

@@ -34,6 +34,6 @@ inline Mutex encoderMutex;
 
 inline ADIDigitalOut piston(7, false); //see above
 
- inline ADIPotentiometer potentiometer(2); // see above
+ inline ADIPotentiometer potentiometer(5); // see above
 
 // 18 bod
