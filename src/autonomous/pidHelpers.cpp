@@ -13,6 +13,10 @@ void moveBangBang(double target, bool isReverse) {
   //const float radius = 2.75;
   const float circ = 17.28;
   float kP = 15;
+  float kD = 15;
+  float power;
+  float derivative;
+  float prevError;
   
   delay(10);
 
@@ -20,6 +24,13 @@ void moveBangBang(double target, bool isReverse) {
     distMovedLeft = (leftEncoder.get_value() * circ / 360);
     int error = target - distMovedLeft;
     controller.print(0, 0, "error =  %d", error);
+
+//////////////////////////////////////////////////////////////////////////////
+      derivative = error - prevError;
+      prevError = error;
+
+      power = error * kP  +  derivative * kD;
+////////////////////////////////////////////////////////////////////////////// Derivatave moment moment
  
     // Absolute value of floating point number
       //controller.print(2, 0, "Error =  %d", );

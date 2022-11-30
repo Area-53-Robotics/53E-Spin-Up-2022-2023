@@ -28,12 +28,11 @@ void opcontrol() {
 
   while (true) {
 
-    if (controller.get_digital(E_CONTROLLER_DIGITAL_A)) {
-     piston.set_value(true);
-     delay(5000);
-     piston.set_value(false);
-    }
-    
+    // if (controller.get_digital(E_CONTROLLER_DIGITAL_A)) {
+    // piston.set_value(true);
+    // delay(5000);
+    // piston.set_value(false);
+    //}
     if (controller.get_digital(E_CONTROLLER_DIGITAL_R2)) { // roller
       // controller.rumble(".");
       rollerMotor.move(100);
@@ -77,8 +76,31 @@ void opcontrol() {
       }
     }
 
+    int pixelNum = potentiometer.get_value();
+
+    ledStrip.set_pixel(0xd13030, pixelNum);
+
+
+    //if (potentiometer.get_angle() == 0) {ledStrip.set_all(0x30d15b); //green
+    //if (potentiometer.get_angle() == 50) {0xf5fc0f;} //yellow
+    //if (potentiometer.get_angle() == 75) {0xe0a31f;} //orange
+    //if (potentiometer.get_angle() == 100) {0xd13030;} //red
+}
+    
+
+    
+
+
+
+
+
+
+
+
     std::uint32_t clock = sylib::millis();
     sylib::delay_until(&clock, 20);
+
+    
     // delay(20);
   }
-}
+
