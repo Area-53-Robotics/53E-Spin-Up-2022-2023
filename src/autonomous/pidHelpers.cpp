@@ -12,12 +12,12 @@ void moveBangBang(double target, bool isReverse) {
   float error = target;
   //const float radius = 2.75;
   const float circ = 17.28;
-  float kP = 1.7;
+  float kP = 15;
   
   delay(10);
 
-  while (error > 1) {
-    distMovedLeft = fabs(leftEncoder.get_value() * circ / 360);
+  while (error > 0) {
+    distMovedLeft = (leftEncoder.get_value() * circ / 360);
     int error = target - distMovedLeft;
     controller.print(0, 0, "error =  %d", error);
  
