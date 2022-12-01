@@ -16,7 +16,7 @@
 void autonomous() {
   // Set the LED strip to a gradient in HSV color space
   // that displays a full range of hues
-  ledStrip.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
+  ledStrip.gradient(0x30d15b, 0xFF0005, 0, 0, false, true);
 
   // Cycle the colors at speed 10
   ledStrip.cycle(*ledStrip, 10);
@@ -33,11 +33,10 @@ void autonomous() {
 
   //moveBangBangLeft(100, true);
   //moveBangBangRight(100, true);
-  moveBangBang(50,true);
-    
 
-
-
+  //moveBangBang(50,true);
+  //turnBangBang(45);
+  turnPid(Right,90);
   
 
   /*
