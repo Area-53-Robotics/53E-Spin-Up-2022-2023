@@ -1,8 +1,10 @@
 #include "main.h"
 #include "pros/rtos.hpp"
 #include <cmath>
+#include <thread>
 
-void moveBangBang(double target, bool isReverse) {
+
+void moveBangBangLeft(double target, bool isReverse) {
     //rightEncoder.reset();
   // double distMovedLeft;
   leftEncoder.reset();
@@ -38,13 +40,13 @@ void moveBangBang(double target, bool isReverse) {
     if (!isReverse) {
 
       leftMotors.move(power);
-      rightMotors.move(power);
+      
 
 
     } else {
 
       leftMotors.move(-power);
-      rightMotors.move(-power);
+     
 
     }
 
@@ -52,40 +54,64 @@ void moveBangBang(double target, bool isReverse) {
   }
   
   leftMotors.move(0);
-  rightMotors.move(0);
+ 
 }
-/*
-void moveBangBangRight (double target, bool isReverse) {
+
+//--------------------------------------------
+
+
+void moveBangBangRight(double target, bool isReverse) {
+    //rightEncoder.reset();
+  // double distMovedLeft;
   leftEncoder.reset();
   rightEncoder.reset();
   double distMovedLeft = 0;
   double distMovedRight = 0;
+  float error = target;
   //const float radius = 2.75;
   const float circ = 17.28;
-  while (distMovedRight < target) {
-    distMovedRight = fabs(rightEncoder.get_value() * circ / 360);
-    controller.print(2, 0, "distMoved =  %d", distMovedRight);
+  float kP = 10;
+  float kD = 15;
+  float power;
+  float derivative;
+  float prevError;
+  
+  delay(10);
+
+  while (error > 0) {
+    distMovedLeft = (leftEncoder.get_value() * circ / 360);
+    int error = target - distMovedLeft;
+    controller.print(0, 0, "error =  %d", error);
+
+//////////////////////////////////////////////////////////////////////////////
+      derivative = error - prevError;
+      prevError = error;
+
+      power = (error * kP)  +  (derivative * kD);
+////////////////////////////////////////////////////////////////////////////// Derivatave moment moment
  
     // Absolute value of floating point number
       //controller.print(2, 0, "Error =  %d", );
     
     if (!isReverse) {
 
-      rightMotors.move(50);
+      
+      rightMotors.move(power);
+
 
     } else {
-      
-      rightMotors.move(-50);
+
+    
+      rightMotors.move(-power);
+
     }
 
     delay(20);
   }
+  
 
-  leftMotors.move(0);
   rightMotors.move(0);
-  }
-  */
-
+}
 
 
 
@@ -138,3 +164,9 @@ void turnPid(Direction direction, float turnValue) {
 
   }
 }
+
+
+Mutex mutex;
+
+Task moveBangBangLeft();
+Task moveBangBangRight();
