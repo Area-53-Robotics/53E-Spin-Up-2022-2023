@@ -15,32 +15,65 @@
  * task, not resume it from where it left off.
  */
 //////////////////////////////////////////////////////////////////////////
-void stopDetect () {
-      float dr;
-    float dl;
+void stopDetect() {
+  float dr;
+  float dl;
 
-    while (true) {
-      if (dl > dr + 100 || dr > dl + 100) {
-        ledStrip.set_all(0x30d15b);
-        dr = 0;
-        dl = 0;
-      }
-      if (dl > dr + 20 || dr > dl + 20) {
-        ledStrip.set_all(0xd13030);
-        dr = 0;
-        dl = 0;
-      }
-
-       dl = left1.get_position();
-      dr = right1.get_position();
-       delay(200);
-    } 
+  while (true) {
+    if (dl > dr + 100 || dr > dl + 100) {
+      ledStrip.set_all(0x30d15b);
+      dr = 0;
+      dl = 0;
+    }
+    if (dl > dr + 20 || dr > dl + 20) {
+      ledStrip.set_all(0xd13030);
+      dr = 0;
+      dl = 0;
     }
 
-    Task stopDetectTask(stopDetect);
+    dl = left1.get_position();
+    dr = right1.get_position();
+    delay(200);
+  }
+}
+
+// Task stopDetectTask(stopDetect);
+
+void cataFix() {
+  int val;
+  int prevVal;
+  int fix;
+  printf("send help\n");
+
+  while (true) {
+    int target;
+    int val;
+
+    target = 2080;
+    error = target;
+    val = potentiometer.get_value();
+    // printf("val =  %i \n", val );
+    // printf("targ =  %i \n", target );
+    
+
+        if (val > target) {
+          launcherMotor.move(-127);
+        }
+        else {
+          launcherMotor.move(0);
+        }
+        
+
+    // controller.print(0, 0, "val =  %i", val);
+    delay(50);
+  }
+}
 
 void opcontrol() {
-  Task stopDetectTask(stopDetect);
+  launcherMotor.move(-127);
+
+  Task cataFixTask(cataFix);
+  // Task stopDetectTask(stopDetect);
   bool isDriveReversed = false;
   bool intakeOn = false;
   // Set the LED strip to a gradient in HSV color space
@@ -63,13 +96,14 @@ void opcontrol() {
     } else {
       rollerMotor.move(0);
     }
-
+/*
     if (controller.get_digital(E_CONTROLLER_DIGITAL_L1)) { // launcher
       // controller.rumble(".");
       launcherMotor.move(-127);
     } else {
       launcherMotor.move(0);
     }
+    */
     // Task launcherMoveTask(launcherMove);
 
     if (controller.get_digital_new_press(
@@ -100,32 +134,25 @@ void opcontrol() {
       }
     }
 
-    //if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_LEFT)) {moveBangBang(50,true);}
-    //if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT)) {moveBangBang(50,false);}
+    // if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_LEFT))
+    // {moveBangBang(50,true);} if
+    // (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT))
+    // {moveBangBang(50,false);}
 
+    // int pixelNum = potentiometer.get_value();
 
+    // ledStrip.set_pixel(0xd13030, pixelNum);
 
-    int pixelNum = potentiometer.get_value();
-
-    ledStrip.set_pixel(0xd13030, pixelNum);
-
-
-    if (potentiometer.get_angle() == 0) {ledStrip.set_all(0x30d15b);} //green
-    //if (potentiometer.get_angle() == 50) {0xf5fc0f;} //yellow
-    //if (potentiometer.get_angle() == 75) {0xe0a31f;} //orange
-    //if (potentiometer.get_angle() == 100) {0xd13030;} //red
-
-}
-
-
-    std::uint32_t clock = sylib::millis();
-    sylib::delay_until(&clock, 20);
-
-    
-    // delay(20);
+    if (potentiometer.get_angle() == 0) {
+      ledStrip.gradient(0x30d15b, 0xFF0005, 0, 0, false, true);
+    } // green
+      // if (potentiometer.get_angle() == 50) {0xf5fc0f;} //yellow
+      // if (potentiometer.get_angle() == 75) {0xe0a31f;} //orange
+      // if (potentiometer.get_angle() == 100) {0xd13030;} //red
   }
 
-  
+  std::uint32_t clock = sylib::millis();
+  sylib::delay_until(&clock, 20);
 
-  
-
+  // delay(20);
+}
