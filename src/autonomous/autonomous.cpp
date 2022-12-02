@@ -34,9 +34,8 @@ void autonomous() {
   //moveBangBangLeft(100, true);
   //moveBangBangRight(100, true);
 
-  //moveBangBang(50,true);
+  moveBangBang(100,true);
   //turnBangBang(45);
-  turnPid(Right,90);
   
 
   /*

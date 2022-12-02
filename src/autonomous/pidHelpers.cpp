@@ -13,7 +13,7 @@ void moveBangBang(double target, bool isReverse) {
   //const float radius = 2.75;
   const float circ = 17.28;
   float kP = 10;
-  float kD = 11;
+  float kD = 15;
   float power;
   float derivative;
   float prevError;
