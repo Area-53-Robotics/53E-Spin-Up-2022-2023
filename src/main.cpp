@@ -3,6 +3,8 @@
 #include "pros/rtos.hpp"
 #include "sylib/system.hpp"
 
+#include "subsystems/catapult.hpp"
+
 using namespace pros;
 
 /**
@@ -36,6 +38,8 @@ void initialize() {
 
   // Start background tasks
   Task printDataTask(printData);
+  pros::Task catapultController(catapult.start);
+
   // Task launcherMoveTask(launcherMoveTask);
   launcherMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   // right1.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
