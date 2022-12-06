@@ -2,9 +2,12 @@
 #include "pros/rtos.hpp"
 #include "sylib/sylib.hpp"
 #include "subsystems/catapult.hpp"
+#include "subsystems/intake.hpp"
+
 using namespace pros;
 
 inline Catapult catapult;
+inline Intake intake;
 
 namespace constants {
 const float driveWheelRadius = 3.25;
@@ -40,6 +43,5 @@ inline Mutex encoderMutex;
 
 // inline ADIDigitalOut piston(8, false); // see above
 
-inline ADIPotentiometer potentiometer(8); // see above
 
 // 18 bod

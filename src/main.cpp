@@ -39,6 +39,7 @@ void initialize() {
   // Start background tasks
   Task printDataTask(printData);
   pros::Task catapultController(catapult.start);
+  pros::Task intakeControler(intake.start);
 
   // Task launcherMoveTask(launcherMoveTask);
   launcherMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);

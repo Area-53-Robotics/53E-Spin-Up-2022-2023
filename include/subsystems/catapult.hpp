@@ -14,6 +14,6 @@ public:
   static Mode current_mode;
   static int target;
   static void start(void *ignore);
-  static void set_mode(Mode);
+  static void fire();
 };
 #endif

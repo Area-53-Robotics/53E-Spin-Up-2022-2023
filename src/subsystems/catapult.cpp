@@ -1,7 +1,9 @@
 #include "subsystems/catapult.hpp"
-#include "main.h"
+#include "api.h"
 
-pros::Motor catapultMotor(10, E_MOTOR_GEAR_RED, true);
+pros::Motor catapultMotor(10, pros::E_MOTOR_GEAR_RED, true);
+pros::ADIPotentiometer potentiometer(8); // see above
+
 // pros::ADIPotentiometer potentiometer(8); //If this conflicts with another
 // device, yur gonna be sad
 
@@ -25,7 +27,21 @@ void Catapult::start(void *ignore) {
     float kP = 250.0;
     float kI = 50.0;
     float kD = 50.0;
-    // starting val:
+    switch (current_mode) {
+      case Mode::Loading: 
+        target = 2300;
+        break;
+      case Mode::Ready:
+        target = 2300;
+        break;
+      case Mode::Firing:
+        target = 2000;
+        break;
+      default:
+        target = 2300;
+        printf("Invalid catapult mode\n");
+        break;
+    }
     error = (target - potentiometer.get_value()) * -1;
 
     derivative = error - prevError;
@@ -41,10 +57,12 @@ void Catapult::start(void *ignore) {
     catapultMotor.move_voltage(power);
     printf("P: %f, I: %f, D: %f, Power: %li, Target: %i\n", error, integral, derivative,
            power, target);
-    delay(dT);
+    pros::delay(dT);
   }
 };
 
-void Catapult::set_mode(Catapult::Mode target_mode) {
-  Catapult::current_mode = target_mode;
+void Catapult::fire() {
+  if (Catapult::current_mode == Mode::Ready) {
+    Catapult::current_mode = Mode::Firing;
+  }
 }
