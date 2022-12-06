@@ -7,9 +7,10 @@ pros::Motor catapultMotor(10, E_MOTOR_GEAR_RED, true);
 
 Catapult::Catapult(){};
 Catapult::~Catapult(){};
-int Catapult::target = 2000;
+Catapult::Mode Catapult::current_mode = Mode::Loading;
+int Catapult::target = 2300;
+//fire is 2200
 
-void Catapult::set_target(int target_target) { target = target_target; }
 void Catapult::start(void *ignore) {
   int val;
   int prevVal;
@@ -20,10 +21,10 @@ void Catapult::start(void *ignore) {
     float derivative;
     float integral = 0;
     int prevError;
-    int dT = 40;
-    float kP = 210.0;
-    float kI = 0.9;
-    float kD = 100.0;
+    int dT = 20;
+    float kP = 250.0;
+    float kI = 50.0;
+    float kD = 50.0;
     // starting val:
     error = (target - potentiometer.get_value()) * -1;
 
@@ -31,11 +32,6 @@ void Catapult::start(void *ignore) {
     prevError = error;
 
     integral = integral + error;
-    if (integral > 2000) {
-      integral = 2000;
-    } else if (integral < 0) {
-      integral = 0;
-    }
     power = error * kP + integral * kI + derivative * kD;
 
     if (std::fabs(error) > 12000) {
@@ -48,3 +44,7 @@ void Catapult::start(void *ignore) {
     delay(dT);
   }
 };
+
+void Catapult::set_mode(Catapult::Mode target_mode) {
+  Catapult::current_mode = target_mode;
+}

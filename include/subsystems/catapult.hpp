@@ -6,8 +6,14 @@ class Catapult {
 public:
   Catapult();
   ~Catapult();
+  enum class Mode {
+    Firing,
+    Loading,
+    Ready,
+  };
+  static Mode current_mode;
   static int target;
   static void start(void *ignore);
-  void set_target(int target_target);
+  static void set_mode(Mode);
 };
 #endif

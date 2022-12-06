@@ -18,7 +18,7 @@
 //////////////////////////////////////////////////////////////////////////
 
 void opcontrol() {
-  //Catapult cata;
+  // Catapult cata;
 
   bool isDriveReversed = false;
   bool intakeOn = false;
@@ -45,8 +45,8 @@ void opcontrol() {
       rollerMotor.move(0);
     }
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) { // launcher
-       controller.rumble(".");
-       catapult.target = 1000;
+      controller.rumble(".");
+      catapult.target -= 10;
     }
 
     if (controller.get_digital_new_press(
