@@ -17,6 +17,5 @@ void turnBangBang(double target);
 
 void movePid(float target);
 void turnPid(Direction direction, float turnValue);
-void stopDetect();
 
 // movepid and such would be defined here

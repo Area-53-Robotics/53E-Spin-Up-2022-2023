@@ -1,10 +1,10 @@
 #include "subsystems/catapult.hpp"
 #include "api.h"
+#include "sylib/sylib.hpp"
 
 pros::Motor catapultMotor(10, pros::E_MOTOR_GEAR_RED, true);
-pros::ADIPotentiometer potentiometer(8); // see above
-
-// pros::ADIPotentiometer potentiometer(8); //If this conflicts with another
+pros::ADIPotentiometer potentiometer(8); 
+//If this conflicts with another
 // device, yur gonna be sad
 
 Catapult::Catapult(){};
@@ -27,15 +27,23 @@ void Catapult::start(void *ignore) {
     float kP = 250.0;
     float kI = 50.0;
     float kD = 50.0;
+    //change behavior based on mode
     switch (current_mode) {
       case Mode::Loading: 
         target = 2300;
+        if (error < 20) {
+          current_mode = Mode::Ready;
+        }
         break;
       case Mode::Ready:
         target = 2300;
         break;
       case Mode::Firing:
         target = 2000;
+        //TODO: Fix this value
+        if (error > 1000) {
+          current_mode = Mode::Loading;
+        }
         break;
       default:
         target = 2300;
@@ -57,12 +65,15 @@ void Catapult::start(void *ignore) {
     catapultMotor.move_voltage(power);
     printf("P: %f, I: %f, D: %f, Power: %li, Target: %i\n", error, integral, derivative,
            power, target);
-    pros::delay(dT);
+    std::uint32_t clock = sylib::millis();
+    sylib::delay_until(&clock, 20);
   }
 };
 
 void Catapult::fire() {
   if (Catapult::current_mode == Mode::Ready) {
     Catapult::current_mode = Mode::Firing;
+  } else {
+    printf("Catapult not ready yet");
   }
 }

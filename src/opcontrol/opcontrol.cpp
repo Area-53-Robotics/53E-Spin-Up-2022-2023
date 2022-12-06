@@ -27,34 +27,13 @@ void opcontrol() {
   ledStrip.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
 
   // Cycle the colors at speed 10
+  ledStrip.cycle(*ledStrip, 10);
+  // ledStrip.pulse(0xFF0000, 20, 10, 1, true, 20);
+  // ledStrip.pulse(0xFF0000, 20, 10, 21, false, 40);
 
   while (true) {
-
-    // if (controller.get_digital(E_CONTROLLER_DIGITAL_A)) {
-    // piston.set_value(true);
-    // delay(5000);
-    // piston.set_value(false);
-    //}
-    if (controller.get_digital(E_CONTROLLER_DIGITAL_R2)) { // roller
-      // controller.rumble(".");
-      rollerMotor.move(100);
-      // ledStrip.cycle(*ledStrip, 10);
-      ledStrip.pulse(0xFF0000, 20, 10, 1, true, 20);
-      ledStrip.pulse(0xFF0000, 20, 10, 21, false, 40);
-    } else {
-      rollerMotor.move(0);
-    }
-    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) { // launcher
-      controller.rumble(".");
-      catapult.target -= 10;
-    }
-
-    if (controller.get_digital_new_press(
-            E_CONTROLLER_DIGITAL_B)) { // drive switch
-      controller.rumble(".");
-      isDriveReversed = !isDriveReversed;
-    }
-
+    // Move drivetrain
+    //TODO: run chassis in task
     if (isDriveReversed == true) {
       leftMotors.move(controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y) * -1);
       rightMotors.move(controller.get_analog(E_CONTROLLER_ANALOG_LEFT_Y) * -1);
@@ -64,38 +43,25 @@ void opcontrol() {
     }
 
     if (controller.get_digital_new_press(
-            E_CONTROLLER_DIGITAL_R1)) { // intake + toggle
+            E_CONTROLLER_DIGITAL_B)) { // drive switch
       controller.rumble(".");
+      isDriveReversed = !isDriveReversed;
+    }
+    //Toggle Intake
+    if (controller.get_digital(E_CONTROLLER_DIGITAL_R2)) {
+      controller.rumble(".");
+      intake.set_mode(Intake::Mode::SpinningRoller);
 
-      if (intakeOn == false) {
-        rollerMotor.move(-127);
-        intakeOn =
-            true; //////////////////////////////////////////////////////// tune
-      } else if (intakeOn == true) {
-        rollerMotor.move(0);
-        intakeOn = false;
-      }
+    } else {
+      intake.set_mode(Intake::Mode::Off);
     }
 
-    // if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_LEFT))
-    // {moveBangBang(50,true);} if
-    // (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT))
-    // {moveBangBang(50,false);}
+    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) { // launcher
+      controller.rumble(".");
+      catapult.fire();
+    }
 
-    // int pixelNum = potentiometer.get_value();
-
-    // ledStrip.set_pixel(0xd13030, pixelNum);
-
-    // if (potentiometer.get_angle() == 0) {
-    // ledStrip.gradient(0x30d15b, 0xFF0005, 0, 0, false, true);
-    //} // green
-    // if (potentiometer.get_angle() == 50) {0xf5fc0f;} //yellow
-    // if (potentiometer.get_angle(1 == 75) {0xe0a31f;} //orange
-    // if (potentiometer.get_angle() == 100) {0xd13030;} //red
+    std::uint32_t clock = sylib::millis();
+    sylib::delay_until(&clock, 20);
   }
-
-  std::uint32_t clock = sylib::millis();
-  sylib::delay_until(&clock, 20);
-
-  // delay(20);
 }
