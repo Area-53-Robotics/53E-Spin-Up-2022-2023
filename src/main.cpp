@@ -30,7 +30,6 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-    leftEncoder.reset();
   pros::lcd::initialize();
   sylib::initialize();
   pros::lcd::set_text(1, ":)");
@@ -40,11 +39,6 @@ void initialize() {
   Task printDataTask(printData);
   pros::Task catapultController(catapult.start);
   pros::Task intakeControler(intake.start);
-
-  // Task launcherMoveTask(launcherMoveTask);
-  launcherMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-  // right1.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
-  // left1.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 }
 
 /**

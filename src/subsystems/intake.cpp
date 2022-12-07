@@ -1,7 +1,7 @@
 #include "subsystems/intake.hpp"
 #include "api.h"
 
-pros::Motor intakeMotor(10, pros::E_MOTOR_GEAR_RED, true);
+pros::Motor intakeMotor(20, pros::E_MOTOR_GEAR_RED, true);
 
 Intake::Mode Intake::current_mode = Intake::Mode::Off;
 
