@@ -1,4 +1,3 @@
-
 /**
  * Runs the user autonomous code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -12,6 +11,7 @@
  */
 
 #include "main.h"
+#include "utils/auton.hpp"
 
 void autonomous() {
   // Set the LED strip to a gradient in HSV color space

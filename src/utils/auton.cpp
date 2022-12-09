@@ -1,9 +1,7 @@
-#include "main.h"
-#include "pros/rtos.hpp"
-
-
-
-
+#include "utils/auton.hpp"
+#include "devices.h"
+#include "api.h"
+#include <cmath>
 
 void movePid(double target, bool isReverse) {
   leftEncoder.reset();
@@ -21,14 +19,14 @@ void movePid(double target, bool isReverse) {
   long int power_right;
 
   float derivative_left;
-  float derivative_rght;
+  float derivative_right;
   float prev_error_left;
   float prev_error_right;
 
   float integral_right;
   float intrgral_left;
   
-  while (errorLeft > 0 && errorRight > 0) {
+  while (error_left > 0 && error_right > 0) {
     distMovedLeft = (leftEncoder.get_value() * circ / 360);
     distMovedRight = (rightEncoder.get_value() * circ / 360);
 
@@ -37,17 +35,19 @@ void movePid(double target, bool isReverse) {
 
 
     derivative_left = error_left - prev_error_left;
-    derivative_right = error_right - pre_error_right;
+    derivative_right = error_right - prev_error_right;
 
-      power_left = (error * kP)  +  (derivative * kD);
+    power_left = (error_left * kP)  +  (derivative_left * kD);
+    power_right = (error_right * kP)  +  (derivative_right * kD);
+
 
     
     if (!isReverse) {
       leftMotors.move(power_left);
-      rightMotors.move(power_right)
+      rightMotors.move(power_right);
     } else {
       leftMotors.move(power_left * -1);
-      rightMotor.move(power_right * -1);
+      rightMotors.move(power_right * -1);
     }
 
     pros::delay(20);
@@ -79,7 +79,7 @@ void turnBangBang(double target) {
   }
   leftMotors.move(0);
   rightMotors.move(0);
-  encoderMutex.give(); */
+  encoderMutex.give();
 
 }
 

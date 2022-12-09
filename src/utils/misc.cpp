@@ -1,4 +1,7 @@
-#include "main.h"
+#include "utils/misc.hpp"
+#include "api.h"
+#include <cmath>
+#include "devices.h"
 
 float arcMeasure(float arcLength, float radius) {
   return (arcLength / (2 * radius * M_PI)) * 360;

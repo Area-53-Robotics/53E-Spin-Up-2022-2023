@@ -36,7 +36,7 @@ void initialize() {
   controller.clear();
 
   // Start background tasks
-  Task printDataTask(printData);
+  //Task printDataTask(printData);
   pros::Task catapultController(catapult.start);
   pros::Task intakeControler(intake.start);
 }
@@ -57,4 +57,6 @@ void disabled() { printf("Disabled lmao\n"); }
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() {
+  //auton selector goes here
+}
