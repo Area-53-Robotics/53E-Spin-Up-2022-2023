@@ -1,119 +1,60 @@
 #include "main.h"
 #include "pros/rtos.hpp"
-#include <cmath>
-#include <thread>
 
 
-void moveBangBangLeft(double target, bool isReverse) {
-    //rightEncoder.reset();
-  // double distMovedLeft;
+
+
+
+void movePid(double target, bool isReverse) {
   leftEncoder.reset();
   rightEncoder.reset();
   double distMovedLeft = 0;
   double distMovedRight = 0;
-  float error = target;
   //const float radius = 2.75;
   const float circ = 17.28;
-  float kP = 10;
-  float kD = 15;
-  float power;
-  float derivative;
-  float prevError;
+  float kP = 10.0;
+  float kI = 0.0;
+  float kD = 0.0;
+  float error_left = target;
+  float error_right = target;
+  long int power_left;
+  long int power_right;
+
+  float derivative_left;
+  float derivative_rght;
+  float prev_error_left;
+  float prev_error_right;
+
+  float integral_right;
+  float intrgral_left;
   
-  delay(10);
-
-  while (error > 0) {
+  while (errorLeft > 0 && errorRight > 0) {
     distMovedLeft = (leftEncoder.get_value() * circ / 360);
-    int error = target - distMovedLeft;
-    controller.print(0, 0, "error =  %d", error);
+    distMovedRight = (rightEncoder.get_value() * circ / 360);
 
-//////////////////////////////////////////////////////////////////////////////
-      derivative = error - prevError;
-      prevError = error;
+    error_left = target - distMovedLeft;
+    error_right = target - distMovedRight;
 
-      power = (error * kP)  +  (derivative * kD);
-////////////////////////////////////////////////////////////////////////////// Derivatave moment moment
- 
-    // Absolute value of floating point number
-      //controller.print(2, 0, "Error =  %d", );
+
+    derivative_left = error_left - prev_error_left;
+    derivative_right = error_right - pre_error_right;
+
+      power_left = (error * kP)  +  (derivative * kD);
+
     
     if (!isReverse) {
-
-      leftMotors.move(power);
-      
-
-
+      leftMotors.move(power_left);
+      rightMotors.move(power_right)
     } else {
-
-      leftMotors.move(-power);
-     
-
+      leftMotors.move(power_left * -1);
+      rightMotor.move(power_right * -1);
     }
 
-    delay(20);
+    pros::delay(20);
   }
-  
   leftMotors.move(0);
- 
-}
-
-//--------------------------------------------
-
-
-void moveBangBangRight(double target, bool isReverse) {
-    //rightEncoder.reset();
-  // double distMovedLeft;
-  leftEncoder.reset();
-  rightEncoder.reset();
-  double distMovedLeft = 0;
-  double distMovedRight = 0;
-  float error = target;
-  //const float radius = 2.75;
-  const float circ = 17.28;
-  float kP = 10;
-  float kD = 15;
-  float power;
-  float derivative;
-  float prevError;
-  
-  delay(10);
-
-  while (error > 0) {
-    distMovedLeft = (leftEncoder.get_value() * circ / 360);
-    int error = target - distMovedLeft;
-    controller.print(0, 0, "error =  %d", error);
-
-//////////////////////////////////////////////////////////////////////////////
-      derivative = error - prevError;
-      prevError = error;
-
-      power = (error * kP)  +  (derivative * kD);
-////////////////////////////////////////////////////////////////////////////// Derivatave moment moment
- 
-    // Absolute value of floating point number
-      //controller.print(2, 0, "Error =  %d", );
-    
-    if (!isReverse) {
-
-      
-      rightMotors.move(power);
-
-
-    } else {
-
-    
-      rightMotors.move(-power);
-
-    }
-
-    delay(20);
-  }
-  
-
   rightMotors.move(0);
 }
-
-
 
 
 
@@ -128,7 +69,7 @@ void turnBangBang(double target) {
   leftMotors.move(target);
   rightMotors.move(target * -1);
 
-  /*while (distMoved <= target) {
+  while (distMoved <= target) {
     distMoved = (leftEncoder.get_value() - rightEncoder.get_value()) / 3.3 +
                 3.3 * M_PI / 180;
     leftMotors.move(-30);
@@ -164,9 +105,3 @@ void turnPid(Direction direction, float turnValue) {
 
   }
 }
-
-
-Mutex mutex;
-
-Task moveBangBangLeft();
-Task moveBangBangRight();

@@ -1,11 +1,14 @@
 #include "api.h"
 #include "pros/rtos.hpp"
 #include "sylib/sylib.hpp"
+
+#include "subsystems/chassis.hpp"
 #include "subsystems/catapult.hpp"
 #include "subsystems/intake.hpp"
 
 using namespace pros;
 
+inline Chassis chassis;
 inline Catapult catapult;
 inline Intake intake;
 
