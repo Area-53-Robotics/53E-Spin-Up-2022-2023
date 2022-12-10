@@ -8,6 +8,7 @@ public:
   ~Intake();
   enum class Mode {
     On,
+    Low,
     Off,
     SpinningRoller,
     Reverse,

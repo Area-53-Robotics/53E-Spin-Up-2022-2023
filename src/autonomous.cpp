@@ -9,7 +9,6 @@
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-
 #include "main.h"
 #include "utils/auton.hpp"
 
@@ -21,22 +20,13 @@ void autonomous() {
   // Cycle the colors at speed 10
   ledStrip.cycle(*ledStrip, 10);
 
-  // printf("starting auton\n");
-  // moveBangBang(10.0, false);
-  printf("moved forward\n");
-  // moveBangBang(10.0, true);
-  printf("moved back\n");
+  movePid(5, false);
 
-  //////////////////////////////////////////
+  // moveBangBangLeft(100, true);
+  // moveBangBangRight(100, true);
 
-
-
-  //moveBangBangLeft(100, true);
-  //moveBangBangRight(100, true);
-
-//  moveBangBang(100,true);
-  //turnBangBang(45);
-  
+  //  moveBangBang(100,true);
+  // turnBangBang(45);
 
   /*
       int x = 1;

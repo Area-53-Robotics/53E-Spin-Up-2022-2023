@@ -33,7 +33,7 @@ void opcontrol() {
 
   while (true) {
     // Move drivetrain
-    //TODO: run chassis in task
+    // TODO: run chassis in task
     if (isDriveReversed == true) {
       leftMotors.move(controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y) * -1);
       rightMotors.move(controller.get_analog(E_CONTROLLER_ANALOG_LEFT_Y) * -1);
@@ -47,11 +47,11 @@ void opcontrol() {
       controller.rumble(".");
       isDriveReversed = !isDriveReversed;
     }
-    //Toggle Intake
+    // Toggle Intake
     if (controller.get_digital(E_CONTROLLER_DIGITAL_R2)) {
-      controller.rumble(".");
       intake.set_mode(Intake::Mode::SpinningRoller);
-
+    } else if (controller.get_digital(E_CONTROLLER_DIGITAL_R1)) {
+      intake.set_mode(Intake::Mode::On);
     } else {
       intake.set_mode(Intake::Mode::Off);
     }
@@ -60,8 +60,8 @@ void opcontrol() {
       controller.rumble(".");
       catapult.fire();
     }
-
-    std::uint32_t clock = sylib::millis();
-    sylib::delay_until(&clock, 20);
   }
+
+  std::uint32_t clock = sylib::millis();
+  sylib::delay_until(&clock, 20);
 }

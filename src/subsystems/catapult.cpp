@@ -11,7 +11,7 @@ pros::ADIPotentiometer potentiometer(8);
 Catapult::Catapult(){};
 Catapult::~Catapult(){};
 Catapult::Mode Catapult::current_mode = Mode::Loading;
-int Catapult::target = 2300;
+int Catapult::target = 1800;
 // fire is 2200
 
 void Catapult::start(void *ignore) {
@@ -26,10 +26,11 @@ void Catapult::start(void *ignore) {
     float integral = 0;
     int prevError;
     int dT = 20;
-    float kP = 700.0;
-    float kI = 0.0;
-    float kD = 70.0;
+    float kP = 500.0;
+    float kI = 1.5;
+    float kD = 30.0;
 
+    /*
     error = (target - potentiometer.get_value()) * -1;
 
     derivative = error - prevError;
@@ -47,38 +48,43 @@ void Catapult::start(void *ignore) {
     }
 
     // speeen
-    catapultMotor.move_voltage(power);
+    */
 
-    printf("P: %f, I: %f, D: %f, Power: %li, Target: %i, Mode: %i\n", error,
-           integral, derivative, power, target, current_mode);
+    error = (target - potentiometer.get_value()) * -1;
+    if (error > 20) {
+      catapultMotor.move(127);
+    } else {
+      catapultMotor.move(0);
+    }
+
+    // printf("P: %f, I: %f, D: %f, Power: %li, Target: %i, Mode: %i\n", error,
+    // integral, derivative, power, target, current_mode);
 
     // change behavior based on mode
     switch (current_mode) {
     case Mode::Loading:
-      target = 2300;
+      target = 2000;
       if (error < 20) {
         current_mode = Mode::Ready;
       }
       break;
     case Mode::Ready:
-      target = 2300;
+      target = 2000;
       break;
     case Mode::Firing:
-      target = 2000;
-      // TODO: Fix this value
+      target = 1400;
       if (error > 1000) {
         current_mode = Mode::Loading;
         printf("loading now\n");
       }
       break;
     default:
-      target = 2300;
       printf("Invalid catapult mode\n");
       break;
     }
 
     std::uint32_t clock = sylib::millis();
-    sylib::delay_until(&clock, 20);
+    sylib::delay_until(&clock, 40);
   }
 };
 

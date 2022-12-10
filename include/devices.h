@@ -1,10 +1,8 @@
 #include "api.h"
-#include "pros/rtos.hpp"
-#include "sylib/sylib.hpp"
-
-#include "subsystems/chassis.hpp"
 #include "subsystems/catapult.hpp"
+#include "subsystems/chassis.hpp"
 #include "subsystems/intake.hpp"
+#include "sylib/sylib.hpp"
 
 using namespace pros;
 
@@ -19,13 +17,13 @@ const float trackingWheelRadius = 2.75;
 
 inline Controller controller(E_CONTROLLER_MASTER);
 
-inline Motor right1(2, E_MOTOR_GEAR_BLUE);
-inline Motor right2(3, E_MOTOR_GEAR_BLUE);
-inline Motor right3(4, E_MOTOR_GEAR_BLUE);
+inline Motor left1(16, E_MOTOR_GEAR_BLUE, true);
+inline Motor left2(17, E_MOTOR_GEAR_BLUE, true);
+inline Motor left3(18, E_MOTOR_GEAR_BLUE, true);
 
-inline Motor left1(12, E_MOTOR_GEAR_BLUE, true);
-inline Motor left2(13, E_MOTOR_GEAR_BLUE, true);
-inline Motor left3(14, E_MOTOR_GEAR_BLUE, true);
+inline Motor right1(7, E_MOTOR_GEAR_BLUE);
+inline Motor right2(8, E_MOTOR_GEAR_BLUE);
+inline Motor right3(9, E_MOTOR_GEAR_BLUE);
 
 inline Motor rollerMotor(9, E_MOTOR_GEAR_GREEN, true);
 
@@ -45,6 +43,5 @@ inline auto ledStrip = sylib::Addrled(22, 3, 40);
 inline Mutex encoderMutex;
 
 // inline ADIDigitalOut piston(8, false); // see above
-
 
 // 18 bod

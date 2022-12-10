@@ -1,6 +1,6 @@
 #include "utils/auton.hpp"
-#include "devices.h"
 #include "api.h"
+#include "devices.h"
 #include <cmath>
 
 void movePid(double target, bool isReverse) {
@@ -8,9 +8,8 @@ void movePid(double target, bool isReverse) {
   rightEncoder.reset();
   double distMovedLeft = 0;
   double distMovedRight = 0;
-  //const float radius = 2.75;
-  const float circ = 17.28;
-  float kP = 10.0;
+  const float RADIUS = 2.75;
+  float kP = 500.0;
   float kI = 0.0;
   float kD = 0.0;
   float error_left = target;
@@ -24,41 +23,37 @@ void movePid(double target, bool isReverse) {
   float prev_error_right;
 
   float integral_right;
-  float intrgral_left;
-  
+  float integral_left;
+
   while (error_left > 0 && error_right > 0) {
-    distMovedLeft = (leftEncoder.get_value() * circ / 360);
-    distMovedRight = (rightEncoder.get_value() * circ / 360);
+    distMovedLeft = (leftEncoder.get_value() * 2 * M_PI * RADIUS / 360);
+    distMovedRight = (rightEncoder.get_value() * 2 * M_PI * RADIUS / 360);
 
     error_left = target - distMovedLeft;
     error_right = target - distMovedRight;
 
+    //derivative_left = error_left - prev_error_left;
+    //derivative_right = error_right - prev_error_right;
 
-    derivative_left = error_left - prev_error_left;
-    derivative_right = error_right - prev_error_right;
+    power_left = (error_left * kP) + (derivative_left * kD);
+    power_right = (error_right * kP) + (derivative_right * kD);
+    printf("P: %f, I: %f, D: %f, Power: %li\n", error_left, integral_left,
+           derivative_left, power_left);
 
-    power_left = (error_left * kP)  +  (derivative_left * kD);
-    power_right = (error_right * kP)  +  (derivative_right * kD);
-
-
-    
     if (!isReverse) {
-      leftMotors.move(power_left);
-      rightMotors.move(power_right);
+      leftMotors.move_voltage(power_left);
+      rightMotors.move_voltage(power_right);
     } else {
-      leftMotors.move(power_left * -1);
-      rightMotors.move(power_right * -1);
+      leftMotors.move_voltage(power_left * -1);
+      rightMotors.move_voltage(power_right * -1);
     }
 
     pros::delay(20);
   }
+  printf("moved to targer\n");
   leftMotors.move(0);
   rightMotors.move(0);
 }
-
-
-
-
 
 void turnBangBang(double target) {
   encoderMutex.take();
@@ -80,7 +75,6 @@ void turnBangBang(double target) {
   leftMotors.move(0);
   rightMotors.move(0);
   encoderMutex.give();
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -90,7 +84,6 @@ void turnPid(Direction direction, float turnValue) {
   leftEncoder.reset();
   rightEncoder.reset();
 
-  
   if (direction == Left) {
     leftMotors.move_absolute(-turnValue * 5.5 * -1, 75);
     rightMotors.move_absolute(turnValue * 5.5, 75);
@@ -102,6 +95,5 @@ void turnPid(Direction direction, float turnValue) {
     rightMotors.move_absolute(turnValue * -1 * 5.5, 75);
     distTurned = abs(leftEncoder.get_value());
     controller.print(0, 0, "distTurned =  %d", distTurned);
-
   }
 }
