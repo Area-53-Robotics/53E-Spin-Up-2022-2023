@@ -2,8 +2,6 @@
 #include "api.h"
 #include "sylib/sylib.hpp"
 
-pros::Motor catapultMotor(10, pros::E_MOTOR_GEAR_RED, true);
-
 pros::ADIPotentiometer potentiometer(8);
 // If this conflicts with another
 //  device, yur gonna be sad
@@ -21,14 +19,14 @@ void Catapult::start(void *ignore) {
 
   while (true) {
     double error;
-    long int power;
-    float derivative;
-    float integral = 0;
-    int prevError;
-    int dT = 20;
-    float kP = 500.0;
-    float kI = 1.5;
-    float kD = 30.0;
+    //long int power;
+    //float derivative;
+    //float integral = 0;
+    //int prevError;
+    //int dT = 20;
+    //float kP = 500.0;
+    //float kI = 1.5;
+    //float kD = 30.0;
 
     /*
     error = (target - potentiometer.get_value()) * -1;

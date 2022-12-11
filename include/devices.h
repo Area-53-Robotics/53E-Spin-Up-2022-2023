@@ -27,7 +27,8 @@ inline Motor right3(9, E_MOTOR_GEAR_BLUE);
 
 inline Motor rollerMotor(9, E_MOTOR_GEAR_GREEN, true);
 
-inline Motor launcherMotor(10, E_MOTOR_GEAR_RED, true);
+inline Motor catapultMotor(10, E_MOTOR_GEAR_RED, true);
+
 
 inline Mutex leftMotorMutex;
 inline Mutex rightMotorMutex;

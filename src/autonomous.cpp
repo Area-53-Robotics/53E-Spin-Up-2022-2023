@@ -12,7 +12,8 @@
 #include "main.h"
 #include "utils/auton.hpp"
 
-void autonomous() {
+void autonomous() { 
+  
   // Set the LED strip to a gradient in HSV color space
   // that displays a full range of hues
   ledStrip.gradient(0x30d15b, 0xFF0005, 0, 0, false, true);
@@ -20,16 +21,18 @@ void autonomous() {
   // Cycle the colors at speed 10
   ledStrip.cycle(*ledStrip, 10);
 
-  movePid(5, false);
+  //movePid(5, false);
 
   // moveBangBangLeft(100, true);
   // moveBangBangRight(100, true);
 
   //  moveBangBang(100,true);
   // turnBangBang(45);
+  //1 towards u
+  //2 away from u
 
-  /*
-      int x = 1;
+  
+      int x = 2;
 
 
       if (x == 1) {
@@ -39,9 +42,11 @@ void autonomous() {
       delay(1000);
       leftMotors.move(0);
       rightMotors.move(0);
-      rollerMotor.move(40);
-      delay(1000);
-      rollerMotor.move(0);}
+      intake.set_mode(Intake::Mode::On);
+      delay(100);
+      intake.set_mode(Intake::Mode::Off);
+
+      delay(1000);}
 
       if (x == 2) { //blue (one behind)
           leftMotors.move(-20);
@@ -49,18 +54,19 @@ void autonomous() {
       delay(1000);
       leftMotors.move(0);
       rightMotors.move(0);
-      rollerMotor.move(-30);
-      delay(1000);
-      rollerMotor.move(0);
+      intake.set_mode(Intake::Mode::Reverse);
+      delay(100);
+      intake.set_mode(Intake::Mode::Off);
       }
 
 
 
-      delay(1000);
-      leftMotors.move_absolute(10, 50);
-      rightMotors.move_absolute(10,50);
-      delay(1000);
-      rightMotors.move_absolute(20,100);
+      //delay(1000);
+      //leftMotors.move_absolute(10, 50);
+      //rightMotors.move_absolute(10,50);
+     // delay(1000);
+     // rightMotors.move_absolute(20,100);
+     
 
-  */
 }
+
