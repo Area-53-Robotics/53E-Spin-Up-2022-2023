@@ -1,6 +1,7 @@
 #include "main.h"
 #include "pros/rtos.hpp"
 #include "subsystems/catapult.hpp"
+#include "cmath"
 
 /*
  * Runs the operator control code. This function will be started in its own task
@@ -16,6 +17,16 @@
  * task, not resume it from where it left off.
  */
 //////////////////////////////////////////////////////////////////////////
+
+float driveCurve(float joystickPosition) {
+  float a = 39.0873;
+  float b = 1.01146;
+  float c = -a;
+
+  float driveVoltage = (a * pow(b, fabs(joystickPosition)) + c) * fabs(joystickPosition)/joystickPosition;
+
+  return driveVoltage;
+ }
 
 void opcontrol() {
   // Catapult cata;
@@ -34,12 +45,15 @@ void opcontrol() {
   while (true) {
     // Move drivetrain
     // TODO: run chassis in task
+
     if (isDriveReversed == true) {
-      leftMotors.move(controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y) * -1);
-      rightMotors.move(controller.get_analog(E_CONTROLLER_ANALOG_LEFT_Y) * -1);
+
+      leftMotors.move(driveCurve(controller.get_analog(E_CONTROLLER_ANALOG_LEFT_Y)) * -1);
+      rightMotors.move(driveCurve(controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y)) * -1);
+
     } else {
-      leftMotors.move(controller.get_analog(E_CONTROLLER_ANALOG_LEFT_Y));
-      rightMotors.move(controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y));
+      leftMotors.move(driveCurve(controller.get_analog(E_CONTROLLER_ANALOG_LEFT_Y)));
+      rightMotors.move(driveCurve(controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y)));
     }
 
     if (controller.get_digital_new_press(

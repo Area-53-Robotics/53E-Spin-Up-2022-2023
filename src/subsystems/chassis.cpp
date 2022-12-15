@@ -1,6 +1,7 @@
-#include "main.h"
+/*#include "main.h"
 #include "subsystems/chassis.hpp"
-pros::Motor L1(2, E_MOTOR_GEAR_BLUE), L2(3, E_MOTOR_GEAR_BLUE),
+pros::Motor L1(2, E_MOTOR_GEAR_BLUE), 
+L2(3, E_MOTOR_GEAR_BLUE),
     L3(4, E_MOTOR_GEAR_BLUE);
 pros::Motor R1(5, E_MOTOR_GEAR_BLUE), R2(6, E_MOTOR_GEAR_BLUE),
     R3(7, E_MOTOR_GEAR_BLUE);
@@ -17,3 +18,4 @@ void Chassis::move(int left, int right) {
     R2.move(right);
     R3.move(right);
 }
+*/
