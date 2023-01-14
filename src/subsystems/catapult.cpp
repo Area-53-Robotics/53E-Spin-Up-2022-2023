@@ -49,7 +49,7 @@ void Catapult::start(void *ignore) {
     */
 
     error = (target - potentiometer.get_value()) * -1;
-    if (error > 20) {
+    if (error > 20 and catapultMotor.get_torque() < 100) {
       catapultMotor.move(127);
     } else {
       catapultMotor.move(0);
@@ -61,13 +61,13 @@ void Catapult::start(void *ignore) {
     // change behavior based on mode
     switch (current_mode) {
     case Mode::Loading:
-      target = 2000;
+      target = 2100;
       if (error < 20) {
         current_mode = Mode::Ready;
       }
       break;
     case Mode::Ready:
-      target = 2000;
+      //target = 3000;
       break;
     case Mode::Firing:
       target = 1400;

@@ -1,8 +1,8 @@
 #ifndef AUTON_HPP
 #define AUTON_HPP
-// Auton:
+// Aton:
 enum class Auton { RedLeft, RedRight, BlueLeft, BlueRight, Skills };
-enum Direction { Left, Right, Forward, Backward };
+enum Direction { Left, Right};
 
 void turnBangBang(double target);
 

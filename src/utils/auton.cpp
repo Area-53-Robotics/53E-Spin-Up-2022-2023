@@ -4,14 +4,16 @@
 #include <cmath>
 
 void movePid(double target, bool isReverse) {
+
+  
   leftEncoder.reset();
   rightEncoder.reset();
   double distMovedLeft = 0;
   double distMovedRight = 0;
   const float RADIUS = 2.75;
-  float kP = 500.0;
+  float kP = 400;
   float kI = 0.0;
-  float kD = 0.0;
+  float kD = 5;
   float error_left = target;
   float error_right = target;
   long int power_left;
@@ -25,26 +27,34 @@ void movePid(double target, bool isReverse) {
   float integral_right;
   float integral_left;
 
-  while (error_left > 0 && error_right > 0) {
-    distMovedLeft = (leftEncoder.get_value() * 2 * M_PI * RADIUS / 360);
+  while (/*error_left > 0 && */error_right > 0) {
+    //printf("Left Error = %f \n", error_left);
+
+    printf("Error = %f \n", error_left);
+    printf("Encoder Value = %f \n", rightEncoder.get_value());
+
+
+
+    
+   // distMovedLeft = (leftEncoder.get_value() * 2 * M_PI * RADIUS / 360);
     distMovedRight = (rightEncoder.get_value() * 2 * M_PI * RADIUS / 360);
 
-    error_left = target - distMovedLeft;
+   // error_left = target - distMovedLeft;
     error_right = target - distMovedRight;
 
     //derivative_left = error_left - prev_error_left;
     //derivative_right = error_right - prev_error_right;
 
-    power_left = (error_left * kP) + (derivative_left * kD);
+   // power_left = (error_left * kP) + (derivative_left * kD);
     power_right = (error_right * kP) + (derivative_right * kD);
-    printf("P: %f, I: %f, D: %f, Power: %li\n", error_left, integral_left,
-           derivative_left, power_left);
+   // printf("P: %f, I: %f, D: %f, Power: %li\n", error_left, integral_left,
+         //  derivative_left, power_left);
 
     if (!isReverse) {
-      leftMotors.move_voltage(power_left);
+      leftMotors.move_voltage(power_right);
       rightMotors.move_voltage(power_right);
     } else {
-      leftMotors.move_voltage(power_left * -1);
+      leftMotors.move_voltage(power_right * -1);
       rightMotors.move_voltage(power_right * -1);
     }
 
@@ -80,20 +90,44 @@ void turnBangBang(double target) {
 ///////////////////////////////////////////////////////////////////////////////////
 
 void turnPid(Direction direction, float turnValue) {
+
   float distTurned;
   leftEncoder.reset();
   rightEncoder.reset();
+  left1.tare_position();
+  right1.tare_position();
+  
 
-  if (direction == Left) {
-    leftMotors.move_absolute(-turnValue * 5.5 * -1, 75);
-    rightMotors.move_absolute(turnValue * 5.5, 75);
-    distTurned = abs(leftEncoder.get_value());
-    controller.print(0, 0, "distTurned =  %d", distTurned);
+  float leftValue;
+  float rightValue;
+  float change;
+  float degrees;
+  int dirValue;
 
-  } else if (direction == Right) {
-    leftMotors.move_absolute(turnValue * 1 * 5.5, 75);
-    rightMotors.move_absolute(turnValue * -1 * 5.5, 75);
-    distTurned = abs(leftEncoder.get_value());
-    controller.print(0, 0, "distTurned =  %d", distTurned);
+  while(degrees < turnValue) {
+    leftValue = left1.get_position();
+  rightValue = right1.get_position();
+
+  change = (leftValue - rightValue) / 12; //distance across;
+  degrees = (change * (180 / M_PI)) * -1;
+
+  printf("degrees = %f \n", degrees);
+  printf("target = %f \n", turnValue);
+
+    switch (direction) {
+      case Left:
+      leftMotors.move(-50);
+      rightMotors.move(50);
+      printf("degrees = %f \n", degrees);
+      break;
+
+      case Right: 
+      leftMotors.move(50);
+      rightMotors.move(-50);
+      printf("degrees = %f \n", degrees);
+      break;
+    }
   }
-}
+  delay(20);
+}                 
+

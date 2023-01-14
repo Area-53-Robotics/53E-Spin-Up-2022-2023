@@ -6,7 +6,7 @@
 
 using namespace pros;
 
-inline Chassis chassis;
+//inline Chassis chassis;
 inline Catapult catapult;
 inline Intake intake;
 

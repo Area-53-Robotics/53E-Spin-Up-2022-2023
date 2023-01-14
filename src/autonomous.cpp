@@ -28,12 +28,17 @@ void autonomous() {
 
   //  moveBangBang(100,true);
   // turnBangBang(45);
-  //1 towards u
-  //2 away from u
+  //1 towards you
+  //2 away from you
 
   
-      int x = 2;
+      int x = 0; //2 to roller 5 to shoot 0 PID
 
+      if (x == 0) {
+        //turnPid(Left,90);
+        movePid(10, false);
+
+      }
 
       if (x == 1) {
       //red (one forward)
@@ -49,8 +54,8 @@ void autonomous() {
       delay(1000);}
 
       if (x == 2) { //blue (one behind)
-          leftMotors.move(-20);
-      rightMotors.move(-20);
+      leftMotors.move(-30);
+      rightMotors.move(-30);
       delay(1000);
       leftMotors.move(0);
       rightMotors.move(0);
@@ -58,6 +63,55 @@ void autonomous() {
       delay(100);
       intake.set_mode(Intake::Mode::Off);
       }
+
+      if (x == 3) { //blue (one behind)
+      leftMotors.move(-30);
+      rightMotors.move(-30);
+      delay(1000);
+      leftMotors.move(0);
+      rightMotors.move(0);
+      intake.set_mode(Intake::Mode::Reverse);
+      delay(100);
+      intake.set_mode(Intake::Mode::Off);
+      leftMotors.move(40);
+      rightMotors.move(-40);
+      delay(1050);
+      leftMotors.move(0);
+      rightMotors.move(0);
+      leftMotors.move(40);
+      rightMotors.move(40);
+      delay(1000);
+      leftMotors.move(0);
+      rightMotors.move(0);
+      catapult.fire();
+      }
+
+       if (x == 4) { //prog skills
+      leftMotors.move(-30);
+      rightMotors.move(-30);
+      delay(1000);
+      leftMotors.move(0);
+      rightMotors.move(0);
+      intake.set_mode(Intake::Mode::Reverse);
+      delay(200);
+      intake.set_mode(Intake::Mode::Off);
+      leftMotors.move(40);
+      rightMotors.move(-40);
+      delay(1050);
+      leftMotors.move(0);
+      rightMotors.move(0);
+      leftMotors.move(40);
+      rightMotors.move(40);
+      delay(1000);
+      leftMotors.move(0);
+      rightMotors.move(0);
+      catapult.fire();
+      }
+
+      if (x == 5) { //turn and shoot low
+      catapult.fire();
+      }
+
 
 
 

@@ -24,11 +24,16 @@ float driveCurve(float joystickPosition) {
   float c = -a;
 
   float driveVoltage = (a * pow(b, fabs(joystickPosition)) + c) * fabs(joystickPosition)/joystickPosition;
-
+  printf("voltage = %f \n", driveVoltage);
+  //controller.set_text("Voltage = %f \n", driveVoltage);
   return driveVoltage;
  }
 
 void opcontrol() {
+  //float cataTorque = catapultMotor.get_voltage();
+  //printf("torque %f \n", cataTorque);
+
+
   // Catapult cata;
 
   bool isDriveReversed = false;
