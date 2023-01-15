@@ -21,11 +21,11 @@ inline Motor left1(16, E_MOTOR_GEAR_BLUE, true);
 inline Motor left2(17, E_MOTOR_GEAR_BLUE, true);
 inline Motor left3(18, E_MOTOR_GEAR_BLUE, true);
 
-inline Motor right1(7, E_MOTOR_GEAR_BLUE);
-inline Motor right2(8, E_MOTOR_GEAR_BLUE);
-inline Motor right3(9, E_MOTOR_GEAR_BLUE);
+inline Motor right1(6, E_MOTOR_GEAR_BLUE);
+inline Motor right2(7, E_MOTOR_GEAR_BLUE);
+inline Motor right3(8, E_MOTOR_GEAR_BLUE);
 
-inline Motor rollerMotor(9, E_MOTOR_GEAR_GREEN, true);
+inline Motor rollerMotor(20, E_MOTOR_GEAR_GREEN, true);
 
 inline Motor catapultMotor(10, E_MOTOR_GEAR_RED, true);
 
@@ -38,11 +38,11 @@ inline pros::Motor_Group rightMotors({right1, right2, right3});
 // note to future generations: conlifting triports defs
 // will make you want to kys
 
-inline ADIEncoder leftEncoder(6, 7);
-inline ADIEncoder rightEncoder(4, 5);
-inline auto ledStrip = sylib::Addrled(22, 3, 40);
+inline ADIEncoder leftEncoder('e', 'f');
+inline ADIEncoder rightEncoder('c', 'd');
+inline auto ledStrip = sylib::Addrled(22, 2, 40);
 inline Mutex encoderMutex;
 
-// inline ADIDigitalOut piston(8, false); // see above
+inline ADIDigitalOut piston(1, false); // see above
 
 // 18 bod

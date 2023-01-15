@@ -34,9 +34,32 @@ void autonomous() {
   
       int x = 0; //2 to roller 5 to shoot 0 PID
 
+      if (x == 17) {movePid(15, false);} // pid tuning
+
       if (x == 0) {
-        //turnPid(Left,90);
-        movePid(10, false);
+        leftMotors.move(40);
+      rightMotors.move(40);
+      delay(1500);
+      leftMotors.move(0);
+      rightMotors.move(0);
+      intake.set_mode(Intake::Mode::Reverse);
+      delay(100);
+      intake.set_mode(Intake::Mode::Off);
+      delay(1000);
+      leftMotors.move(-30);
+      rightMotors.move(-30);
+      delay(1000);
+      leftMotors.move(0);
+      rightMotors.move(0);
+      delay(1000);
+      leftMotors.move(-50); //turn
+      rightMotors.move(50);
+      delay(1000);
+      leftMotors.move(0);
+      rightMotors.move(0);
+      //catapult.fire();
+
+
 
       }
 
@@ -54,14 +77,15 @@ void autonomous() {
       delay(1000);}
 
       if (x == 2) { //blue (one behind)
-      leftMotors.move(-30);
-      rightMotors.move(-30);
+      leftMotors.move(30);
+      rightMotors.move(30);
       delay(1000);
       leftMotors.move(0);
       rightMotors.move(0);
       intake.set_mode(Intake::Mode::Reverse);
       delay(100);
       intake.set_mode(Intake::Mode::Off);
+      
       }
 
       if (x == 3) { //blue (one behind)

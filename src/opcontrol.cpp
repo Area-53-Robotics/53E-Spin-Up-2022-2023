@@ -50,6 +50,11 @@ void opcontrol() {
   while (true) {
     // Move drivetrain
     // TODO: run chassis in task
+    printf("EncoderValue %i \n", leftEncoder.get_value());
+
+    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_LEFT) && 
+    controller.get_digital_new_press(E_CONTROLLER_DIGITAL_A)) { 
+      piston.set_value(1);}
 
     if (isDriveReversed == true) {
 
