@@ -45,4 +45,6 @@ inline Mutex encoderMutex;
 
 inline ADIDigitalOut piston(1, false); // see above
 
+inline Imu imu_sensor(2);
+
 // 18 bod

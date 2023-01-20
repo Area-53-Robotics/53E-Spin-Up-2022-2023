@@ -12,6 +12,8 @@
 #include "main.h"
 #include "utils/auton.hpp"
 
+
+
 void autonomous() {
 
   // Set the LED strip to a gradient in HSV color space
@@ -31,15 +33,15 @@ void autonomous() {
   // 1 towards you
   // 2 away from you
 
-  int x = 0; // 2 to roller 5 to shoot 0 PID
+  int x = 1; // 2 to roller 5 to shoot 0 PID
+  Auton auton;
 
   if (x == 15) {
-    movePid(15, false);
-    printf("boop");
+    movePid(150,false);
 
-  } // pid tuning
+  } // pid tuning true for cata forward, false for roller forward
 
-  if (x == 0) {
+  if (auton == Auton::rollerShoot) { //leftside auton (shoot discs to the right)
     leftMotors.move(20);
     rightMotors.move(20);
     delay(1000);
@@ -60,59 +62,30 @@ void autonomous() {
     delay(1000);
     leftMotors.move(-40); // turn
     rightMotors.move(40);
-    delay(2000);
+    delay(900);
     leftMotors.move(0); // turn
     rightMotors.move(0);
   }
 
-  if (x == 1) {
-    // red (one forward)
-    leftMotors.move(-20);
-    rightMotors.move(-20);
-    delay(1000);
-    leftMotors.move(0);
-    rightMotors.move(0);
-    intake.set_mode(Intake::Mode::On);
-    delay(100);
-    intake.set_mode(Intake::Mode::Off);
-
-    delay(1000);
+  if (auton == Auton::moveRoller) { //leftside auton (move to roller)
+  movePid(8,false);
+  delay(1000);
+  turnPid(Right,90);
+  delay(1000);
+  movePid(30,false);
+  delay(1000);
+  turnPid(Right,90);
+  delay(1000);
+  leftMotors.move(30);
+  rightMotors.move(30);
+  delay(1000);
+  intake.set_mode(Intake::Mode::On);
+  delay(120);
+  intake.set_mode(Intake::Mode::Off);
   }
+  
 
-  if (x == 2) { // blue (one behind)
-    leftMotors.move(30);
-    rightMotors.move(30);
-    delay(1000);
-    leftMotors.move(0);
-    rightMotors.move(0);
-    intake.set_mode(Intake::Mode::Reverse);
-    delay(100);
-    intake.set_mode(Intake::Mode::Off);
-  }
-
-  if (x == 3) { // blue (one behind)
-    leftMotors.move(-30);
-    rightMotors.move(-30);
-    delay(1000);
-    leftMotors.move(0);
-    rightMotors.move(0);
-    intake.set_mode(Intake::Mode::Reverse);
-    delay(100);
-    intake.set_mode(Intake::Mode::Off);
-    leftMotors.move(40);
-    rightMotors.move(-40);
-    delay(1050);
-    leftMotors.move(0);
-    rightMotors.move(0);
-    leftMotors.move(40);
-    rightMotors.move(40);
-    delay(1000);
-    leftMotors.move(0);
-    rightMotors.move(0);
-    catapult.fire();
-  }
-
-  if (x == 4) { // prog skills
+  if (auton == Auton::progSkills) { // prog skills
     leftMotors.move(40);
     rightMotors.move(40);
     delay(1000);
@@ -146,9 +119,7 @@ void autonomous() {
     piston.set_value(1);
   }
 
-  if (x == 5) { // turn and shoot low
-    catapult.fire();
-  }
+  
 
   // delay(1000);
   // leftMotors.move_absolute(10, 50);

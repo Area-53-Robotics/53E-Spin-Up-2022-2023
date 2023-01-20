@@ -88,55 +88,49 @@ void turnBangBang(double target) {
 ///////////////////////////////////////////////////////////////////////////////////
 
 void turnPid(Direction direction, float turnValue) {
+  imu_sensor.tare();
+  printf("started");
 
-  float distTurned;
-  leftEncoder.reset();
-  rightEncoder.reset();
-  left2.tare_position();
-  right2.tare_position();
 
-  float leftValue;
-  float rightValue;
-  float change;
+  const float RADIUS = 2.75;
+  float kP = 5;
+  float kI = 1;
+  float kD = 20;
+  float prev_error;
   float degrees;
-  int dirValue;
+  float error = turnValue;
+  long int power;
 
-  while (degrees < turnValue) {
-    leftValue = left2.get_position();
-    rightValue = right2.get_position();
+  float derivative;
+  float prev_error_left;
 
-    // printf("Left = %f \n", leftValue);
-    // printf("Right = %f \n", rightValue);
+  float integral_left;
 
-    change = (leftValue - rightValue) / 12; // distance across;
-    degrees = fabs((change * (180 / M_PI)));
+  while (error > 0.1) {
+    // printf("Left Error = %f \n", error_left);
+    // printf("Encoder Value = %i \n", leftEncoder.get_value());
+    // printf("distMovedLeft = %f \n", distMovedLeft);
+    // printf("-")
 
-    printf("change = %f \n", change);
+    degrees = imu_sensor.get_rotation();
+    prev_error = error;
+    error = turnValue - degrees;
+    derivative = error - prev_error;
+    printf("error = %f  \n", error);
 
-    printf("degrees = %f \n", degrees);
-    printf("left = %f \n", leftValue);
-    printf("right = %f \n", rightValue);
-    printf("turnValue = %f \n", turnValue);
+    power = (error * kP) + (derivative * kD);
+    leftMotors.move(power);
+    rightMotors.move(power * -1);
 
-    leftMotors.move(-50);
-    rightMotors.move(50);
-
-    // printf("degrees = %f \n", degrees);
-    // printf("target = %f \n", turnValue);
-
-    /* switch (direction) {
-       case Left:
-       leftMotors.move(-50);
-       rightMotors.move(50);
-       printf("degrees = %f \n", degrees);
-       break;
-
-       case Right:
-       leftMotors.move(50);
-       rightMotors.move(-50);
-       printf("degrees = %f \n", degrees);
-       break;
-     } */
+    if (power > 127) {
+      power = 127;
+    }
     delay(20);
   }
+    leftMotors.move(0);
+    rightMotors.move(0);
+    printf("done \n");
 }
+
+
+
