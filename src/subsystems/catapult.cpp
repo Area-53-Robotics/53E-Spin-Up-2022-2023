@@ -1,15 +1,16 @@
 #include "subsystems/catapult.hpp"
 #include "api.h"
 #include "sylib/sylib.hpp"
+#include "main.h"
 
-pros::ADIPotentiometer potentiometer(8);
 // If this conflicts with another
 //  device, yur gonna be sad
+
 
 Catapult::Catapult(){};
 Catapult::~Catapult(){};
 Catapult::Mode Catapult::current_mode = Mode::Loading;
-int Catapult::target = 1800;
+int Catapult::target = 1800; 
 // fire is 2200
 
 void Catapult::start(void *ignore) {
@@ -61,8 +62,8 @@ void Catapult::start(void *ignore) {
     // change behavior based on mode
     switch (current_mode) {
     case Mode::Loading:
-      target = 2100;
-      if (error < 40) {
+      target = 2000;  //2100
+      if (error < 50) {
         current_mode = Mode::Ready;
       }
       break;
@@ -70,7 +71,7 @@ void Catapult::start(void *ignore) {
       //target = 3000;
       break;
     case Mode::Firing:
-      target = 1400;
+      target = 0;
       if (error > 1000) {
         current_mode = Mode::Loading;
         printf("loading now\n");

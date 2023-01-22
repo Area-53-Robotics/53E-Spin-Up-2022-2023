@@ -34,10 +34,10 @@ void autonomous() {
   // 2 away from you
 
   int x = 1; // 2 to roller 5 to shoot 0 PID
-  Auton auton;
+  Auton auton = Auton::moveRoller; ///////////////////////////////////////////////////////////
 
-  if (x == 15) {
-    movePid(150,false);
+  if (auton == Auton::testing) {
+    movePid(120,false);
 
   } // pid tuning true for cata forward, false for roller forward
 
@@ -53,69 +53,108 @@ void autonomous() {
     delay(1000);
     movePid(5, true);
     delay(1100);
-    leftMotors.move(40); // turn
-    rightMotors.move(-40);
-    delay(900);
-    leftMotors.move(0);
-    rightMotors.move(0);
+    turnPid(Right, 90);
+    delay(1000);
+    catapult.fire();
+    delay(200);
+    catapult.fire();
+    delay(200);
     catapult.fire();
     delay(1000);
-    leftMotors.move(-40); // turn
-    rightMotors.move(40);
-    delay(900);
-    leftMotors.move(0); // turn
-    rightMotors.move(0);
+    turnPid(Right,-90);
   }
 
   if (auton == Auton::moveRoller) { //leftside auton (move to roller)
-  movePid(8,false);
+  movePid(11,false);
   delay(1000);
   turnPid(Right,90);
   delay(1000);
-  movePid(30,false);
+  movePid(34,false); /////
   delay(1000);
-  turnPid(Right,90);
+  turnPid(Right,80);
   delay(1000);
   leftMotors.move(30);
-  rightMotors.move(30);
-  delay(1000);
+  rightMotors.move(30) ;
+  delay(1100);
   intake.set_mode(Intake::Mode::On);
-  delay(120);
+  delay(140);
   intake.set_mode(Intake::Mode::Off);
+  delay(1000);
+
+  leftMotors.move(-20);
+  rightMotors.move(-20);
+  delay(900);
+    leftMotors.move(0);
+  rightMotors.move(0);
+  delay(1000);
+  turnPid(Left,90);
+  delay(1000);
+  catapult.fire();
+  delay(200);
+  catapult.fire();
+  delay(200);
+  catapult.fire();
   }
   
 
   if (auton == Auton::progSkills) { // prog skills
-    leftMotors.move(40);
-    rightMotors.move(40);
+    leftMotors.move(20);
+    rightMotors.move(20);
     delay(1000);
     leftMotors.move(0);
     rightMotors.move(0);
     intake.set_mode(Intake::Mode::Reverse);
-    delay(400);
-    intake.set_mode(Intake::Mode::Off);
+  delay(120);
+  intake.set_mode(Intake::Mode::Off);
     delay(1000);
     movePid(5, true);
     delay(1100);
-    leftMotors.move(40); // turn
-    rightMotors.move(-40);
-    delay(850);
+    turnPid(Right, 90);
+    delay(1000);
+    catapult.fire();
+    delay(200);
+    catapult.fire();
+    delay(200);
+    catapult.fire();
+    delay(200);
+    delay(1000);
+    turnPid(Right,90);
+    delay(2000);
+
+    leftMotors.move(40);
+    rightMotors.move(40);
+    delay(1200);
     leftMotors.move(0);
     rightMotors.move(0);
-    catapult.fire();
+
+    
+    
     delay(1000);
-    leftMotors.move(-40); // turn
-    rightMotors.move(40);
-    delay(450);
-    leftMotors.move(0); // turn
+    turnPid(Left, 90);
+    delay(1000);
+    movePid(35,false);
+    delay(1000);
+    leftMotors.move(20);
+    rightMotors.move(20);
+    delay(9000);
+    leftMotors.move(0);
     rightMotors.move(0);
     delay(1000);
-    leftMotors.move(-25); // turn
-    rightMotors.move(-25);
-    delay(1500);
-    leftMotors.move(0); // turn
-    rightMotors.move(0);
+    intake.set_mode(Intake::Mode::Reverse);
+  delay(120);
+  intake.set_mode(Intake::Mode::Off);
     delay(1000);
+
+
+
+    leftMotors.move(-40);
+    rightMotors.move(-40);
+    delay(2000);
+    leftMotors.move(0);
+    rightMotors.move(0);
+
+    delay(2000);
+    turnPid(Left, 45);
     piston.set_value(1);
   }
 

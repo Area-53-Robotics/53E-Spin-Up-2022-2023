@@ -17,6 +17,8 @@ const float trackingWheelRadius = 2.75;
 
 inline Controller controller(E_CONTROLLER_MASTER);
 
+inline pros::ADIPotentiometer potentiometer(8);
+
 inline Motor left1(16, E_MOTOR_GEAR_BLUE, true);
 inline Motor left2(17, E_MOTOR_GEAR_BLUE, true);
 inline Motor left3(18, E_MOTOR_GEAR_BLUE, true);

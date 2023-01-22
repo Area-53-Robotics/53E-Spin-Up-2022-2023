@@ -4,16 +4,18 @@
 #include <cmath>
 
 void movePid(double target, bool isReverse) {
+  imu_sensor.tare();
 
-  leftEncoder.reset();
-  rightEncoder.reset();
   double distMovedLeft = 0;
-  double distMovedRight = 0;
   const float RADIUS = 2.75;
   float kP = 700;
   float kI = 10;
   float kD = 10;
-  float error_left = target;
+  float kR = 3;
+  float driftVoltageLeft;
+  float driftVoltageRight;
+  float driftAngle;
+  float error = target;
   float error_right = target;
   long int power_left;
   long int power_right;
@@ -26,30 +28,49 @@ void movePid(double target, bool isReverse) {
   float integral_right;
   float integral_left;
 
-  while (error_left > 1) {
+  while (error > 1) {
     // printf("Left Error = %f \n", error_left);
 
-    printf("Error = %f \n", error_left);
+    //printf("Error = %f \n", error_left);
+
+    driftAngle = imu_sensor.get_rotation();
+
+   /* if ( driftAngle < 0) {
+      driftVoltageRight = kR * fabs(driftAngle);
+    } 
+    else if (driftAngle > 0) {
+      driftVoltageLeft = kR * fabs(driftAngle);
+    }
+    else {
+      driftVoltageLeft = 0;
+      driftVoltageRight = 0; 
+
+    } */
+
     // printf("Encoder Value = %i \n", leftEncoder.get_value());
     // printf("distMovedLeft = %f \n", distMovedLeft);
     // printf("-")
 
     distMovedLeft = ((leftEncoder.get_value() * 2 * M_PI * RADIUS / 360) * -1);
-    distMovedRight = (rightEncoder.get_value() * 2 * M_PI * RADIUS / 360);
 
-    error_left = target - fabs(distMovedLeft);
+    error = target - fabs(distMovedLeft);
+    printf("error = %f \n", error);
+
     // error_right = target - distMovedRight;
 
     // derivative_left = error_left - prev_error_left;
     // derivative_right = error_right - prev_error_right;
 
-    power_left = (error_left * kP) + (derivative_left * kD);
+    power_left = (error * kP) + (derivative_left * kD);
     // power_right = (error_right * kP) + (derivative_right * kD);
-    // printf("P: %f, I: %f, D: %f, Power: %li\n", error_left, integral_left,
-    //  derivative_left, power_left);
+    // printf("P: %f, I: %f, D: %f, Power: %li\n", error_left, integral_left,pto  //  derivative_left, power_left);
+    float powerL = power_left - driftVoltageLeft;
+    float powerR = power_left - driftVoltageRight;
+
+    //printf("Power Left = %f || Power Right = %f \n", powerL, powerR);
 
     if (!isReverse) {
-      leftMotors.move_voltage(power_left);
+      leftMotors.move_voltage(power_left );
       rightMotors.move_voltage(power_left);
     } else {
       leftMotors.move_voltage(power_left * -1);
@@ -93,9 +114,9 @@ void turnPid(Direction direction, float turnValue) {
 
 
   const float RADIUS = 2.75;
-  float kP = 5;
+  float kP = 7;
   float kI = 1;
-  float kD = 20;
+  float kD = 28;
   float prev_error;
   float degrees;
   float error = turnValue;
@@ -112,15 +133,23 @@ void turnPid(Direction direction, float turnValue) {
     // printf("distMovedLeft = %f \n", distMovedLeft);
     // printf("-")
 
-    degrees = imu_sensor.get_rotation();
+    degrees = fabs(imu_sensor.get_rotation());
     prev_error = error;
     error = turnValue - degrees;
     derivative = error - prev_error;
     printf("error = %f  \n", error);
 
     power = (error * kP) + (derivative * kD);
-    leftMotors.move(power);
-    rightMotors.move(power * -1);
+
+    if (direction == Direction::Right) {
+      leftMotors.move(power);
+      rightMotors.move(power * -1);
+    }
+    else {
+      leftMotors.move(power * -1) ;
+      rightMotors.move(power);
+    }
+    
 
     if (power > 127) {
       power = 127;

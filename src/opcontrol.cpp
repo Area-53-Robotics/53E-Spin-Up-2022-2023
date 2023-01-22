@@ -24,7 +24,7 @@ float driveCurve(float joystickPosition) {
   float c = -a;
 
   float driveVoltage = (a * pow(b, fabs(joystickPosition)) + c) * fabs(joystickPosition)/joystickPosition;
-  printf("voltage = %f \n", driveVoltage);
+  //printf("voltage = %f \n", driveVoltage);
   //controller.set_text("Voltage = %f \n", driveVoltage);
   return driveVoltage;
  }
@@ -48,9 +48,12 @@ void opcontrol() {
   // ledStrip.pulse(0xFF0000, 20, 10, 21, false, 40);
 
   while (true) {
+    
+    //printf("value = %i \n",potentiometer.get_value());
+    //printf("mode = %i \n", Catapult::current_mode);
     // Move drivetrain
     // TODO: run chassis in task
-    printf("EncoderValue %i \n", leftEncoder.get_value());
+    //printf("EncoderValue %i \n", leftEncoder.get_value());
 
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_LEFT) && 
     controller.get_digital_new_press(E_CONTROLLER_DIGITAL_A)) { 

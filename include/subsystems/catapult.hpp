@@ -1,6 +1,7 @@
 #ifndef CATAPULT_HPP
 #define CATAPULT_HPP
 #include "api.h"
+
 extern pros::Motor catapultMotor;
 class Catapult {
 public:
