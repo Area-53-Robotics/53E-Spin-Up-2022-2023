@@ -15,9 +15,9 @@ void printData() {
   while (true) {
     controller.print(0, 0, "%f", chassis.drive_curve_scale);
     // Print to terminal
-    auto coords = odom.get_position();
+    //auto coords = odom.get_position();
 
-    printf("x: %f, y: %f\n", coords.x, coords.y);
+    //printf("x: %f, y: %f\n", coords.x, coords.y);
     // std::cout << launcherMotor.get_position() << std::endl;
     // Print to brain
     // std::string position =

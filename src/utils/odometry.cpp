@@ -5,7 +5,7 @@
 
 Odometry::Odometry()
     : imu(2),
-      left_encoder('e', 'f'),
+      left_encoder('g', 'h'),
       s_encoder('c', 'd'),
       odom_task([this] { this->run(); }) {
   printf("Odom constructed\n");
@@ -56,12 +56,13 @@ void Odometry::run() {
 
   while (true) {
     // Encoders output in degrees
-
-    left_position = s_encoder.get_value();
+    left_position = left_encoder.get_value();
     s_position = s_encoder.get_value();
 
+    // Distance moved in inches
     delta_l =
         ((left_position - left_prev_position) * M_PI / 180) * WHEEL_RADIUS;
+
     delta_s = ((s_position - s_prev_position) * M_PI / 180) * WHEEL_RADIUS;
 
     // Log previous values in degrees
@@ -70,7 +71,12 @@ void Odometry::run() {
 
     // Totol movement on both encoders in inches
     total_delta_l += delta_l;
-    total_delta_s = delta_s;
+    total_delta_s += delta_s;
+    // printf("lp: %f ,dl: %f pdl: %f tdl: %f\n", left_position, delta_l,
+    // left_prev_position, total_delta_l);
+    // printf("sp: %f ,ds: %f pd: %f tds: %f\n", s_position, delta_s,
+    // s_prev_position, total_delta_s);
+    //printf("lp: %f sp: %f\n", left_position, s_position);
 
     // Radians
     current_absolute_orientation = (360 - imu.get_heading() * M_PI / 180);
@@ -111,9 +117,11 @@ void Odometry::run() {
     // update global coordinates
     x_coord += delta_x_global;
     y_coord += delta_y_global;
+     printf("dl: %f, ds: %f, abs or: %f, x: %f, y: %f\n", total_delta_l,
+     total_delta_s, imu.get_heading(), x_coord, y_coord);
 
     // delay to give other tasks time to do things
-    pros::delay(10);
+    pros::delay(50);
   }
 }
 

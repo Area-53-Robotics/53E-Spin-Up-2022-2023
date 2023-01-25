@@ -8,7 +8,7 @@
 
 using namespace pros;
 inline Chassis chassis({16, 17, 18}, {6, 7, 8});
-inline Catapult catapult(10, 8);
+inline Catapult catapult(10, 'f');
 inline Intake intake(20);
 inline Odometry odom;
 
