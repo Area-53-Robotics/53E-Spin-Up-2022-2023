@@ -12,8 +12,6 @@ class Chassis {
   void move(int left, int right);
   void reverse();
   // PID functions
-  // move_pid();
-  // turn_pid();
   double drive_curve_scale;
 
  private:

@@ -35,7 +35,7 @@ void initialize() {
   sylib::initialize();
   pros::lcd::set_text(1, ":)");
   controller.clear();
-  imu_sensor.reset(true);
+  //imu_sensor.reset(true);
 
   // Start background tasks
    Task printDataTask(printData);

@@ -1,7 +1,9 @@
 #include "utils/auton.hpp"
+
+#include <cmath>
+
 #include "api.h"
 #include "devices.h"
-#include <cmath>
 
 void movePid(double target, bool isReverse) {
   imu_sensor.tare();
@@ -31,21 +33,21 @@ void movePid(double target, bool isReverse) {
   while (error > 1) {
     // printf("Left Error = %f \n", error_left);
 
-    //printf("Error = %f \n", error_left);
+    // printf("Error = %f \n", error_left);
 
     driftAngle = imu_sensor.get_rotation();
 
-   /* if ( driftAngle < 0) {
-      driftVoltageRight = kR * fabs(driftAngle);
-    } 
-    else if (driftAngle > 0) {
-      driftVoltageLeft = kR * fabs(driftAngle);
-    }
-    else {
-      driftVoltageLeft = 0;
-      driftVoltageRight = 0; 
+    /* if ( driftAngle < 0) {
+       driftVoltageRight = kR * fabs(driftAngle);
+     }
+     else if (driftAngle > 0) {
+       driftVoltageLeft = kR * fabs(driftAngle);
+     }
+     else {
+       driftVoltageLeft = 0;
+       driftVoltageRight = 0;
 
-    } */
+     } */
 
     // printf("Encoder Value = %i \n", leftEncoder.get_value());
     // printf("distMovedLeft = %f \n", distMovedLeft);
@@ -63,14 +65,15 @@ void movePid(double target, bool isReverse) {
 
     power_left = (error * kP) + (derivative_left * kD);
     // power_right = (error_right * kP) + (derivative_right * kD);
-    // printf("P: %f, I: %f, D: %f, Power: %li\n", error_left, integral_left,pto  //  derivative_left, power_left);
+    // printf("P: %f, I: %f, D: %f, Power: %li\n", error_left, integral_left,pto
+    // //  derivative_left, power_left);
     float powerL = power_left - driftVoltageLeft;
     float powerR = power_left - driftVoltageRight;
 
-    //printf("Power Left = %f || Power Right = %f \n", powerL, powerR);
+    // printf("Power Left = %f || Power Right = %f \n", powerL, powerR);
 
     if (!isReverse) {
-      leftMotors.move_voltage(power_left );
+      leftMotors.move_voltage(power_left);
       rightMotors.move_voltage(power_left);
     } else {
       leftMotors.move_voltage(power_left * -1);
@@ -112,7 +115,6 @@ void turnPid(Direction direction, float turnValue) {
   imu_sensor.tare();
   printf("started");
 
-
   const float RADIUS = 2.75;
   float kP = 7;
   float kI = 1;
@@ -144,22 +146,17 @@ void turnPid(Direction direction, float turnValue) {
     if (direction == Direction::Right) {
       leftMotors.move(power);
       rightMotors.move(power * -1);
-    }
-    else {
-      leftMotors.move(power * -1) ;
+    } else {
+      leftMotors.move(power * -1);
       rightMotors.move(power);
     }
-    
 
     if (power > 127) {
       power = 127;
     }
     delay(20);
   }
-    leftMotors.move(0);
-    rightMotors.move(0);
-    printf("done \n");
+  leftMotors.move(0);
+  rightMotors.move(0);
+  printf("done \n");
 }
-
-
-

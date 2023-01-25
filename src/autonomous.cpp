@@ -10,12 +10,10 @@
  * from where it left off.
  */
 #include "main.h"
+#include "pros/rtos.hpp"
 #include "utils/auton.hpp"
 
-
-
 void autonomous() {
-
   // Set the LED strip to a gradient in HSV color space
   // that displays a full range of hues
   ledStrip.gradient(0x30d15b, 0xFF0005, 0, 0, false, true);
@@ -33,15 +31,19 @@ void autonomous() {
   // 1 towards you
   // 2 away from you
 
-  int x = 1; // 2 to roller 5 to shoot 0 PID
-  Auton auton = Auton::moveRoller; ///////////////////////////////////////////////////////////
+  int x = 1;  // 2 to roller 5 to shoot 0 PID
+  Auton auton = Auton::Testing;
 
-  if (auton == Auton::testing) {
-    movePid(120,false);
+  ///////////////////////////////////////////////////////////
 
-  } // pid tuning true for cata forward, false for roller forward
+  if (auton == Auton::Testing) {
+    chassis.move(127, 127);
+    pros::delay(100);
+    chassis.move(0, 0);
+  }  // pid tuning true for cata forward, false for roller forward
 
-  if (auton == Auton::rollerShoot) { //leftside auton (shoot discs to the right)
+  if (auton ==
+      Auton::RollerShoot) {  // leftside auton (shoot discs to the right)
     leftMotors.move(20);
     rightMotors.move(20);
     delay(1000);
@@ -61,51 +63,50 @@ void autonomous() {
     delay(200);
     catapult.fire();
     delay(1000);
-    turnPid(Right,-90);
+    turnPid(Right, -90);
   }
 
-  if (auton == Auton::moveRoller) { //leftside auton (move to roller)
-  movePid(11,false);
-  delay(1000);
-  turnPid(Right,90);
-  delay(1000);
-  movePid(34,false); /////
-  delay(1000);
-  turnPid(Right,80);
-  delay(1000);
-  leftMotors.move(30);
-  rightMotors.move(30) ;
-  delay(1100);
-  intake.set_mode(Intake::Mode::On);
-  delay(140);
-  intake.set_mode(Intake::Mode::Off);
-  delay(1000);
+  if (auton == Auton::MoveRoller) {  // leftside auton (move to roller)
+    movePid(11, false);
+    delay(1000);
+    turnPid(Right, 90);
+    delay(1000);
+    movePid(34, false);  /////
+    delay(1000);
+    turnPid(Right, 80);
+    delay(1000);
+    leftMotors.move(30);
+    rightMotors.move(30);
+    delay(1100);
+    intake.set_mode(Intake::Mode::On);
+    delay(140);
+    intake.set_mode(Intake::Mode::Off);
+    delay(1000);
 
-  leftMotors.move(-20);
-  rightMotors.move(-20);
-  delay(900);
+    leftMotors.move(-20);
+    rightMotors.move(-20);
+    delay(900);
     leftMotors.move(0);
-  rightMotors.move(0);
-  delay(1000);
-  turnPid(Left,90);
-  delay(1000);
-  catapult.fire();
-  delay(200);
-  catapult.fire();
-  delay(200);
-  catapult.fire();
+    rightMotors.move(0);
+    delay(1000);
+    turnPid(Left, 90);
+    delay(1000);
+    catapult.fire();
+    delay(200);
+    catapult.fire();
+    delay(200);
+    catapult.fire();
   }
-  
 
-  if (auton == Auton::progSkills) { // prog skills
+  if (auton == Auton::ProgSkills) {  // prog skills
     leftMotors.move(20);
     rightMotors.move(20);
     delay(1000);
     leftMotors.move(0);
     rightMotors.move(0);
     intake.set_mode(Intake::Mode::Reverse);
-  delay(120);
-  intake.set_mode(Intake::Mode::Off);
+    delay(120);
+    intake.set_mode(Intake::Mode::Off);
     delay(1000);
     movePid(5, true);
     delay(1100);
@@ -118,7 +119,7 @@ void autonomous() {
     catapult.fire();
     delay(200);
     delay(1000);
-    turnPid(Right,90);
+    turnPid(Right, 90);
     delay(2000);
 
     leftMotors.move(40);
@@ -127,12 +128,10 @@ void autonomous() {
     leftMotors.move(0);
     rightMotors.move(0);
 
-    
-    
     delay(1000);
     turnPid(Left, 90);
     delay(1000);
-    movePid(35,false);
+    movePid(35, false);
     delay(1000);
     leftMotors.move(20);
     rightMotors.move(20);
@@ -141,11 +140,9 @@ void autonomous() {
     rightMotors.move(0);
     delay(1000);
     intake.set_mode(Intake::Mode::Reverse);
-  delay(120);
-  intake.set_mode(Intake::Mode::Off);
+    delay(120);
+    intake.set_mode(Intake::Mode::Off);
     delay(1000);
-
-
 
     leftMotors.move(-40);
     rightMotors.move(-40);
@@ -157,8 +154,6 @@ void autonomous() {
     turnPid(Left, 45);
     piston.set_value(1);
   }
-
-  
 
   // delay(1000);
   // leftMotors.move_absolute(10, 50);

@@ -1,7 +1,7 @@
 #ifndef AUTON_HPP
 #define AUTON_HPP
 // Aton:
-enum class Auton { rollerShoot, moveRoller, progSkills, testing };
+enum class Auton { RollerShoot, MoveRoller, ProgSkills, Testing };
 enum Direction { Left, Right};
 
 void turnBangBang(double target);
