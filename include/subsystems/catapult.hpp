@@ -2,19 +2,25 @@
 #define CATAPULT_HPP
 #include "api.h"
 
-extern pros::Motor catapultMotor;
 class Catapult {
-public:
-  Catapult();
+ public:
+  Catapult(int motor_port, int potentiometer_port);
   ~Catapult();
   enum class Mode {
     Firing,
     Loading,
     Ready,
   };
-  static Mode current_mode;
-  static int target;
-  static void start(void *ignore);
-  static void fire();
+  void run();
+  void fire();
+
+ private:
+  pros::Task catapult_controller;
+  // Devices
+  pros::ADIPotentiometer potentiometer;
+  pros::Motor catapult_motor;
+
+  Mode current_mode;
+  int target;
 };
 #endif

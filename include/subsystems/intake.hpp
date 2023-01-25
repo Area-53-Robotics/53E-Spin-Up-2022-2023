@@ -1,10 +1,9 @@
 #ifndef INTAKE_HPP
 #define INTAKE_HPP
 #include "api.h"
-extern pros::Motor intakeMotor;
 class Intake {
-public:
-  Intake();
+ public:
+  Intake(int port);
   ~Intake();
   enum class Mode {
     On,
@@ -13,8 +12,11 @@ public:
     SpinningRoller,
     Reverse,
   };
-  static Mode current_mode;
-  static void start(void *ignore);
-  static void set_mode(Mode target_mode);
+
+  pros::Task intake_controller;
+  pros::Motor intake_motor;
+  Mode current_mode;
+  void start();
+  void set_mode(Mode target_mode);
 };
 #endif

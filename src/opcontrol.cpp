@@ -1,7 +1,7 @@
-#include "main.h"
-#include "pros/rtos.hpp"
-#include "subsystems/catapult.hpp"
 #include "cmath"
+#include "main.h"
+#include "subsystems/catapult.hpp"
+#include "subsystems/chassis.hpp"
 
 /*
  * Runs the operator control code. This function will be started in its own task
@@ -17,62 +17,36 @@
  * task, not resume it from where it left off.
  */
 //////////////////////////////////////////////////////////////////////////
-
-float driveCurve(float joystickPosition) {
-  float a = 39.0873;
-  float b = 1.01146;
-  float c = -a;
-
-  float driveVoltage = (a * pow(b, fabs(joystickPosition)) + c) * fabs(joystickPosition)/joystickPosition;
-  //printf("voltage = %f \n", driveVoltage);
-  //controller.set_text("Voltage = %f \n", driveVoltage);
-  return driveVoltage;
- }
-
 void opcontrol() {
-  //float cataTorque = catapultMotor.get_voltage();
-  //printf("torque %f \n", cataTorque);
-
-
-  // Catapult cata;
-
-  bool isDriveReversed = false;
-  bool intakeOn = false;
+  int joystick_left_y, joystick_right_y;
+  double drive_curve_scale = 0;
   // Set the LED strip to a gradient in HSV color space
   // that displays a full range of hues
   ledStrip.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
 
   // Cycle the colors at speed 10
   ledStrip.cycle(*ledStrip, 10);
-  // ledStrip.pulse(0xFF0000, 20, 10, 1, true, 20);
-  // ledStrip.pulse(0xFF0000, 20, 10, 21, false, 40);
 
   while (true) {
-    
-    //printf("value = %i \n",potentiometer.get_value());
-    //printf("mode = %i \n", Catapult::current_mode);
-    // Move drivetrain
-    // TODO: run chassis in task
-    //printf("EncoderValue %i \n", leftEncoder.get_value());
+    joystick_left_y = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+    joystick_right_y = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
 
-    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_LEFT) && 
-    controller.get_digital_new_press(E_CONTROLLER_DIGITAL_A)) { 
-      piston.set_value(1);}
+    chassis.move(joystick_left_y, joystick_right_y);
 
-    if (isDriveReversed == true) {
-
-      leftMotors.move(driveCurve(controller.get_analog(E_CONTROLLER_ANALOG_LEFT_Y)) * -1);
-      rightMotors.move(driveCurve(controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y)) * -1);
-
-    } else {
-      leftMotors.move(driveCurve(controller.get_analog(E_CONTROLLER_ANALOG_LEFT_Y)));
-      rightMotors.move(driveCurve(controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y)));
+    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_LEFT)) {
+      drive_curve_scale--;
+      controller.rumble(".");
+    } else if (controller.get_digital_new_press(
+                   pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+      drive_curve_scale++;
+      controller.rumble(".");
     }
 
-    if (controller.get_digital_new_press(
-            E_CONTROLLER_DIGITAL_B)) { // drive switch
+    chassis.drive_curve_scale = drive_curve_scale;
+
+    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_B)) {
       controller.rumble(".");
-      isDriveReversed = !isDriveReversed;
+      chassis.reverse();
     }
     // Toggle Intake
     if (controller.get_digital(E_CONTROLLER_DIGITAL_R2)) {
@@ -82,13 +56,17 @@ void opcontrol() {
     } else {
       intake.set_mode(Intake::Mode::Off);
     }
-
-    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) { // launcher
+    // Fire cata
+    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) {
       controller.rumble(".");
       catapult.fire();
     }
-  }
+    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_LEFT) &&
+        controller.get_digital_new_press(E_CONTROLLER_DIGITAL_A)) {
+      piston.set_value(1);
+    }
 
-  std::uint32_t clock = sylib::millis();
-  sylib::delay_until(&clock, 20);
+    std::uint32_t clock = sylib::millis();
+    sylib::delay_until(&clock, 20);
+  }
 }
