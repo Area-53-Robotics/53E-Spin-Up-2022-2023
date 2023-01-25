@@ -5,19 +5,16 @@
 #include "sylib/sylib.hpp"
 
 using namespace pros;
-
-//inline Chassis chassis;
-inline Catapult catapult;
-inline Intake intake;
+inline Chassis chassis({16, 17, 18}, {6, 7, 8});
+inline Catapult catapult(10, 8);
+inline Intake intake(20);
 
 namespace constants {
 const float driveWheelRadius = 3.25;
 const float trackingWheelRadius = 2.75;
-} // namespace constants
+}  // namespace constants
 
 inline Controller controller(E_CONTROLLER_MASTER);
-
-inline pros::ADIPotentiometer potentiometer(8);
 
 inline Motor left1(16, E_MOTOR_GEAR_BLUE, true);
 inline Motor left2(17, E_MOTOR_GEAR_BLUE, true);
@@ -30,7 +27,6 @@ inline Motor right3(8, E_MOTOR_GEAR_BLUE);
 inline Motor rollerMotor(20, E_MOTOR_GEAR_GREEN, true);
 
 inline Motor catapultMotor(10, E_MOTOR_GEAR_RED, true);
-
 
 inline Mutex leftMotorMutex;
 inline Mutex rightMotorMutex;
@@ -45,7 +41,7 @@ inline ADIEncoder rightEncoder('c', 'd');
 inline auto ledStrip = sylib::Addrled(22, 2, 40);
 inline Mutex encoderMutex;
 
-inline ADIDigitalOut piston(1, false); // see above
+inline ADIDigitalOut piston(1, false);  // see above
 
 inline Imu imu_sensor(2);
 

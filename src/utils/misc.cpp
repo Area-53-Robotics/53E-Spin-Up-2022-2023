@@ -1,6 +1,8 @@
 #include "utils/misc.hpp"
-#include "api.h"
+
 #include <cmath>
+
+#include "api.h"
 #include "devices.h"
 
 float arcMeasure(float arcLength, float radius) {
@@ -13,6 +15,7 @@ float arcLength(float degrees, float radius) {
 // Misc helper functions
 void printData() {
   while (true) {
+    controller.print(0, 0, "%f", chassis.drive_curve_scale);
     // Print to terminal
     // std::cout << launcherMotor.get_position() << std::endl;
     // Print to brain
@@ -26,6 +29,6 @@ void printData() {
     // double distMovedRight =
     // int distMoved = leftEncoder.get_value() - rightEncoder.get_value();
     // right1.get_position() * 3 / 5 * 3.75 * M_PI * 2 / 360;
-    pros::delay(50);
+    pros::delay(1000);
   }
 }

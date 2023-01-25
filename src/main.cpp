@@ -1,9 +1,10 @@
 #include "main.h"
+
 #include "pros/motors.h"
 #include "pros/rtos.hpp"
-#include "sylib/system.hpp"
-
 #include "subsystems/catapult.hpp"
+#include "sylib/system.hpp"
+#include "utils/misc.hpp"
 
 using namespace pros;
 
@@ -37,9 +38,7 @@ void initialize() {
   imu_sensor.reset(true);
 
   // Start background tasks
-  //Task printDataTask(printData);
-  pros::Task catapultController(catapult.start);
-  pros::Task intakeControler(intake.start);
+   Task printDataTask(printData);
 }
 
 /**
@@ -59,5 +58,5 @@ void disabled() { printf("Disabled lmao\n"); }
  * starts.
  */
 void competition_initialize() {
-  //auton selector goes here
+  // auton selector goes here
 }
