@@ -19,8 +19,8 @@ void Chassis::move(int left, int right) {
   left = calc_drive_curve(left);
   right = calc_drive_curve(right);
   if (reversed) {
-    left_motors.move(left * -1);
-    right_motors.move(right * -1);
+    left_motors.move(right * -1);
+    right_motors.move(left * -1);
   } else {
     left_motors.move(left);
     right_motors.move(right);
