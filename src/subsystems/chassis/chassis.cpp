@@ -8,8 +8,13 @@
 //};
 
 Chassis::Chassis(std::vector<int8_t> left_ports,
-                 std::vector<int8_t> right_ports, pros::motor_gearset_e gearset)
-    : left_motors(left_ports), right_motors(right_ports) {
+                 std::vector<int8_t> right_ports, int left_encoder_port,
+                 int imu_port, pros::motor_gearset_e gearset)
+    : left_motors(left_ports),
+      right_motors(right_ports),
+      left_encoder(left_encoder_port, left_encoder_port + 1),
+      imu(imu_port),
+      drive_curve_scale(7) {
   left_motors.set_gearing(gearset);
   right_motors.set_gearing(gearset);
 }
@@ -28,6 +33,8 @@ void Chassis::move(int left, int right) {
 }
 
 void Chassis::reverse() { reversed = !reversed; }
+
+void Chassis::calibrate_imu() { imu.reset(true); }
 
 double Chassis::calc_drive_curve(double joy_stick_position) {
   if (drive_curve_scale != 0) {

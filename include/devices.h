@@ -7,10 +7,11 @@
 #include "utils/odometry.hpp"
 
 using namespace pros;
-inline Chassis chassis({16, 17, 18}, {6, 7, 8});
+inline Chassis chassis({16, 17, 18}, {6, 7, 8}, 1, 2);
 inline Catapult catapult(10, 'f');
 inline Intake intake(20);
-inline Odometry odom;
+// Currently, odom doesn't work
+// inline Odometry odom;
 
 namespace constants {
 const float driveWheelRadius = 3.25;
