@@ -11,22 +11,24 @@
         pkgs = import nixpkgs { inherit system; };
         pros-cli = pkgs.python310Packages.buildPythonApplication rec {
           pname = "pros-cli";
-          version = "3.3.2";
+          version = "44adec3cd11e3beb6c0134000755bad9ea0f3148";
           src = pkgs.fetchFromGitHub {
             owner = "purduesigbots";
             repo = "pros-cli";
-            rev = "62758e90295b32f60b785b48c283ad651e9a4f7f";
-            hash = "sha256-THxOybW2KdWDCXwM91zPG6geyETP0DlalTLnmnYNazo=";
+            rev = version;
+            hash = "sha256-RPPD6DWE4AlIZAShpcQYCrZaxyYz36zugLjlK79ZKus=";
           };
           patches = [
-            ./pros-patches/dependencies.patch
             ./pros-patches/version.patch
+            ./pros-patches/dependencies.patch
+            ./pros-patches/pyinstaller.patch
           ];
           propagatedBuildInputs = with pkgs.python310Packages; [
             click
             pyserial
             cachetools
             requests
+            requests-futures
             tabulate
             jsonpickle
             semantic-version
@@ -42,6 +44,41 @@
           # No tests in archive
           doCheck = false;
         };
+        pyinstaller = pkgs.python310Packages.buildPythonApplication rec {
+          pname = "pyinstaller";
+          version = "5.7.0";
+          src = pkgs.python310Packages.fetchPypi {
+            inherit pname version;
+            hash = "sha256-DllTk3018LN1Q8xpFdrK8yOby98/0+y7eGZkVGihZ3U=";
+          };
+          buildInputs = with pkgs; [
+            zlib
+            pyinstaller-hooks-contrib
+            altgraph
+            python310Packages.keyring
+            python310Packages.future
+            python310Packages.django
+          ];
+
+        };
+        pyinstaller-hooks-contrib = pkgs.python310Packages.buildPythonApplication rec {
+          pname = "pyinstaller-hooks-contrib";
+          version = "2022.15";
+          src = pkgs.python310Packages.fetchPypi {
+            inherit pname version;
+            hash = "sha256-c/1AUdwWIPOulkMpHNni9Hv+1YKt4usF4yR+yrSk9fM=";
+          };
+        };
+
+        altgraph = pkgs.python310Packages.buildPythonApplication rec {
+          pname = "altgraph";
+          version = "0.17.3";
+          src = pkgs.python310Packages.fetchPypi {
+            inherit pname version;
+            hash = "sha256-rTM1gRTffJQWzbj6HqpYUhZsUFEYcXAhxqjHx6u9A90=";
+          };
+        };
+
         pypng = pkgs.python310Packages.buildPythonApplication rec {
           pname = "pypng";
           version = "0.0.20";
@@ -88,10 +125,23 @@
           # no tests in archive
           docheck = false;
         };
+        semantic-version = pkgs.python310Packages.buildPythonApplication rec {
+          pname = "semantic-version";
+          version = "2.10.0";
+          src = pkgs.fetchFromGitHub {
+            owner = "rbarrois";
+            repo = "python-semanticversion";
+            rev = "2.10.0";
+            hash = "sha256-7OnYtrYgZsXPVtI50cvJfjs66BW7Ez4/kjKpRT1TJPg=";
+          };
+          buildInputs = with pkgs.python310Packages; [
+            django
+          ];
+          # no tests in archive
+          docheck = false;
+        };
       in
       {
-
-
         devShell = with pkgs; mkShell {
           shellHook = ''
 
@@ -101,6 +151,12 @@
             clang-tools
             gcc-arm-embedded
 
+            # Python deps for graphing
+            python310Packages.matplotlib
+            python310Packages.numpy
+            python310Packages.pandas
+            python310Packages.scipy
+            python310
           ];
         };
       });

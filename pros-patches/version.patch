@@ -7,7 +7,7 @@ index 96ebb12..4657fb8 100644
                      if ver is not None:
                          return ver
 +    try:
-+        ver="3.3.3"
++        ver="3.4.1"
 +        return ver
 +    except:
 +        pass

@@ -13,7 +13,7 @@ index 1e6fe13..6d6a371 100644
  pyzmq
  cobs
 -scan-build==2.0.13
-+scan-build==2.0.20
++scan-build
  sentry-sdk
  observable
  pypng==0.0.20
