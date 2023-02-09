@@ -19,10 +19,10 @@ void initialize() {
   sylib::initialize();
   pros::lcd::set_text(1, ":)");
   controller.clear();
+  printf("Calibrating IMU\n");
   chassis.calibrate_imu();
+  printf("IMU Calibrated\n");
 
-  // Start background tasks
-  Task printDataTask(printData);
 }
 
 /**

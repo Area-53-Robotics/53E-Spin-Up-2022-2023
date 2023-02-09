@@ -7,15 +7,25 @@
 #include "utils/odometry.hpp"
 
 using namespace pros;
-inline Chassis chassis({16, 17, 18}, {6, 7, 8}, 1, 2);
-inline Catapult catapult(10, 'f');
+
+inline Chassis chassis(
+    // Left motor ports
+    {16, 17, 18},
+    // Right motor ports
+    {6, 7, 8},
+    // Left tracking wheel ports
+    {7, 8},
+    // IMU port
+    2);
+inline Catapult catapult(10, 3);
 inline Intake intake(20);
+
 // Currently, odom doesn't work
 // inline Odometry odom;
 
 namespace constants {
-const float driveWheelRadius = 3.25;
-const float trackingWheelRadius = 2.75;
+const float DRIVE_WHEEL_RADIUS = 3.25;
+const float TRACKING_WHEEL_RADIUS = 2.75;
 }  // namespace constants
 
 inline Controller controller(E_CONTROLLER_MASTER);

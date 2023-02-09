@@ -14,6 +14,7 @@
 #include "utils/auton.hpp"
 
 void autonomous() {
+  printf("Started Auton\n");
   // Set the LED strip to a gradient in HSV color space
   // that displays a full range of hues
   ledStrip.gradient(0x30d15b, 0xFF0005, 0, 0, false, true);
@@ -21,25 +22,12 @@ void autonomous() {
   // Cycle the colors at speed 10
   ledStrip.cycle(*ledStrip, 10);
 
-  // movePid(5, false);
-
-  // moveBangBangLeft(100, true);
-  // moveBangBangRight(100, true);
-
-  //  moveBangBang(100,true);
-  // turnBangBang(45);
-  // 1 towards you
-  // 2 away from you
-
-  int x = 1;  // 2 to roller 5 to shoot 0 PID
   Auton auton = Auton::Testing;
-
   ///////////////////////////////////////////////////////////
 
   if (auton == Auton::Testing) {
-    chassis.move(127, 127);
-    pros::delay(100);
-    chassis.move(0, 0);
+    printf("Started Auton Testing\n");
+    chassis.move_pid(48, 0, 100);
   }  // pid tuning true for cata forward, false for roller forward
 
   if (auton ==
