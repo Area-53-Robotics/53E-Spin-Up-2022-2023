@@ -1,6 +1,7 @@
 #ifndef CATAPULT_HPP
 #define CATAPULT_HPP
 #include "api.h"
+#include "pros/adi.hpp"
 
 class Catapult {
  public:
@@ -15,10 +16,10 @@ class Catapult {
   void fire();
 
  private:
-  pros::Task catapult_controller;
   // Devices
-  pros::ADIPotentiometer potentiometer;
-  pros::Motor catapult_motor;
+  pros::Motor motor;
+  pros::Task catapult_controller;
+  pros::ADIDigitalIn limit_switch;
 
   Mode current_mode;
   int target;

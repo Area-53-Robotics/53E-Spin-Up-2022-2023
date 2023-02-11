@@ -1,59 +1,41 @@
 #include "subsystems/catapult.hpp"
 
 #include "api.h"
+#include "pros/rtos.hpp"
 #include "sylib/sylib.hpp"
 
-Catapult::Catapult(int motor_port, int potentiometer_port)
-    : catapult_motor(motor_port),
-      potentiometer(potentiometer_port),
+Catapult::Catapult(int motor_port, int limit_switch_port)
+    : motor(motor_port),
+      limit_switch(limit_switch_port),
       catapult_controller([this] { this->run(); }) {
   Catapult::target = 1800;
   Catapult::current_mode = Mode::Loading;
-  catapult_motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 };
 Catapult::~Catapult(){};
 
 void Catapult::run() {
-  int val;
-  int prevVal;
-
   while (true) {
-    double error;
-
-    error = (target - potentiometer.get_value()) * -1;
-    if (error > 40 and catapult_motor.get_torque() < 100) {
-      catapult_motor.move(127);
+    if (!limit_switch.get_value()) {
+      printf("Moving, pressed: %i\n", limit_switch.get_value());
+      motor.move(127);
+      current_mode = Mode::Loading;
     } else {
-      catapult_motor.move(0);
+      printf("Ready\n");
+      motor.move(0);
+      current_mode = Mode::Ready;
     }
 
-    // change behavior based on mode
-    switch (current_mode) {
-      case Mode::Loading:
-        target = 2000;  // 2100
-        if (error < 50) {
-          current_mode = Mode::Ready;
-        }
-        break;
-      case Mode::Ready:
-        // target = 3000;
-        break;
-      case Mode::Firing:
-        target = 0;
-        if (error > 1000) {
-          current_mode = Mode::Loading;
-          printf("loading now\n");
-        }
-        break;
-      default:
-        printf("Invalid catapult mode\n");
-        break;
+    if (current_mode == Mode::Firing) {
+      while (limit_switch.get_value()) {
+        printf("Firing\n");
+        motor.move(127);
+      }
+      current_mode = Mode::Loading;
     }
-
-    std::uint32_t clock = sylib::millis();
-    sylib::delay_until(&clock, 40);
+    pros::delay(10);
   }
-};
+}
 
 void Catapult::fire() {
   if (Catapult::current_mode == Mode::Ready) {

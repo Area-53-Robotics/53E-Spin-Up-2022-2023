@@ -58,13 +58,16 @@ void opcontrol() {
     }
     // Fire cata
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) {
+      printf("Firing\n");
       controller.rumble(".");
       catapult.fire();
     }
+    /*
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_LEFT) &&
         controller.get_digital_new_press(E_CONTROLLER_DIGITAL_A)) {
       piston.set_value(1);
     }
+    */
 
     std::uint32_t clock = sylib::millis();
     sylib::delay_until(&clock, 20);

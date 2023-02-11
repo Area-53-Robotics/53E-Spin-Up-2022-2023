@@ -18,7 +18,7 @@ inline Chassis chassis(
     // IMU port
     2);
 
-inline Catapult catapult(10, 3);
+inline Catapult catapult(20, 1);
 inline Intake intake(20);
 
 // Currently, odom doesn't work
@@ -56,7 +56,7 @@ inline ADIEncoder rightEncoder(-1, -1);
 inline auto ledStrip = sylib::Addrled(22, 2, 40);
 inline Mutex encoderMutex;
 
-inline ADIDigitalOut piston(1, false);  // see above
+inline ADIDigitalOut piston(-1, false);  // see above
 
 inline Imu imu_sensor(-1);
 
