@@ -22,7 +22,6 @@ void initialize() {
   printf("Calibrating IMU\n");
   chassis.calibrate_imu();
   printf("IMU Calibrated\n");
-
 }
 
 /**
@@ -41,6 +40,4 @@ void disabled() { printf("Disabled lmao\n"); }
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {
-  // auton selector goes here
-}
+void competition_initialize() {}

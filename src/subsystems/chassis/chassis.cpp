@@ -107,8 +107,8 @@ void Chassis::move_pid(double target, int timeout, int max_speed) {
     pros::delay(delay_time);
     time_elapsed += delay_time;
     // printf("%f %f %f\n", error, integral, derivative);
-    printf("%f, %f, %f, %f\n", power_theta, error_theta, integral_theta,
-           derivative_theta);
+    printf("%f, %f, %f, %f\n", power_theta, error_theta * kp_theta,
+           integral_theta * ki_theta, derivative_theta * kd_theta);
   }
 
   move(0, 0);

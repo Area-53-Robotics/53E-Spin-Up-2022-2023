@@ -152,6 +152,8 @@
             gcc-arm-embedded
 
             # Python deps for graphing
+            nodePackages_latest.pyright
+            black
             python310Packages.matplotlib
             python310Packages.numpy
             python310Packages.pandas

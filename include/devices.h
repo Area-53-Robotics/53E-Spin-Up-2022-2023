@@ -17,6 +17,7 @@ inline Chassis chassis(
     {7, 8},
     // IMU port
     2);
+
 inline Catapult catapult(10, 3);
 inline Intake intake(20);
 
