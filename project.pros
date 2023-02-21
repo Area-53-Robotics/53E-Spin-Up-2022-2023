@@ -1,7 +1,7 @@
 {
     "py/object": "pros.conductor.project.Project",
     "py/state": {
-        "project_name": "driveCode",
+        "project_name": "53E",
         "target": "v5",
         "templates": {
             "kernel": {

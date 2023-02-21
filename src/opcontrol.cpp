@@ -17,6 +17,7 @@
  * task, not resume it from where it left off.
  */
 //////////////////////////////////////////////////////////////////////////
+
 void opcontrol() {
   int joystick_left_y, joystick_right_y;
   double drive_curve_scale = 0;
@@ -31,7 +32,7 @@ void opcontrol() {
     joystick_left_y = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
     joystick_right_y = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
 
-    chassis.move(joystick_left_y, joystick_right_y);
+    chassis.tank(joystick_left_y, joystick_right_y);
 
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_LEFT)) {
       drive_curve_scale--;

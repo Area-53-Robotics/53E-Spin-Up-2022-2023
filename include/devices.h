@@ -10,16 +10,17 @@ using namespace pros;
 
 inline Chassis chassis(
     // Left motor ports
-    {16, 17, 18},
+    {-11, -12, -13},
     // Right motor ports
-    {6, 7, 8},
+    {1, 2, 3},
     // Left tracking wheel ports
     {7, 8},
     // IMU port
-    2);
+    10);
 
-inline Catapult catapult(20, 1);
-inline Intake intake(20);
+inline Catapult catapult(5, 'c');
+inline Intake intake(6);
+inline ADIDigitalIn limitSwitch(3);
 
 // Currently, odom doesn't work
 // inline Odometry odom;
@@ -30,23 +31,6 @@ const float TRACKING_WHEEL_RADIUS = 2.75;
 }  // namespace constants
 
 inline Controller controller(E_CONTROLLER_MASTER);
-
-inline Motor left1(16, E_MOTOR_GEAR_BLUE, true);
-inline Motor left2(17, E_MOTOR_GEAR_BLUE, true);
-inline Motor left3(18, E_MOTOR_GEAR_BLUE, true);
-
-inline Motor right1(6, E_MOTOR_GEAR_BLUE);
-inline Motor right2(7, E_MOTOR_GEAR_BLUE);
-inline Motor right3(8, E_MOTOR_GEAR_BLUE);
-
-inline Motor rollerMotor(20, E_MOTOR_GEAR_GREEN, true);
-
-inline Motor catapultMotor(10, E_MOTOR_GEAR_RED, true);
-
-inline Mutex leftMotorMutex;
-inline Mutex rightMotorMutex;
-inline pros::Motor_Group leftMotors({left1, left2, left3});
-inline pros::Motor_Group rightMotors({right1, right2, right3});
 
 // note to future generations: conlifting triports defs
 // will make you want to kys

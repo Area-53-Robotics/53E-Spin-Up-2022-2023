@@ -4,7 +4,7 @@
 
 #include "api.h"
 #include "devices.h"
-
+/*
 void movePid(double target, bool isReverse) {
   imu_sensor.tare();
 
@@ -37,7 +37,7 @@ void movePid(double target, bool isReverse) {
 
     driftAngle = imu_sensor.get_rotation();
 
-    /* if ( driftAngle < 0) {
+     if ( driftAngle < 0) {
        driftVoltageRight = kR * fabs(driftAngle);
      }
      else if (driftAngle > 0) {
@@ -47,7 +47,7 @@ void movePid(double target, bool isReverse) {
        driftVoltageLeft = 0;
        driftVoltageRight = 0;
 
-     } */
+     }
 
     // printf("Encoder Value = %i \n", leftEncoder.get_value());
     // printf("distMovedLeft = %f \n", distMovedLeft);
@@ -160,3 +160,4 @@ void turnPid(Direction direction, float turnValue) {
   rightMotors.move(0);
   printf("done \n");
 }
+*/

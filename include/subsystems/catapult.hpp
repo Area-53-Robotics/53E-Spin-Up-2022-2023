@@ -5,7 +5,7 @@
 
 class Catapult {
  public:
-  Catapult(int motor_port, int potentiometer_port);
+  Catapult(int motor_port, int limit_switch_port);
   ~Catapult();
   enum class Mode {
     Firing,

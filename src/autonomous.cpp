@@ -9,6 +9,7 @@
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
+#include "devices.h"
 #include "main.h"
 #include "pros/rtos.hpp"
 #include "utils/auton.hpp"
@@ -26,24 +27,21 @@ void autonomous() {
   ///////////////////////////////////////////////////////////
 
   if (auton == Auton::Testing) {
-    printf("Started Auton Testing\n");
-    chassis.move_pid(48, 0, 100);
+    chassis.turn_pid(90, 2, 150);
   }  // pid tuning true for cata forward, false for roller forward
 
   if (auton ==
       Auton::RollerShoot) {  // leftside auton (shoot discs to the right)
-    leftMotors.move(20);
-    rightMotors.move(20);
+    chassis.move(20);
     delay(1000);
-    leftMotors.move(0);
-    rightMotors.move(0);
+    chassis.move(0);
     intake.set_mode(Intake::Mode::On);
     delay(120);
     intake.set_mode(Intake::Mode::Off);
     delay(1000);
-    movePid(5, true);
+    chassis.move_pid(5);
     delay(1100);
-    turnPid(Right, 90);
+    // turnPid(Right, 90);
     delay(1000);
     catapult.fire();
     delay(200);
@@ -51,7 +49,7 @@ void autonomous() {
     delay(200);
     catapult.fire();
     delay(1000);
-    turnPid(Right, -90);
+    // turnPid(Right, -90);
   }
 
   if (auton == Auton::MoveRoller) {  // leftside auton (move to roller)
@@ -63,21 +61,17 @@ void autonomous() {
     delay(1000);
     turnPid(Right, 80);
     delay(1000);
-    leftMotors.move(30);
-    rightMotors.move(30);
+    chassis.move(30, 30);
     delay(1100);
     intake.set_mode(Intake::Mode::On);
     delay(140);
     intake.set_mode(Intake::Mode::Off);
     delay(1000);
-
-    leftMotors.move(-20);
-    rightMotors.move(-20);
+    chassis.move(-20, -20);
     delay(900);
-    leftMotors.move(0);
-    rightMotors.move(0);
+    chassis.move(0, 0);
     delay(1000);
-    turnPid(Left, 90);
+    // turnPid(Left, 90);
     delay(1000);
     catapult.fire();
     delay(200);
@@ -87,11 +81,9 @@ void autonomous() {
   }
 
   if (auton == Auton::ProgSkills) {  // prog skills
-    leftMotors.move(20);
-    rightMotors.move(20);
+    chassis.move(20, 20);
     delay(1000);
-    leftMotors.move(0);
-    rightMotors.move(0);
+    chassis.move(0, 0);
     intake.set_mode(Intake::Mode::Reverse);
     delay(120);
     intake.set_mode(Intake::Mode::Off);
@@ -109,37 +101,29 @@ void autonomous() {
     delay(1000);
     turnPid(Right, 90);
     delay(2000);
-
-    leftMotors.move(40);
-    rightMotors.move(40);
+    chassis.move(40, 40);
     delay(1200);
-    leftMotors.move(0);
-    rightMotors.move(0);
+    chassis.move(0, 0);
 
     delay(1000);
     turnPid(Left, 90);
     delay(1000);
     movePid(35, false);
     delay(1000);
-    leftMotors.move(20);
-    rightMotors.move(20);
+    chassis.move(20, 20);
     delay(9000);
-    leftMotors.move(0);
-    rightMotors.move(0);
+    chassis.move(0, 0);
     delay(1000);
     intake.set_mode(Intake::Mode::Reverse);
     delay(120);
     intake.set_mode(Intake::Mode::Off);
     delay(1000);
-
-    leftMotors.move(-40);
-    rightMotors.move(-40);
+    chassis.move(-40, -40);
     delay(2000);
-    leftMotors.move(0);
-    rightMotors.move(0);
+    chassis.move(0, 0);
 
     delay(2000);
-    turnPid(Left, 45);
+    // turnPid(Left, 45);
     piston.set_value(1);
   }
 

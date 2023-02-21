@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 headers = ["Power", "P", "I", "D"]
-df = pd.read_csv("output.csv", delimiter=",", names=headers)
+df = pd.read_csv("log.csv", delimiter=",", names=headers)
 
 y = []
 index = 0
@@ -11,9 +11,7 @@ for line in df.Power:
     index += 1
 
 
-plt.plot(y, df["Power"], "y")
-plt.plot(y, df["P"], "r")
-plt.plot(y, df["I"], "g")
-plt.plot(y, df["D"], "b")
+plt.plot(y, df["Power"], "y", df["P"], "r", df["I"], "g", df["D"], "b")
+plt.xlabel("Power = yellow, P = red, I = green, D = blue")
 
 plt.show()

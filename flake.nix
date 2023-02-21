@@ -149,7 +149,7 @@
           buildInputs = with pkgs; [
             pros-cli
             clang-tools
-            gcc-arm-embedded
+            gcc-arm-embedded-10
 
             # Python deps for graphing
             nodePackages_latest.pyright

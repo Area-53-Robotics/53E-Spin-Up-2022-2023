@@ -19,7 +19,7 @@ Chassis::Chassis(std::vector<int8_t> left_ports,
 }
 Chassis::~Chassis(){};
 
-void Chassis::move(int left, int right) {
+void Chassis::tank(int left, int right) {
   left = calc_drive_curve(left);
   right = calc_drive_curve(right);
   if (reversed) {
@@ -30,6 +30,16 @@ void Chassis::move(int left, int right) {
     right_motors.move(right);
   }
 }
+
+void Chassis::move(int left, int right) {
+  left_motors.move(left);
+  right_motors.move(right);
+}
+// OVERLOADING ENGAGE!!!!
+void Chassis::move(int input) {
+  left_motors.move(input);
+  right_motors.move(input);
+};
 
 void Chassis::reverse() { reversed = !reversed; }
 
@@ -49,7 +59,6 @@ void Chassis::move_pid(double target, int timeout, int max_speed) {
   imu.tare();
   left_encoder.reset();
   const float WHEEL_RADIUS = 2.75 / 2;  // Inches
-  bool exited = false;
   float delay_time = 10;
   double time_elapsed = 0;
   double power, left_power, right_power, power_theta;
@@ -71,11 +80,11 @@ void Chassis::move_pid(double target, int timeout, int max_speed) {
   const float ki = 0;
   const float kd = 1;
 
-  const float kp_theta = 8;
+  const float kp_theta = 10;
   const float ki_theta = 0;
-  const float kd_theta = 0;
+  const float kd_theta = 2;
 
-  while (!exited) {
+  while (true) {
     // Calculate PID values for distance distance traveled
     dist_traveled =
         left_encoder.get_value() * ((2 * M_PI / 360) * WHEEL_RADIUS);
@@ -89,7 +98,11 @@ void Chassis::move_pid(double target, int timeout, int max_speed) {
     derivative_theta = error_theta - prev_error_theta;
     power_theta = (error_theta * kp_theta) + (derivative_theta * kd_theta);
 
-    power = (error * kp) + (derivative * kd);
+    if (power_theta > 127) {
+      integral_theta = 0;
+    }
+
+    power = (error * kp) + (integral * ki) + (derivative * kd);
 
     // Correct the power based on rotation (we want to move in a straight line)
     left_power = power - power_theta;
@@ -104,11 +117,100 @@ void Chassis::move_pid(double target, int timeout, int max_speed) {
 
     move(left_power, right_power);
 
-    pros::delay(delay_time);
-    time_elapsed += delay_time;
-    // printf("%f %f %f\n", error, integral, derivative);
+    // check exit conditions
+    if (error > 0.5 || error < 0.5) {
+      break;
+    }
+    if (time_elapsed > timeout) {
+      break;
+    }
+
+    // printf("%f, %f, %f, %f\n", power, error * kp, integral * ki,
+    // derivative * kd);
+
     printf("%f, %f, %f, %f\n", power_theta, error_theta * kp_theta,
            integral_theta * ki_theta, derivative_theta * kd_theta);
+
+    pros::delay(delay_time);
+    time_elapsed += delay_time;
+  }
+
+  move(0, 0);
+}
+
+void Chassis::turn_pid(double target, int timeout, int max_speed) {
+  imu.tare();
+  left_encoder.reset();
+  const float WHEEL_RADIUS = 2.75 / 2;  // Inches
+  float delay_time = 10;
+  double end_time = pros::millis() + timeout * 1000;  // Convert to seconds
+  double time_elapsed = 0;
+  double time_at_target = 0;
+  double power;
+  bool is_target_negative = false;
+
+  if (target < 0) {
+    is_target_negative = true;
+  }
+
+  double dist_traveled;
+  double error;
+  double prev_error = error;
+
+  double integral;
+
+  double derivative;
+
+  const double kp = 0.8;
+  const double ki = 0.0008;
+  const double kd = 0.5;
+
+  while (true) {
+    // Calculate PID values for distance distance traveled
+    dist_traveled = imu.get_rotation();
+    error = fabs(target) - dist_traveled;
+    integral = integral + error * delay_time;
+    derivative = error - prev_error;
+
+    power = (error * kp) + (integral * ki) + (derivative * kd);
+
+    if (power > max_speed) {
+      power = max_speed;
+    }
+
+    if (power > 50) {
+      integral = 0;
+    }
+
+    if (!is_target_negative) {
+      move(power, -power);
+    } else {
+      move(-power, power);
+    }
+
+    // check exit conditions
+    if (error < 0.5 && error > -0.5) {
+      // The chassis has to spend time at the target to make sure it doesn't
+      // overshoot.
+      time_at_target += delay_time;
+      if (time_at_target > 500) {
+        printf("turn_pid met the target\n");
+        break;
+      }
+    } else {
+      time_at_target = 0;
+    }
+
+    // Timeout
+    if (pros::millis() > end_time) {
+      printf("turn_pid timed out\n");
+      break;
+    }
+
+    // printf("%f, %f, %f, %f\n", power, error * kp, integral * ki,
+    // derivative * kd);
+
+    pros::delay(delay_time);  // Milliseconds
   }
 
   move(0, 0);

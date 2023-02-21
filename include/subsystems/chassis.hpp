@@ -10,12 +10,17 @@ class Chassis {
           std::array<int, 2> left_encoder_ports, int imu_port,
           pros::motor_gearset_e gearset = pros::E_MOTOR_GEAR_BLUE);
   ~Chassis();
+  void tank(int left, int right);
+
+  // Ideally these should be private but who tf cares
   void move(int left, int right);
+  void move(int input);
   void reverse();
   double drive_curve_scale;
   void calibrate_imu();
   // PID Function
   void move_pid(double target, int timeout = 100, int max_speed = 127);
+  void turn_pid(double target, int timeout = 100, int max_speed = 127);
 
  private:
   // Devices
