@@ -11,8 +11,13 @@
  */
 #include "devices.h"
 #include "main.h"
+#include "pros/llemu.h"
+#include "pros/llemu.hpp"
 #include "pros/rtos.hpp"
 #include "utils/auton.hpp"
+
+
+//Auton auton = Auton::Testing;
 
 void autonomous() {
   printf("Started Auton\n");
@@ -23,7 +28,6 @@ void autonomous() {
   // Cycle the colors at speed 10
   ledStrip.cycle(*ledStrip, 10);
 
-  Auton auton = Auton::Testing;
   ///////////////////////////////////////////////////////////
 
   if (auton == Auton::Testing) {

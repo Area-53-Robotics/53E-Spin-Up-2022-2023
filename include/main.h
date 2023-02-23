@@ -36,11 +36,13 @@
 
 #include "api.h"
 #include "sylib/sylib.hpp"
+#include "utils/auton.hpp"
 
 /**
  * You should add more #includes here
  */
 #include "devices.h"
+
 //#include "okapi/api.hpp"
 //#include "pros/api_legacy.h"
 

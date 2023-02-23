@@ -5,6 +5,7 @@
 #include "sylib/system.hpp"
 #include "utils/misc.hpp"
 
+
 using namespace pros;
 
 /**
@@ -28,7 +29,23 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() { printf("Disabled lmao\n"); }
+void disabled() { 
+
+int autonVal = 0;
+if (LCD_BTN_CENTER) {autonVal = autonVal + 1;}
+if (autonVal == 6) {autonVal = 0;}
+
+if (autonVal == 1) {Auton auton = Auton::Testing;} 
+if (autonVal == 2) {Auton auton = Auton::MoveRoller;}
+if (autonVal == 3) {Auton auton = Auton::RollerShoot;}
+if (autonVal == 4) {Auton auton = Auton::None;}
+if (autonVal == 5) {Auton auton = Auton::ProgSkills;}
+
+while (true) {
+  lcd::set_text("auton = %s", auton)
+}
+
+  printf("Disabled lmao\n"); }
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
