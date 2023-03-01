@@ -31,7 +31,14 @@ void autonomous() {
   ///////////////////////////////////////////////////////////
 
   if (auton == Auton::Testing) {
-    chassis.turn_pid(90, 2, 150);
+    chassis.move(-20);
+    delay(1000);
+    chassis.move(0);
+    intake.set_mode(Intake::Mode::Reverse);
+    delay(120);
+    intake.set_mode(Intake::Mode::Off);
+    delay(1000);
+    //chassis.turn_pid(90, 2, 150);
   }  // pid tuning true for cata forward, false for roller forward
 
   if (auton ==

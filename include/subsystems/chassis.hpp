@@ -10,6 +10,7 @@ class Chassis {
           std::array<int, 2> left_encoder_ports, int imu_port,
           pros::motor_gearset_e gearset = pros::E_MOTOR_GEAR_BLUE);
   ~Chassis();
+
   void tank(int left, int right);
 
   // Ideally these should be private but who tf cares

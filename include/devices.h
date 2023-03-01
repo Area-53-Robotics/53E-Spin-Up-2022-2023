@@ -10,25 +10,19 @@ using namespace pros;
 
 inline Chassis chassis(
     // Left motor ports
-    {-11, -12, -13},
+    {-12, -13, -14},
     // Right motor ports
-    {1, 2, 3},
+    {18, 19, 20},
     // Left tracking wheel ports
-    {7, 8},
+    {-1, -1},
     // IMU port
-    10);
+    15);
 
-inline Catapult catapult(5, 'c');
-inline Intake intake(6);
-inline ADIDigitalIn limitSwitch(3);
+inline Catapult catapult(17, 'f');
+inline Intake intake(16);
 
 // Currently, odom doesn't work
 // inline Odometry odom;
-
-namespace constants {
-const float DRIVE_WHEEL_RADIUS = 3.25;
-const float TRACKING_WHEEL_RADIUS = 2.75;
-}  // namespace constants
 
 inline Controller controller(E_CONTROLLER_MASTER);
 
@@ -37,11 +31,9 @@ inline Controller controller(E_CONTROLLER_MASTER);
 
 inline ADIEncoder leftEncoder(-1, -1);
 inline ADIEncoder rightEncoder(-1, -1);
-inline auto ledStrip = sylib::Addrled(22, 2, 40);
+inline auto ledStrip = sylib::Addrled(22, 8, 40);
 inline Mutex encoderMutex;
 
-inline ADIDigitalOut piston(-1, false);  // see above
-
-inline Imu imu_sensor(-1);
+inline ADIDigitalOut piston('b', false);  // see above
 
 // 18 bod

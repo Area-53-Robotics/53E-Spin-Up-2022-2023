@@ -193,7 +193,7 @@ void Chassis::turn_pid(double target, int timeout, int max_speed) {
       // The chassis has to spend time at the target to make sure it doesn't
       // overshoot.
       time_at_target += delay_time;
-      if (time_at_target > 500) {
+      if (time_at_target > 500) {  // 500 Milliseconds
         printf("turn_pid met the target\n");
         break;
       }
