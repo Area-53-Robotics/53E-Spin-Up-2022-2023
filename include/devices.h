@@ -14,7 +14,7 @@ inline Chassis chassis(
     // Right motor ports
     {18, 19, 20},
     // Left tracking wheel ports
-    {-1, -1},
+    {'c', 'd'},
     // IMU port
     15);
 
@@ -29,11 +29,8 @@ inline Controller controller(E_CONTROLLER_MASTER);
 // note to future generations: conlifting triports defs
 // will make you want to kys
 
-inline ADIEncoder leftEncoder(-1, -1);
-inline ADIEncoder rightEncoder(-1, -1);
 inline auto ledStrip = sylib::Addrled(22, 8, 40);
-inline Mutex encoderMutex;
 
-inline ADIDigitalOut piston('b', false);  // see above
+inline ADIDigitalOut piston('a', false);  // see above
 
 // 18 bod

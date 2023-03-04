@@ -34,6 +34,7 @@ void opcontrol() {
 
     chassis.tank(joystick_left_y, joystick_right_y);
 
+    /*
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_LEFT)) {
       drive_curve_scale--;
       controller.rumble(".");
@@ -42,6 +43,7 @@ void opcontrol() {
       drive_curve_scale++;
       controller.rumble(".");
     }
+    */
 
     chassis.drive_curve_scale = drive_curve_scale;
 
@@ -59,16 +61,14 @@ void opcontrol() {
     }
     // Fire cata
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) {
-      printf("Firing\n");
       controller.rumble(".");
       catapult.fire();
     }
-    /*
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_LEFT) &&
         controller.get_digital_new_press(E_CONTROLLER_DIGITAL_A)) {
+      controller.rumble(".");
       piston.set_value(1);
     }
-    */
 
     std::uint32_t clock = sylib::millis();
     sylib::delay_until(&clock, 20);
