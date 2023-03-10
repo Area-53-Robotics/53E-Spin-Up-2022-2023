@@ -25,6 +25,8 @@ void Catapult::run() {
         current_mode = Mode::Ready;
       }
     }
+    
+    
     if (current_mode == Mode::Firing) {
       if (limit_switch.get_value()) {
         motor.move(127);

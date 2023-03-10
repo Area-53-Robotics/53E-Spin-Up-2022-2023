@@ -11,6 +11,7 @@ class Catapult {
     Firing,
     Loading,
     Ready,
+    Stopped,
   };
   void run();
   void fire();

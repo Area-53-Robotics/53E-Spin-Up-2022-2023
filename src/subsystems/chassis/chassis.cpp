@@ -79,13 +79,13 @@ void Chassis::move_pid(double target, int timeout, int max_speed) {
   double derivative;
   double derivative_theta;
 
-  const float kp = 15;
+  const float kp = 11;
   const float ki = 0;
-  const float kd = 5;
+  const float kd = 12;
 
-  const float kp_theta = 1;
-  const float ki_theta = 1;
-  const float kd_theta = 0;
+  const float kp_theta = 3;
+  const float ki_theta = 0;
+  const float kd_theta = 6;
 
   while (true) {
     // Calculate PID values for distance distance traveled
@@ -110,8 +110,8 @@ void Chassis::move_pid(double target, int timeout, int max_speed) {
     power = (error * kp) + (integral * ki) + (derivative * kd);
 
     // Correct the power based on rotation (we want to move in a straight line)
-    left_power = power + power_theta;
-    right_power = power - power_theta;
+    left_power = (power + power_theta);
+    right_power = (power - power_theta);
 
     if (left_power > max_speed) {
       left_power = max_speed;
