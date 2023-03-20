@@ -25,8 +25,7 @@ void Catapult::run() {
         current_mode = Mode::Ready;
       }
     }
-    
-    
+
     if (current_mode == Mode::Firing) {
       if (limit_switch.get_value()) {
         motor.move(127);
@@ -35,7 +34,19 @@ void Catapult::run() {
       }
     }
 
+    if (current_mode == Mode::Disabled) {
+      motor.move(0);
+    }
+
     pros::delay(50);
+  }
+}
+
+void Catapult::toggle_disable() {
+  if (current_mode == Mode::Disabled) {
+    current_mode = Mode::Loading;
+  } else {
+    current_mode = Mode::Disabled;
   }
 }
 

@@ -1,11 +1,11 @@
 #include "main.h"
-#include "utils/auton.hpp"
+
 #include "pros/motors.h"
 #include "pros/rtos.hpp"
 #include "subsystems/catapult.hpp"
 #include "sylib/system.hpp"
+#include "utils/auton.hpp"
 #include "utils/misc.hpp"
-
 
 using namespace pros;
 
@@ -30,45 +30,72 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-
+Auton current_auton = Auton::None;
+Auton get_current_auton() { return current_auton; }
 
 void disabled() {
-  Auton auton = Auton::None;
-  int autonState = 0;
+  int auton_selection = 0;
 
   while (true) {
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_A)) {
-      autonState = autonState + 1;
+      auton_selection = auton_selection + 1;
+      controller.rumble("_");
+    }
+    if (auton_selection > 5) {
+      auton_selection = 0;
     }
 
-    if (autonState == 0) {Auton auton = Auton::None;
-    pros::lcd::set_text(1, "No Auton");
-    pros::lcd::set_text(4, "Does literally nothing :/");
-    }
+    switch (auton_selection) {
+      case 1: {
+        Auton auton = Auton::Testing;
+        pros::lcd::set_text(1, "Testing");
+        pros::lcd::set_text(4, "Last minute testing moment");
+        break;
+      }
+      case 2: {
+        Auton auton = Auton::MoveRoller;
+        pros::lcd::set_text(1, "MoveRoller");
+        pros::lcd::set_text(
+            4, "Moves to roller, changes roller, shoots in low goal");
+        pros::lcd::set_text(
+            5,
+            "Instructions: Position to the left of the roller on "
+            "the right edge of the tile with the cata touching "
+            "the wall, PRELOAD AND PNEUMATICS");
+        break;
+      }
+      case 3: {
+        Auton auton = Auton::RollerShoot;
+        pros::lcd::set_text(1, "RollerShoot");
+        pros::lcd::set_text(4,
+                            "Deploys on roller, changes roller, turns right, "
+                            "shoots in low goal");
+        pros::lcd::set_text(
+            5,
+            "Instructions: Deploy on roller, you better not mess "
+            "this up, PRE LOAD AND PNEUMATICS");
+        break;
+        // 53D was here
+      }
+      case 4: {
+        Auton auton = Auton::ProgSkills;
+        pros::lcd::set_text(1, "ProgSkills");
+        pros::lcd::set_text(4,
+                            "Changes roller, turns, fires low goal, turns, "
+                            "changes other roller ");
+        pros::lcd::set_text(
+            5, "Instructions: Deploy on roller, PRE LOAD AND PNEUMATICS");
+        break;
+      }
+      default: {
+        Auton auton = Auton::None;
+        pros::lcd::set_text(1, "No Auton");
+        pros::lcd::set_text(4, "Does literally nothing :/");
 
-    if (autonState == 1) {Auton auton = Auton::Testing;
-    pros::lcd::set_text(1, "Testing");
-    pros::lcd::set_text(4, "Last minute testing moment");
+        break;
+      }
     }
-
-    if (autonState == 2) {Auton auton = Auton::MoveRoller;
-    pros::lcd::set_text(1, "MoveRoller");
-    pros::lcd::set_text(4, "Moves to roller, changes roller, shoots in low goal");
-    pros::lcd::set_text(5,"Instructions: Position to the left of the roller on the right edge of the tile with the cata touching the wall, PRELOAD AND PNEUMATICS");
-    }
-    if (autonState == 3) {Auton auton = Auton::RollerShoot;
-    pros::lcd::set_text(1, "RollerShoot");
-    pros::lcd::set_text(4, "Deploys on roller, changes roller, turns right, shoots in low goal");
-    pros::lcd::set_text(5,"Instructions: Deploy on roller, you better not mess this up, PRE LOAD AND PNEUMATICS");}
-
-    if (autonState == 4) {Auton auton = Auton::ProgSkills;
-    pros::lcd::set_text(1, "ProgSkills");
-    pros::lcd::set_text(4, "Changes roller, turns, fires low goal, turns, changes other roller ");
-    pros::lcd::set_text(5,"Instructions: Deploy on roller, PRE LOAD AND PNEUMATICS");
-    if (autonState == 5) {}
-    if (autonState > 4) {autonState = 0;}
   }
-}
 }
 
 /**
@@ -80,4 +107,5 @@ void disabled() {
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
+
 void competition_initialize() {}

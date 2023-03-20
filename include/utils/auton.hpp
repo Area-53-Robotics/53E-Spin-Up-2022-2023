@@ -1,15 +1,8 @@
-#ifndef AUTON_HPP
-#define AUTON_HPP
+#pragma once
 #include "main.h"
 
-// Aton:
+// Auton:
 enum class Auton { RollerShoot, MoveRoller, ProgSkills, Testing, None };
-enum Direction { Left, Right};
+enum Direction { Left, Right };
 
-inline Auton auton;
-
-void turnBangBang(double target);
-
-void movePid(double target, bool isReverse);
-void turnPid(Direction direction, float turnValue);
-#endif
+Auton get_current_auton();

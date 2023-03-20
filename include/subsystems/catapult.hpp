@@ -11,9 +11,10 @@ class Catapult {
     Firing,
     Loading,
     Ready,
-    Stopped,
+    Disabled,
   };
   void run();
+  void toggle_disable();
   void fire();
 
  private:

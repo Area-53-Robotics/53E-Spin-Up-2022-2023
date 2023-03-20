@@ -26,7 +26,7 @@ inline Intake intake(16);
 
 inline Controller controller(E_CONTROLLER_MASTER);
 
-// note to future generations: conlifting triports defs
+// note to future generations: conflicting triports defs
 // will make you want to kys
 
 inline auto ledStrip = sylib::Addrled(22, 8, 40);

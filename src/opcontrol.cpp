@@ -1,5 +1,7 @@
 #include "cmath"
+#include "devices.h"
 #include "main.h"
+#include "pros/rtos.hpp"
 #include "subsystems/catapult.hpp"
 #include "subsystems/chassis.hpp"
 
@@ -18,15 +20,23 @@
  */
 //////////////////////////////////////////////////////////////////////////
 
+enum Colors {
+  Red = 0xff0000,
+  Green = 0x00ff00,
+  Yellow = 0xFFFF00,
+};
+
 void opcontrol() {
   int joystick_left_y, joystick_right_y;
-  double drive_curve_scale = 0;
+  double drive_curve_scale = 7;  // This should be in devices but who cares
+  bool is_drive_curve_active = true;
+  bool is_piston_on = false;
   // Set the LED strip to a gradient in HSV color space
   // that displays a full range of hues
   ledStrip.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
 
   // Cycle the colors at speed 10
-  ledStrip.cycle(*ledStrip, 10);
+  // ledStrip.cycle(*ledStrip, 10);
 
   while (true) {
     joystick_left_y = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
@@ -34,18 +44,15 @@ void opcontrol() {
 
     chassis.tank(joystick_left_y, joystick_right_y);
 
-    /*
-    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_LEFT)) {
-      drive_curve_scale--;
-      controller.rumble(".");
-    } else if (controller.get_digital_new_press(
-                   pros::E_CONTROLLER_DIGITAL_RIGHT)) {
-      drive_curve_scale++;
-      controller.rumble(".");
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+      is_drive_curve_active = !is_drive_curve_active;
     }
-    */
 
-    chassis.drive_curve_scale = drive_curve_scale;
+    if (is_drive_curve_active) {
+      chassis.drive_curve_scale = 7;
+    } else {
+      chassis.drive_curve_scale = 0;
+    }
 
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_B)) {
       controller.rumble(".");
@@ -63,11 +70,20 @@ void opcontrol() {
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) {
       controller.rumble(".");
       catapult.fire();
+      ledStrip.pulse(Colors::Red, 40, 75);
+      pros::delay(500);
+    }
+
+    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_B)) {
+      catapult.toggle_disable();
+      controller.rumble("_");
+      ledStrip.pulse(Colors::Yellow, 40, 75);
     }
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_LEFT) &&
         controller.get_digital_new_press(E_CONTROLLER_DIGITAL_A)) {
       controller.rumble(".");
-      piston.set_value(1);
+      is_piston_on = !is_piston_on;
+      piston.set_value(is_piston_on);
     }
 
     std::uint32_t clock = sylib::millis();
