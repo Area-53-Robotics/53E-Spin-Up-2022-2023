@@ -42,6 +42,20 @@ void Catapult::run() {
   }
 }
 
+bool Catapult::is_cata_ready() {
+  if (current_mode == Mode::Ready) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+void Catapult::wait_until_ready() {
+  while (!is_cata_ready()) {
+    pros::delay(20);
+  }
+}
+
 void Catapult::toggle_disable() {
   if (current_mode == Mode::Disabled) {
     current_mode = Mode::Loading;

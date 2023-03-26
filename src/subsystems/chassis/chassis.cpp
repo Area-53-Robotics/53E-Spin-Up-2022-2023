@@ -1,6 +1,7 @@
 #include "subsystems/chassis.hpp"
-#include <cmath>
+
 #include <array>
+#include <cmath>
 #include <vector>
 
 #include "pros/rtos.hpp"
@@ -81,11 +82,11 @@ void Chassis::move_pid(double target, int timeout, int max_speed) {
 
   const float kp = 11;
   const float ki = 0;
-  const float kd = 12;
+  const float kd = 30;
 
-  const float kp_theta = 3;
+  const float kp_theta = 2;
   const float ki_theta = 0;
-  const float kd_theta = 6;
+  const float kd_theta = 10;
 
   while (true) {
     // Calculate PID values for distance distance traveled
@@ -183,12 +184,11 @@ void Chassis::turn_pid(double target, int timeout, int max_speed) {
 
   while (true) {
     // Calculate PID values for distance distance traveled
-    dist_traveled = imu.get_rotation();
+    dist_traveled = fabs(imu.get_rotation());
     error = fabs(target) - dist_traveled;
     integral = integral + error * delay_time;
     derivative = error - prev_error;
     prev_error = error;
-
 
     power = (error * kp) + (integral * ki) + (derivative * kd);
 

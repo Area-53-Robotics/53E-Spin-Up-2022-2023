@@ -53,7 +53,7 @@ void disabled() {
         break;
       }
       case 2: {
-        Auton auton = Auton::MoveRoller;
+        Auton auton = Auton::FarSide;
         pros::lcd::set_text(1, "MoveRoller");
         pros::lcd::set_text(
             4, "Moves to roller, changes roller, shoots in low goal");
@@ -65,7 +65,7 @@ void disabled() {
         break;
       }
       case 3: {
-        Auton auton = Auton::RollerShoot;
+        Auton auton = Auton::DriverSide;
         pros::lcd::set_text(1, "RollerShoot");
         pros::lcd::set_text(4,
                             "Deploys on roller, changes roller, turns right, "

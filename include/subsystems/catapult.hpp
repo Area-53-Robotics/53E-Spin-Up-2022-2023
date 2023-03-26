@@ -13,6 +13,8 @@ class Catapult {
     Ready,
     Disabled,
   };
+  bool is_cata_ready();
+  void wait_until_ready();
   void run();
   void toggle_disable();
   void fire();

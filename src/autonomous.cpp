@@ -26,27 +26,11 @@ void autonomous() {
   // Cycle the colors at speed 10
   ledStrip.cycle(*ledStrip, 10);
 
-  Auton current_auton = get_current_auton();
+  Auton current_auton = Auton::FarSide;
 
   ///////////////////////////////////////////////////////////
 
-  if (current_auton == Auton::Testing) {  // target, timeout, max speed
-    // chassis.move_pid(15, 5, 127);
-    chassis.move(-20);
-    delay(1000);
-    chassis.move(0);
-    intake.set_mode(Intake::Mode::Reverse);
-    delay(100);
-    intake.set_mode(Intake::Mode::Off);
-    delay(1000);
-    chassis.move(10);
-    delay(2000);
-    chassis.turn_pid(90);
-    delay(1000);
-    catapult.fire();
-  }
-
-  if (current_auton == Auton::RollerShoot) {  // deploy on roller
+  if (current_auton == Auton::Testing) {
     chassis.move(-20);
     delay(1000);
     chassis.move(0);
@@ -58,29 +42,68 @@ void autonomous() {
     delay(1300);
     chassis.turn_pid(90, 2);
     delay(1000);
+    chassis.move_pid(-35, 3);
+    // chassis.turn_pid(-15,2);
     catapult.fire();
+    delay(1000);
+    chassis.move_pid(35, 3);
+    chassis.turn_pid(-53, 2);
+
+    /*delay(1000);
+    chassis.move_pid(45,2);
+    chassis.turn_pid(20,2);
+    intake.set_mode(Intake::Mode::Reverse);
+    chassis.move(-20);
+    delay(7000);
+    chassis.move(0);
+    intake.set_mode(Intake::Mode::Off);
+    chassis.move(-20);
+    delay(2000);
+    intake.set_mode(Intake::Mode::Reverse);
+    delay(120);
+    intake.set_mode(Intake::Mode::Off);
+    delay(2000);
+    //chassis.turn_pid(-45,2); */
+    piston.set_value(true);
   }
 
-  if (current_auton == Auton::MoveRoller) {
+  if (current_auton == Auton::DriverSide) {  // deploy on roller
+    chassis.move(-20);
+    delay(1000);
+    chassis.move(0);
+    intake.set_mode(Intake::Mode::Reverse);
+    delay(60);
+    intake.set_mode(Intake::Mode::Off);
+    delay(2000);
+    chassis.move(20);
+    delay(1300);
+    chassis.turn_pid(90, 2);
+    delay(1000);
+    catapult.fire();
+    delay(1000);
+    chassis.turn_pid(-45, 2);
+  }
+
+  if (current_auton == Auton::FarSide) {
     chassis.move_pid(6);
     chassis.turn_pid(90, 3);
-    chassis.move_pid(27, 2);
-    chassis.turn_pid(90, 2);
+    chassis.move_pid(23, 2);
+    chassis.turn_pid(97, 2);
     delay(1000);
 
     chassis.move(-20);
     delay(3000);
     chassis.move(0);
     intake.set_mode(Intake::Mode::Reverse);
-    delay(120);
+    //intake.set_mode(Intake::Mode::On);
+
+    delay(60);
     intake.set_mode(Intake::Mode::Off);
     delay(1000);
 
-    chassis.move_pid(-7, 2);
-    chassis.turn_pid(270, 2);
+    chassis.move_pid(-5, 2);
+    chassis.turn_pid(-90, 2);
     delay(1000);
     catapult.fire();
   }
-
-  // chassis.turn_pid(90, 2, 150);
-}  // pid tuning true for cata forward, false for roller forward
+}

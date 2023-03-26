@@ -8,6 +8,8 @@
 
 using namespace pros;
 
+// Conflicting ADI port definitions will cause a deadlock of some sort
+
 inline Chassis chassis(
     // Left motor ports
     {-12, -13, -14},
@@ -26,10 +28,7 @@ inline Intake intake(16);
 
 inline Controller controller(E_CONTROLLER_MASTER);
 
-// note to future generations: conflicting triports defs
-// will make you want to kys
-
-inline auto ledStrip = sylib::Addrled(22, 8, 40);
+inline auto ledStrip = sylib::Addrled(22, 'e', 19);
 
 inline ADIDigitalOut piston('a', false);  // see above
 
